@@ -3,16 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/models/post.dart';
-import 'package:flutter_rss_reader/routes/feed_page/edit_feed_page.dart';
-import 'package:flutter_rss_reader/routes/read.dart';
+import 'package:flutter_rss_reader/pages/feed_page/edit_feed_page.dart';
+import 'package:flutter_rss_reader/pages/read.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
 import 'package:flutter_rss_reader/widgets/post_container.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FeedPage extends StatefulWidget {
-  const FeedPage({super.key, required this.feed});
-  final Feed feed;
+  Feed? feed;
+  FeedPage({super.key, this.feed});
   @override
   State<FeedPage> createState() => FeedPageState();
 }
@@ -24,7 +24,7 @@ class FeedPageState extends State<FeedPage> {
   String? fontDir;
 
   Future<void> getPostList() async {
-    await widget.feed.getAllPosts().then(
+    await widget.feed!.getAllPosts().then(
           (value) => setState(
             () {
               postList = value;
@@ -34,7 +34,7 @@ class FeedPageState extends State<FeedPage> {
   }
 
   Future<void> getUnreadPostList() async {
-    widget.feed.getUnreadPosts().then(
+    widget.feed!.getUnreadPosts().then(
           (value) => setState(
             () {
               postList = value;
@@ -44,7 +44,7 @@ class FeedPageState extends State<FeedPage> {
   }
 
   Future<void> getFavoritePostList() async {
-    await widget.feed.getAllfavoritePosts().then(
+    await widget.feed!.getAllfavoritePosts().then(
           (value) => setState(
             () {
               postList = value;
@@ -72,7 +72,7 @@ class FeedPageState extends State<FeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.feed.name),
+        title: Text(widget.feed!.name),
         actions: [
           IconButton(
             onPressed: () async {
@@ -118,7 +118,7 @@ class FeedPageState extends State<FeedPage> {
               return <PopupMenuEntry>[
                 PopupMenuItem(
                   onTap: () async {
-                    await widget.feed.markPostsAsRead();
+                    await widget.feed!.markPostsAsRead();
                     if (onlyUnread) {
                       getUnreadPostList();
                     } else if (onlyFavorite) {
@@ -135,7 +135,8 @@ class FeedPageState extends State<FeedPage> {
                       Navigator.push(
                         context,
                         CupertinoPageRoute(
-                          builder: (context) => EditFeedPage(feed: widget.feed),
+                          builder: (context) =>
+                              EditFeedPage(feed: widget.feed!),
                         ),
                       ).then((value) {
                         if (onlyUnread) {
@@ -174,7 +175,7 @@ class FeedPageState extends State<FeedPage> {
                             ),
                             TextButton(
                               onPressed: () async {
-                                await widget.feed.deleteFromDb();
+                                await widget.feed!.deleteFromDb();
                                 if (!mounted) return;
                                 Navigator.pop(context);
                                 Navigator.pop(context);
@@ -196,7 +197,7 @@ class FeedPageState extends State<FeedPage> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            bool parseFeed = await parseFeedContent(widget.feed);
+            bool parseFeed = await parseFeedContent(widget.feed!);
             if (onlyUnread) {
               getUnreadPostList();
             } else if (onlyFavorite) {
@@ -240,7 +241,7 @@ class FeedPageState extends State<FeedPage> {
                       CupertinoPageRoute(
                         builder: (context) => ReadPage(
                           post: postList[index],
-                          fullText: widget.feed.fullText == 1,
+                          fullText: widget.feed!.fullText == 1,
                           fontDir: fontDir!,
                         ),
                       ),

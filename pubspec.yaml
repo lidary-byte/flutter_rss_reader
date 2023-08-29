@@ -53,6 +53,9 @@ dependencies:
   dynamic_color: ^1.6.6
   xml: ^6.3.0
   intl: any
+  animations: ^2.0.7
+  get: ^4.6.5
+  animated_bottom_navigation_bar: ^1.2.0
 
 dev_dependencies:
   flutter_test:

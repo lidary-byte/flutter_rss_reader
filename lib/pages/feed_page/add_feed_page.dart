@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
-import 'package:flutter_rss_reader/routes/feed_page/edit_feed_page.dart';
+import 'package:flutter_rss_reader/pages/feed_page/edit_feed_page.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
 
 class AddFeedPage extends StatefulWidget {

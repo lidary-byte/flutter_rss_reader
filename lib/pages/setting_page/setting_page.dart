@@ -4,21 +4,14 @@ import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/provider/theme_provider.dart';
-import 'package:flutter_rss_reader/routes/setting_page/about_page/about_page.dart';
-import 'package:flutter_rss_reader/routes/setting_page/block_setting_page/block_setting_page.dart';
-import 'package:flutter_rss_reader/routes/setting_page/dynamic_color_setting_page/dynamic_color_setting_page.dart';
-import 'package:flutter_rss_reader/routes/setting_page/font_setting_page/font_setting_page.dart';
-import 'package:flutter_rss_reader/routes/setting_page/language_setting_page/language_setting_page.dart';
-import 'package:flutter_rss_reader/routes/setting_page/read_setting_page/read_setting_page.dart';
-import 'package:flutter_rss_reader/routes/setting_page/text_scale_factor_setting_page/text_scale_factor_setting_page.dart';
-import 'package:flutter_rss_reader/routes/setting_page/theme_setting_page/theme_setting_page.dart';
+import 'package:flutter_rss_reader/pages/setting_page/about_page/about_page.dart';
+import 'package:flutter_rss_reader/pages/setting_page/setting_controller.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
 import 'package:flutter_rss_reader/widgets/list_tile_group_title.dart';
+import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -30,167 +23,126 @@ class SettingPage extends StatefulWidget {
 }
 
 class _SettingPageState extends State<SettingPage> {
+  final _controller = Get.put(SettingController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.settings),
+        title: Text('settings'.tr),
       ),
       body: SafeArea(
-        child: ListView(
+          child: GetBuilder<SettingController>(
+        builder: (_) => ListView(
           children: [
             ListTileGroupTitle(
-              title: AppLocalizations.of(context)!.personalization,
+              title: 'personalization'.tr,
             ),
             ListTile(
-              leading: const Icon(Icons.translate_outlined),
-              iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.languageSetting),
-              subtitle: Text(
-                {
-                      'locale': AppLocalizations.of(context)!.systemLanguage,
-                      'zh': '简体中文',
-                      'en': 'English',
-                    }[context.watch<ThemeProvider>().language] ??
-                    AppLocalizations.of(context)!.systemLanguage,
-              ),
-              onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                  return const LanguageSettingPage();
-                }));
-              },
-            ),
+                leading: const Icon(Icons.translate_outlined),
+                iconColor: Theme.of(context).textTheme.bodyLarge!.color,
+                title: Text('languageSetting'.tr),
+                subtitle: Text(
+                  {
+                        '': 'systemLanguage'.tr,
+                        'zh': '简体中文',
+                        'en': 'English',
+                      }[cacheLaunage] ??
+                      'systemLanguage'.tr,
+                ),
+                onTap: () => Get.toNamed(AppRouter.languageSettingPageRouter)),
             ListTile(
               leading: const Icon(Icons.dark_mode_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.themeMode),
+              title: Text('themeMode'.tr),
               subtitle: Text(
                 [
-                  AppLocalizations.of(context)!.lightMode,
-                  AppLocalizations.of(context)!.darkMode,
-                  AppLocalizations.of(context)!.followSystem,
-                ][context.watch<ThemeProvider>().themeIndex],
+                  'followSystem'.tr,
+                  'lightMode'.tr,
+                  'darkMode'.tr
+                ][cacheThemeIndex],
               ),
-              onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                  return const ThemeSettingPage();
-                }));
-              },
+              onTap: () => Get.toNamed(AppRouter.themeSettingPageRouter),
             ),
             ListTile(
               leading: const Icon(Icons.color_lens_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.dynamicColor),
-              subtitle: Text(context.watch<ThemeProvider>().isDynamicColor
-                  ? AppLocalizations.of(context)!.open
-                  : AppLocalizations.of(context)!.close),
-              onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                  return const DynamicColorSettingPage();
-                }));
-              },
+              title: Text('dynamicColor'.tr),
+              subtitle:
+                  Text(_controller.isDynamicColor ? 'open'.tr : 'close'.tr),
+              onTap: () => Get.toNamed(AppRouter.dynamicColorSettingPage),
             ),
             ListTile(
               leading: const Icon(Icons.font_download_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.globalFont),
+              title: Text('globalFont'.tr),
               subtitle: Text(
-                context.watch<ThemeProvider>().themeFont.split('.').first ==
-                        '默认字体'
-                    ? AppLocalizations.of(context)!.defaultFont
-                    : context.watch<ThemeProvider>().themeFont.split('.').first,
+                _controller.themeFont.split('.').first == '默认字体'
+                    ? 'defaultFont'.tr
+                    : _controller.themeFont.split('.').first,
               ),
-              onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                  return const FontSettingPage();
-                }));
-              },
+              onTap: () => Get.toNamed(AppRouter.fontSettingPage),
             ),
             ListTile(
               leading: const Icon(Icons.text_fields_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.globalScale),
+              title: Text('globalScale'.tr),
               subtitle: Text(
                 {
-                      0.8: AppLocalizations.of(context)!.minimum,
-                      0.9: AppLocalizations.of(context)!.small,
-                      1.0: AppLocalizations.of(context)!.medium,
-                      1.1: AppLocalizations.of(context)!.large,
-                      1.2: AppLocalizations.of(context)!.maximum,
-                    }[context.watch<ThemeProvider>().textScaleFactor] ??
-                    AppLocalizations.of(context)!.medium,
+                      0.8: 'minimum'.tr,
+                      0.9: 'small'.tr,
+                      1.0: 'medium'.tr,
+                      1.1: 'large'.tr,
+                      1.2: 'maximum'.tr,
+                    }[_controller.textScaleFactor] ??
+                    'medium'.tr,
               ),
-              onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                  return const TextScaleFactorSettingPage();
-                }));
-              },
+              onTap: () => Get.toNamed(AppRouter.textScaleFactorSettingPage),
             ),
             ListTile(
               leading: const Icon(Icons.article_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.readingPage),
-              subtitle: Text(
-                AppLocalizations.of(context)!.customPostReadingPage,
-              ),
-              onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                  return const ReadSettingPage();
-                }));
-              },
+              title: Text('readingPage'.tr),
+              subtitle: Text('customPostReadingPage'.tr),
+              onTap: () => Get.toNamed(AppRouter.readSettingPage),
             ),
-            ListTileGroupTitle(
-              title: AppLocalizations.of(context)!.dataManagement,
-            ),
+            ListTileGroupTitle(title: 'dataManagement'.tr),
             ListTile(
               leading: const Icon(Icons.app_blocking_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.blockRules),
-              subtitle: Text(
-                AppLocalizations.of(context)!.setPostBlockRule,
-              ),
-              onTap: () {
-                Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                  return const BlockSettingPage();
-                }));
-              },
+              title: Text('blockRules'.tr),
+              subtitle: Text('setPostBlockRule'.tr),
+              onTap: () => Get.toNamed(AppRouter.blockSettingPage),
             ),
             ListTile(
               leading: const Icon(Icons.file_download_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.importOPML),
-              subtitle: Text(
-                AppLocalizations.of(context)!.importFeedsFromOPML,
-              ),
+              title: Text('importOPML'.tr),
+              subtitle: Text('importFeedsFromOPML'.tr),
               onTap: importOPML,
             ),
             ListTile(
               leading: const Icon(Icons.file_upload_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.exportOPML),
-              subtitle: Text(
-                AppLocalizations.of(context)!.exportFeedsToOPML,
-              ),
+              title: Text('exportOPML'.tr),
+              subtitle: Text('exportFeedsToOPML'.tr),
               onTap: exportOPML,
             ),
-            ListTileGroupTitle(title: AppLocalizations.of(context)!.others),
+            ListTileGroupTitle(title: 'others'.tr),
             ListTile(
               leading: const Icon(Icons.update_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.checkForUpdates),
-              subtitle: Text(AppLocalizations.of(context)!.getLatestVersion),
+              title: Text('checkForUpdates'.tr),
+              subtitle: Text('getLatestVersion'.tr),
               onTap: checkUpdate,
             ),
             ListTile(
               leading: const Icon(Icons.privacy_tip_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.openSourceLicenses),
-              subtitle: Text(
-                AppLocalizations.of(context)!.viewOpenSourceLicenses,
-              ),
+              title: Text('openSourceLicenses'.tr),
+              subtitle: Text('viewOpenSourceLicenses'.tr),
               onTap: () => showLicensePage(
                 context: context,
-                applicationName: AppLocalizations.of(context)!.meRead,
+                applicationName: 'meRead'.tr,
                 applicationVersion: applicationVersion,
                 applicationIcon: Container(
                   width: 64,
@@ -205,15 +157,14 @@ class _SettingPageState extends State<SettingPage> {
                   ),
                 ),
                 applicationLegalese:
-                    '© 2022 - 2023 ${AppLocalizations.of(context)!.meRead}. All Rights Reserved.',
+                    '© 2022 - 2023 ${'meRead'.tr}. All Rights Reserved.',
               ),
             ),
             ListTile(
               leading: const Icon(Icons.android_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.about),
-              subtitle:
-                  Text(AppLocalizations.of(context)!.contactAndOpenSource),
+              title: Text('about'.tr),
+              subtitle: Text('contactAndOpenSource'.tr),
               onTap: () {
                 Navigator.push(context, CupertinoPageRoute(builder: (context) {
                   return const AboutPage();
@@ -222,7 +173,7 @@ class _SettingPageState extends State<SettingPage> {
             ),
           ],
         ),
-      ),
+      )),
     );
   }
 
@@ -237,11 +188,11 @@ class _SettingPageState extends State<SettingPage> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.startBackgroundImport),
+          content: Text('startBackgroundImport'.tr),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
           action: SnackBarAction(
-            label: AppLocalizations.of(context)!.ok,
+            label: 'ok'.tr,
             onPressed: () {},
           ),
         ),
@@ -252,13 +203,13 @@ class _SettingPageState extends State<SettingPage> {
         SnackBar(
           content: Text(
             failCount == 0
-                ? AppLocalizations.of(context)!.importSuccess
-                : AppLocalizations.of(context)!.importFailedForFeeds(failCount),
+                ? 'importSuccess'.tr
+                : 'importFailedForFeeds(failCount)'.tr,
           ),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
           action: SnackBarAction(
-            label: AppLocalizations.of(context)!.ok,
+            label: 'ok'.tr,
             onPressed: () {},
           ),
         ),
@@ -268,7 +219,7 @@ class _SettingPageState extends State<SettingPage> {
 
   // 导出 OPML 文件
   Future<void> exportOPML() async {
-    final String successText = AppLocalizations.of(context)!.shareOPMLFile;
+    final String successText = 'shareOPMLFile'.tr;
     String opmlStr = await exportOpml();
     // opmlStr 字符串写入 feeds.opml 文件并分享，分享后删除文件
     final Directory tempDir = await getTemporaryDirectory();
@@ -281,11 +232,10 @@ class _SettingPageState extends State<SettingPage> {
       if (value.status == ShareResultStatus.success) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.exportSuccess),
+            content: Text('exportSuccess'.tr),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
-            action: SnackBarAction(
-                label: AppLocalizations.of(context)!.ok, onPressed: () {}),
+            action: SnackBarAction(label: 'ok'.tr, onPressed: () {}),
           ),
         );
       }
@@ -297,11 +247,11 @@ class _SettingPageState extends State<SettingPage> {
   Future<void> checkUpdate() async {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(AppLocalizations.of(context)!.checkingForUpdates),
+        content: Text('checkingForUpdates'.tr),
         behavior: SnackBarBehavior.floating,
         duration: const Duration(seconds: 2),
         action: SnackBarAction(
-          label: AppLocalizations.of(context)!.ok,
+          label: 'ok'.tr,
           onPressed: () {},
         ),
       ),
@@ -320,11 +270,11 @@ class _SettingPageState extends State<SettingPage> {
         if (!mounted) return;
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text(AppLocalizations.of(context)!.alreadyLatestVersion),
+            content: Text('alreadyLatestVersion'.tr),
             behavior: SnackBarBehavior.floating,
             duration: const Duration(seconds: 2),
             action: SnackBarAction(
-              label: AppLocalizations.of(context)!.ok,
+              label: 'ok'.tr,
               onPressed: () {},
             ),
           ),
@@ -335,12 +285,12 @@ class _SettingPageState extends State<SettingPage> {
           context: context,
           builder: (context) {
             return AlertDialog(
-              title: Text(AppLocalizations.of(context)!.newVersionAvailable),
-              content: Text(AppLocalizations.of(context)!.downloadNow),
+              title: Text('newVersionAvailable'.tr),
+              content: Text('downloadNow'.tr),
               actions: [
                 TextButton(
                   onPressed: () => Navigator.pop(context),
-                  child: Text(AppLocalizations.of(context)!.cancel),
+                  child: Text('cancel'.tr),
                 ),
                 TextButton(
                   onPressed: () async {
@@ -350,7 +300,7 @@ class _SettingPageState extends State<SettingPage> {
                       mode: LaunchMode.externalApplication,
                     );
                   },
-                  child: Text(AppLocalizations.of(context)!.download),
+                  child: Text('download'.tr),
                 ),
               ],
             );
@@ -361,11 +311,11 @@ class _SettingPageState extends State<SettingPage> {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(AppLocalizations.of(context)!.failedToCheckForUpdates),
+          content: Text('failedToCheckForUpdates'.tr),
           behavior: SnackBarBehavior.floating,
           duration: const Duration(seconds: 2),
           action: SnackBarAction(
-            label: AppLocalizations.of(context)!.failedToCheckForUpdates,
+            label: 'failedToCheckForUpdates'.tr,
             onPressed: () {},
           ),
         ),
