@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/pages/feed_page/edit_feed_page.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
+import 'package:get/get.dart';
 
 class AddFeedPage extends StatefulWidget {
   const AddFeedPage({super.key});
@@ -28,7 +28,7 @@ class _AddFeedPageState extends State<AddFeedPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.addFeed),
+        title: Text('addFeed'.tr),
       ),
       body: SafeArea(
         child: ListView(
@@ -39,8 +39,8 @@ class _AddFeedPageState extends State<AddFeedPage> {
               controller: _urlController,
               decoration: InputDecoration(
                 border: const OutlineInputBorder(),
-                hintText: AppLocalizations.of(context)!.enterFeedUrl,
-                labelText: AppLocalizations.of(context)!.feedUrl,
+                hintText: 'enterFeedUrl'.tr,
+                labelText: 'feedUrl'.tr,
               ),
             ),
             const SizedBox(height: 12),
@@ -61,7 +61,7 @@ class _AddFeedPageState extends State<AddFeedPage> {
                       },
                     );
                   },
-                  child: Text(AppLocalizations.of(context)!.paste),
+                  child: Text('paste'.tr),
                 ),
                 const SizedBox(width: 24),
                 TextButton(
@@ -71,12 +71,11 @@ class _AddFeedPageState extends State<AddFeedPage> {
                       if (!mounted) return;
                       ScaffoldMessenger.of(context).showSnackBar(
                         SnackBar(
-                          content: Text(
-                              AppLocalizations.of(context)!.feedAlreadyExists),
+                          content: Text('feedAlreadyExists'.tr),
                           behavior: SnackBarBehavior.floating,
                           duration: const Duration(seconds: 2),
                           action: SnackBarAction(
-                            label: AppLocalizations.of(context)!.ok,
+                            label: 'ok'.tr,
                             onPressed: () {},
                           ),
                         ),
@@ -120,12 +119,12 @@ class _AddFeedPageState extends State<AddFeedPage> {
                         ScaffoldMessenger.of(context).showSnackBar(
                           SnackBar(
                             content: Text(
-                              AppLocalizations.of(context)!.unableToParseFeed,
+                              'unableToParseFeed'.tr,
                             ),
                             behavior: SnackBarBehavior.floating,
                             duration: const Duration(seconds: 2),
                             action: SnackBarAction(
-                              label: AppLocalizations.of(context)!.ok,
+                              label: 'ok'.tr,
                               onPressed: () {},
                             ),
                           ),
@@ -133,7 +132,7 @@ class _AddFeedPageState extends State<AddFeedPage> {
                       }
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.parse),
+                  child: Text('parse'.tr),
                 ),
               ],
             ),

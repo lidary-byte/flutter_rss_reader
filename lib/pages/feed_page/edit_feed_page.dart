@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/widgets/list_tile_group_title.dart';
+import 'package:get/get.dart';
 
 class EditFeedPage extends StatefulWidget {
   const EditFeedPage({Key? key, required this.feed}) : super(key: key);
@@ -28,13 +28,13 @@ class EditFeedPageState extends State<EditFeedPage> {
   @override
   Widget build(BuildContext context) {
     final List<String> openTypeList = [
-      AppLocalizations.of(context)!.openInApp,
-      AppLocalizations.of(context)!.openInBuiltInTab,
-      AppLocalizations.of(context)!.openInSystemBrowser,
+      'openInApp'.tr,
+      'openInBuiltInTab'.tr,
+      'openInSystemBrowser'.tr,
     ];
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.editFeed),
+        title: Text('editFeed'.tr),
       ),
       body: SafeArea(
         child: ListView(
@@ -46,7 +46,7 @@ class EditFeedPageState extends State<EditFeedPage> {
                 controller: _urlController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.feedUrl,
+                  labelText: 'feedUrl'.tr,
                   enabled: false,
                 ),
               ),
@@ -58,7 +58,7 @@ class EditFeedPageState extends State<EditFeedPage> {
                 controller: _nameController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.feedName,
+                  labelText: 'feedName'.tr,
                 ),
               ),
             ),
@@ -69,22 +69,21 @@ class EditFeedPageState extends State<EditFeedPage> {
                 controller: _categoryController,
                 decoration: InputDecoration(
                   border: const OutlineInputBorder(),
-                  labelText: AppLocalizations.of(context)!.feedCategory,
+                  labelText: 'feedCategory'.tr,
                 ),
               ),
             ),
             const SizedBox(height: 18),
             SwitchListTile(
               value: widget.feed.fullText == 1,
-              title: Text(AppLocalizations.of(context)!.fullText),
+              title: Text('fullText'.tr),
               onChanged: (bool value) {
                 setState(() {
                   widget.feed.fullText = value ? 1 : 0;
                 });
               },
             ),
-            ListTileGroupTitle(
-                title: AppLocalizations.of(context)!.postOpenWith),
+            ListTileGroupTitle(title: 'postOpenWith'.tr),
             ...openTypeList.map(
               (e) {
                 return RadioListTile(
@@ -108,7 +107,7 @@ class EditFeedPageState extends State<EditFeedPage> {
                   onPressed: () {
                     Navigator.pop(context);
                   },
-                  child: Text(AppLocalizations.of(context)!.cancel),
+                  child: Text('cancel'.tr),
                 ),
                 const SizedBox(width: 24),
                 TextButton(
@@ -126,7 +125,7 @@ class EditFeedPageState extends State<EditFeedPage> {
                     if (!mounted) return;
                     Navigator.pop(context);
                   },
-                  child: Text(AppLocalizations.of(context)!.save),
+                  child: Text('save'.tr),
                 ),
                 const SizedBox(width: 18),
               ],

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/provider/read_page_provider.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class TextAlignSettingPage extends StatelessWidget {
@@ -9,14 +9,14 @@ class TextAlignSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<String, String> textAlignMap = {
-      'left': AppLocalizations.of(context)!.leftAlignment,
-      'right': AppLocalizations.of(context)!.rightAlignment,
-      'center': AppLocalizations.of(context)!.centerAlignment,
-      'justify': AppLocalizations.of(context)!.justifyAlignment,
+      'left': 'leftAlignment'.tr,
+      'right': 'rightAlignment'.tr,
+      'center': 'centerAlignment'.tr,
+      'justify': 'justifyAlignment'.tr,
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.textAlignment),
+        title: Text('textAlignment'.tr),
       ),
       body: SafeArea(
         child: ListView.builder(

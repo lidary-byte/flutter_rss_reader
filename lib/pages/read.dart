@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
+import 'package:get/get.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:html_main_element/html_main_element.dart';
 import 'package:flutter_rss_reader/models/post.dart';
@@ -169,7 +169,7 @@ ${context.watch<ReadPageProvider>().customCss}
                     await widget.post.markUnread();
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.markAsUnread,
+                    "markAsUnread".tr,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -180,8 +180,8 @@ ${context.watch<ReadPageProvider>().customCss}
                   },
                   child: Text(
                     widget.post.favorite == 1
-                        ? AppLocalizations.of(context)!.cancelCollect
-                        : AppLocalizations.of(context)!.collectPost,
+                        ? 'cancelCollect'.tr
+                        : 'collectPost'.tr,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -191,7 +191,7 @@ ${context.watch<ReadPageProvider>().customCss}
                     Clipboard.setData(ClipboardData(text: widget.post.link));
                   },
                   child: Text(
-                    AppLocalizations.of(context)!.copyLink,
+                    'copyLink'.tr,
                     style: Theme.of(context).textTheme.bodyMedium,
                   ),
                 ),
@@ -221,7 +221,7 @@ ${context.watch<ReadPageProvider>().customCss}
                 strokeWidth: 3,
               ),
               const SizedBox(height: 12),
-              Text(AppLocalizations.of(context)!.gettingFullText),
+              Text('gettingFullText'.tr),
             ],
           ),
         ),

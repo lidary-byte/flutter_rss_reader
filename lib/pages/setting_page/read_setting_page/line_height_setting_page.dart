@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/provider/read_page_provider.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class LineHeightSettingPage extends StatelessWidget {
@@ -9,15 +9,15 @@ class LineHeightSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<double, String> lineHeightMap = {
-      1.0: AppLocalizations.of(context)!.minimum,
-      1.2: AppLocalizations.of(context)!.small,
-      1.5: AppLocalizations.of(context)!.medium,
-      1.8: AppLocalizations.of(context)!.large,
-      2.0: AppLocalizations.of(context)!.maximum,
+      1.0: 'minimum'.tr,
+      1.2: 'small'.tr,
+      1.5: 'medium'.tr,
+      1.8: 'large'.tr,
+      2.0: 'maximum'.tr,
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.lineHeight),
+        title: Text('lineHeight'.tr),
       ),
       body: SafeArea(
         child: ListView.builder(

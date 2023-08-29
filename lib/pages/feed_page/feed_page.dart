@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/models/post.dart';
 import 'package:flutter_rss_reader/pages/feed_page/edit_feed_page.dart';
@@ -8,6 +7,7 @@ import 'package:flutter_rss_reader/pages/read.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
 import 'package:flutter_rss_reader/widgets/post_container.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FeedPage extends StatefulWidget {
@@ -127,7 +127,7 @@ class FeedPageState extends State<FeedPage> {
                       getPostList();
                     }
                   },
-                  child: Text(AppLocalizations.of(context)!.markAllAsRead),
+                  child: Text('markAllAsRead'.tr),
                 ),
                 PopupMenuItem(
                   onTap: () {
@@ -149,7 +149,7 @@ class FeedPageState extends State<FeedPage> {
                       });
                     });
                   },
-                  child: Text(AppLocalizations.of(context)!.editFeed),
+                  child: Text('editFeed'.tr),
                 ),
                 const PopupMenuDivider(),
                 // 删除订阅源
@@ -161,17 +161,16 @@ class FeedPageState extends State<FeedPage> {
                       context: context,
                       builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text(AppLocalizations.of(context)!.deleteFeed),
+                          title: Text('deleteFeed'.tr),
                           content: Text(
-                            AppLocalizations.of(context)!
-                                .doYouWantToDeleteThisFeed,
+                            'doYouWantToDeleteThisFeed'.tr,
                           ),
                           actions: [
                             TextButton(
                               onPressed: () {
                                 Navigator.pop(context);
                               },
-                              child: Text(AppLocalizations.of(context)!.cancel),
+                              child: Text('cancel'.tr),
                             ),
                             TextButton(
                               onPressed: () async {
@@ -180,14 +179,14 @@ class FeedPageState extends State<FeedPage> {
                                 Navigator.pop(context);
                                 Navigator.pop(context);
                               },
-                              child: Text(AppLocalizations.of(context)!.ok),
+                              child: Text('ok'.tr),
                             ),
                           ],
                         );
                       },
                     );
                   },
-                  child: Text(AppLocalizations.of(context)!.deleteFeed),
+                  child: Text('deleteFeed'.tr),
                 ),
               ];
             },
@@ -209,14 +208,12 @@ class FeedPageState extends State<FeedPage> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
                 content: Text(
-                  parseFeed
-                      ? AppLocalizations.of(context)!.updateSuccess
-                      : AppLocalizations.of(context)!.updateFailed,
+                  parseFeed ? 'updateSuccess'.tr : 'updateFailed'.tr,
                 ),
                 behavior: SnackBarBehavior.floating,
                 duration: const Duration(seconds: 2),
                 action: SnackBarAction(
-                  label: AppLocalizations.of(context)!.ok,
+                  label: 'ok'.tr,
                   onPressed: () {},
                 ),
               ),

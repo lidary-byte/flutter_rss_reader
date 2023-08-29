@@ -17,6 +17,7 @@ class HomePage extends StatelessWidget {
                     Icons.home,
                     Icons.settings,
                   ],
+                  backgroundColor: Get.theme.colorScheme.background,
                   activeColor: HexColor('#FFA400'),
                   splashColor: HexColor('#FFA400'),
                   activeIndex: _controller.index,

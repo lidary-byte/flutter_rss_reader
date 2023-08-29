@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/global/global.dart';
+import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class AboutPage extends StatelessWidget {
@@ -10,7 +10,7 @@ class AboutPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.about),
+        title: Text('about'.tr),
       ),
       body: SafeArea(
         child: Column(
@@ -24,7 +24,7 @@ class AboutPage extends StatelessWidget {
             ),
             Center(
               child: Text(
-                AppLocalizations.of(context)!.meRead,
+                'meRead'.tr,
                 style: const TextStyle(fontSize: 20),
               ),
             ),
@@ -46,7 +46,7 @@ class AboutPage extends StatelessWidget {
                       mode: LaunchMode.externalApplication,
                     );
                   },
-                  child: Text(AppLocalizations.of(context)!.contactAuthor),
+                  child: Text('contactAuthor'.tr),
                 ),
                 const SizedBox(width: 16),
                 OutlinedButton(
@@ -56,13 +56,13 @@ class AboutPage extends StatelessWidget {
                       mode: LaunchMode.externalApplication,
                     );
                   },
-                  child: Text(AppLocalizations.of(context)!.sourceAddress),
+                  child: Text('sourceAddress'.tr),
                 ),
               ],
             ),
             const SizedBox(height: 24),
             Text(
-              '© 2022 - 2023 ${AppLocalizations.of(context)!.meRead}. All rights reserved.',
+              '© 2022 - 2023 ${'meRead'.tr}. All rights reserved.',
               style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 24),

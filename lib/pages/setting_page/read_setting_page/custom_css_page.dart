@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/provider/read_page_provider.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class CustomCssPage extends StatefulWidget {
@@ -24,7 +24,7 @@ class CustomCssPageState extends State<CustomCssPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.customCSS),
+        title: Text('customCSS'.tr),
       ),
       body: SafeArea(
         child: ListView(
@@ -35,7 +35,7 @@ class CustomCssPageState extends State<CustomCssPage> {
               expands: false,
               maxLines: 12,
               decoration: InputDecoration(
-                hintText: AppLocalizations.of(context)!.enterCSSCode,
+                hintText: 'enterCSSCode'.tr,
                 border: const OutlineInputBorder(),
               ),
             ),
@@ -55,7 +55,7 @@ class CustomCssPageState extends State<CustomCssPage> {
                       }
                     });
                   },
-                  child: Text(AppLocalizations.of(context)!.paste),
+                  child: Text('paste'.tr),
                 ),
                 const SizedBox(width: 24),
                 TextButton(
@@ -66,7 +66,7 @@ class CustomCssPageState extends State<CustomCssPage> {
                     if (!mounted) return;
                     Navigator.pop(context);
                   },
-                  child: Text(AppLocalizations.of(context)!.save),
+                  child: Text('save'.tr),
                 ),
               ],
             )

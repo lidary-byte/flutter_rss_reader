@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/provider/read_page_provider.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class FontSizeSettingPage extends StatelessWidget {
@@ -9,15 +9,15 @@ class FontSizeSettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<int, String> fontSizeMap = {
-      14: AppLocalizations.of(context)!.minimum,
-      16: AppLocalizations.of(context)!.small,
-      18: AppLocalizations.of(context)!.medium,
-      20: AppLocalizations.of(context)!.large,
-      22: AppLocalizations.of(context)!.maximum,
+      14: 'minimum'.tr,
+      16: 'small'.tr,
+      18: 'medium'.tr,
+      20: 'large'.tr,
+      22: 'maximum'.tr,
     };
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.fontSize),
+        title: Text('fontSize'.tr),
       ),
       body: SafeArea(
         child: ListView.builder(

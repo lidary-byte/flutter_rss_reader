@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/provider/theme_provider.dart';
+import 'package:flutter_rss_reader/utils/hex_color.dart';
 import 'package:provider/provider.dart';
 
 ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
@@ -11,7 +12,7 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
         context.watch<ThemeProvider>().isDynamicColor ? lightDynamic : null,
     colorSchemeSeed:
         (!context.watch<ThemeProvider>().isDynamicColor || lightDynamic == null)
-            ? Colors.indigo
+            ? HexColor('#FFA400')
             : null,
     listTileTheme: const ListTileThemeData(
       contentPadding: EdgeInsets.symmetric(horizontal: 24),
@@ -28,7 +29,7 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
         context.watch<ThemeProvider>().isDynamicColor ? darkDynamic : null,
     colorSchemeSeed:
         (!context.watch<ThemeProvider>().isDynamicColor || darkDynamic == null)
-            ? Colors.indigo
+            ? HexColor('#FFA400')
             : null,
     listTileTheme: const ListTileThemeData(
       contentPadding: EdgeInsets.symmetric(horizontal: 24),

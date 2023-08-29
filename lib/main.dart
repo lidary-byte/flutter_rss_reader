@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/global/message.dart';
@@ -19,7 +17,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
+      // statusBarColor: Colors.transparent,
       systemNavigationBarColor: Colors.transparent,
       systemNavigationBarDividerColor: Colors.transparent,
     );
@@ -50,18 +48,12 @@ class MyApp extends StatelessWidget {
         return GetMaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'AReader',
-          locale: cacheLaunage.isBlank == true ? null : Locale(cacheLaunage),
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
+          locale: cacheLaunage.isBlank == true
+              ? Locale(Platform.localeName.split("_").first)
+              : Locale(cacheLaunage),
+          // 防止Local 找不到
+          fallbackLocale: const Locale('en'),
           translations: Message(),
-          supportedLocales: const [
-            Locale('en'),
-            Locale('zh'),
-          ],
           theme: lightTheme(
             context,
             lightDynamic,
@@ -71,7 +63,6 @@ class MyApp extends StatelessWidget {
             darkDynamic,
           ),
           themeMode: themeMode[cacheThemeIndex],
-          // home: const HomePage(),
           initialRoute: AppRouter.homePageRouter,
           getPages: AppRouter.routerPages,
           builder: (context, child) {

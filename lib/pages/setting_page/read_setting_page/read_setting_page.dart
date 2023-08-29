@@ -1,12 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter_rss_reader/provider/read_page_provider.dart';
 import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/custom_css_page.dart';
 import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/font_size_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/line_height_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/page_padding_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/text_align_setting_page.dart';
+import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 
 class ReadSettingPage extends StatelessWidget {
@@ -16,7 +16,7 @@ class ReadSettingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppLocalizations.of(context)!.readingPage),
+        title: Text('readingPage'.tr),
       ),
       body: SafeArea(
         child: ListView(
@@ -24,16 +24,16 @@ class ReadSettingPage extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.text_increase_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.fontSize),
+              title: Text('fontSize'.tr),
               subtitle: Text(
                 {
-                      14: AppLocalizations.of(context)!.minimum,
-                      16: AppLocalizations.of(context)!.small,
-                      18: AppLocalizations.of(context)!.medium,
-                      20: AppLocalizations.of(context)!.large,
-                      22: AppLocalizations.of(context)!.maximum,
+                      14: 'minimum'.tr,
+                      16: 'small'.tr,
+                      18: 'medium'.tr,
+                      20: 'large'.tr,
+                      22: 'maximum'.tr,
                     }[context.watch<ReadPageProvider>().fontSize] ??
-                    AppLocalizations.of(context)!.medium,
+                    'medium'.tr,
               ),
               onTap: () {
                 Navigator.push(
@@ -47,16 +47,16 @@ class ReadSettingPage extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.vertical_distribute_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.lineHeight),
+              title: Text('lineHeight'.tr),
               subtitle: Text(
                 {
-                      1.0: AppLocalizations.of(context)!.minimum,
-                      1.2: AppLocalizations.of(context)!.small,
-                      1.5: AppLocalizations.of(context)!.medium,
-                      1.8: AppLocalizations.of(context)!.large,
-                      2.0: AppLocalizations.of(context)!.maximum,
+                      1.0: 'minimum'.tr,
+                      1.2: 'small'.tr,
+                      1.5: 'medium'.tr,
+                      1.8: 'large'.tr,
+                      2.0: 'maximum'.tr,
                     }[context.watch<ReadPageProvider>().lineHeight] ??
-                    AppLocalizations.of(context)!.medium,
+                    'medium'.tr,
               ),
               onTap: () {
                 Navigator.push(
@@ -70,16 +70,16 @@ class ReadSettingPage extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.space_bar_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.pagePadding),
+              title: Text('pagePadding'.tr),
               subtitle: Text(
                 {
-                      0: AppLocalizations.of(context)!.minimum,
-                      9: AppLocalizations.of(context)!.small,
-                      18: AppLocalizations.of(context)!.medium,
-                      27: AppLocalizations.of(context)!.large,
-                      36: AppLocalizations.of(context)!.maximum,
+                      0: 'minimum'.tr,
+                      9: 'small'.tr,
+                      18: 'medium'.tr,
+                      27: 'large'.tr,
+                      36: 'maximum'.tr,
                     }[context.watch<ReadPageProvider>().pagePadding] ??
-                    AppLocalizations.of(context)!.medium,
+                    'medium'.tr,
               ),
               onTap: () {
                 Navigator.push(
@@ -93,15 +93,15 @@ class ReadSettingPage extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.format_align_left_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.textAlignment),
+              title: Text('textAlignment'.tr),
               subtitle: Text(
                 {
-                      'left': AppLocalizations.of(context)!.leftAlignment,
-                      'right': AppLocalizations.of(context)!.rightAlignment,
-                      'center': AppLocalizations.of(context)!.centerAlignment,
-                      'justify': AppLocalizations.of(context)!.justifyAlignment,
+                      'left': 'leftAlignment'.tr,
+                      'right': 'rightAlignment'.tr,
+                      'center': 'centerAlignment'.tr,
+                      'justify': 'justifyAlignment'.tr,
                     }[context.watch<ReadPageProvider>().textAlign] ??
-                    AppLocalizations.of(context)!.justifyAlignment,
+                    'justifyAlignment'.tr,
               ),
               onTap: () {
                 Navigator.push(
@@ -115,8 +115,8 @@ class ReadSettingPage extends StatelessWidget {
             ListTile(
               leading: const Icon(Icons.code_outlined),
               iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-              title: Text(AppLocalizations.of(context)!.customCSS),
-              subtitle: Text(AppLocalizations.of(context)!.readingPageCSSStyle),
+              title: Text('customCSS'.tr),
+              subtitle: Text('readingPageCSSStyle'.tr),
               onTap: () {
                 Navigator.push(
                   context,
