@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/models/post.dart';
-import 'package:flutter_rss_reader/pages/read/read_page.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_controller.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
