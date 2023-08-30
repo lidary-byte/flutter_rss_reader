@@ -2,7 +2,6 @@ import 'package:flutter_rss_reader/pages/feed_page/add_feed/add_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed_page/edit_feed/edit_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed_page/feed_page.dart';
 import 'package:flutter_rss_reader/pages/home/home_page.dart';
-import 'package:flutter_rss_reader/pages/read.dart';
 import 'package:flutter_rss_reader/pages/setting_page/block_setting_page/block_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting_page/dynamic_color_setting_page/dynamic_color_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting_page/font_setting_page/font_setting_page.dart';
