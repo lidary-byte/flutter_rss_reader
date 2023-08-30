@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/models/post.dart';
-import 'package:flutter_rss_reader/pages/read.dart';
+import 'package:flutter_rss_reader/pages/read/read_page.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_controller.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
@@ -139,19 +139,19 @@ class FeedPageController extends GetxController {
       );
     } else {
       if (_fontDir == null) return;
-      Get.to(ReadPage(
-        post: _postList[index],
-        fullText: _feed?.fullText == 1,
-        fontDir: _fontDir!,
-      ))?.then((value) {
-        // if (onlyUnread) {
-        //   _controller.getUnreadPostList();
-        // } else if (_controller.onlyFavorite) {
-        //   _controller.getFavoritePostList();
-        // } else {
-        //   _controller.getPostList();
-        // }
-      });
+      // Get.to(ReadPage(
+      //   post: _postList[index],
+      //   fullText: _feed?.fullText == 1,
+      //   fontDir: _fontDir!,
+      // ))?.then((value) {
+      //   // if (onlyUnread) {
+      //   //   _controller.getUnreadPostList();
+      //   // } else if (_controller.onlyFavorite) {
+      //   //   _controller.getFavoritePostList();
+      //   // } else {
+      //   //   _controller.getPostList();
+      //   // }
+      // });
     }
 
     // 标记文章为已读
