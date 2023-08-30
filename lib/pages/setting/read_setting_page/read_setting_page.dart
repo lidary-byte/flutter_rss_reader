@@ -1,11 +1,11 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/custom_css_page.dart';
-import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/font_size_setting_page.dart';
-import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/line_height_setting_page.dart';
-import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/page_padding_setting_page.dart';
-import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/read_controller.dart';
-import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/text_align_setting_page.dart';
+import 'package:flutter_rss_reader/pages/setting/read_setting_page/custom_css_page.dart';
+import 'package:flutter_rss_reader/pages/setting/read_setting_page/font_size_setting_page.dart';
+import 'package:flutter_rss_reader/pages/setting/read_setting_page/line_height_setting_page.dart';
+import 'package:flutter_rss_reader/pages/setting/read_setting_page/page_padding_setting_page.dart';
+import 'package:flutter_rss_reader/pages/setting/read_setting_page/read_controller.dart';
+import 'package:flutter_rss_reader/pages/setting/read_setting_page/text_align_setting_page.dart';
 import 'package:get/get.dart';
 
 class ReadSettingPage extends StatelessWidget {

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/pages/setting_page/setting_controller.dart';
+import 'package:flutter_rss_reader/pages/setting/setting_controller.dart';
 import 'package:get/get.dart';
 
 class ThemeSettingPage extends StatelessWidget {

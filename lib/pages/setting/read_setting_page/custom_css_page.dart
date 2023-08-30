@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/read_controller.dart';
+import 'package:flutter_rss_reader/pages/setting/read_setting_page/read_controller.dart';
 import 'package:get/get.dart';
 
 class CustomCssPage extends StatelessWidget {

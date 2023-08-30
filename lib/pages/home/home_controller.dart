@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/pages/setting_page/setting_page.dart';
+import 'package:flutter_rss_reader/pages/setting/setting_page.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_page.dart';
 import 'package:get/get.dart';
 

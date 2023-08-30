@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/pages/feed_page/edit_feed/edit_feed_controller.dart';
+import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/widgets/list_tile_group_title.dart';
 import 'package:get/get.dart';
 
