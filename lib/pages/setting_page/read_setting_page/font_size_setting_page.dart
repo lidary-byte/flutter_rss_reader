@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/provider/read_page_provider.dart';
+import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/read_controller.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 class FontSizeSettingPage extends StatelessWidget {
-  const FontSizeSettingPage({Key? key}) : super(key: key);
-
+  FontSizeSettingPage({Key? key}) : super(key: key);
+  final _controller = Get.put(ReadController());
   @override
   Widget build(BuildContext context) {
     final Map<int, String> fontSizeMap = {
@@ -20,21 +19,22 @@ class FontSizeSettingPage extends StatelessWidget {
         title: Text('fontSize'.tr),
       ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: fontSizeMap.length,
-          itemBuilder: (context, index) {
-            return RadioListTile(
-              value: fontSizeMap.keys.toList()[index],
-              groupValue: context.watch<ReadPageProvider>().fontSize,
-              title: Text(fontSizeMap.values.toList()[index]),
-              onChanged: (int? value) {
-                if (value != null) {
-                  context.read<ReadPageProvider>().changeFontSize(value);
-                }
-              },
-            );
-          },
-        ),
+        child: GetBuilder<ReadController>(
+            builder: (_) => ListView.builder(
+                  itemCount: fontSizeMap.length,
+                  itemBuilder: (context, index) {
+                    return RadioListTile(
+                      value: fontSizeMap.keys.toList()[index],
+                      groupValue: _controller.fontSize,
+                      title: Text(fontSizeMap.values.toList()[index]),
+                      onChanged: (int? value) {
+                        if (value != null) {
+                          _controller.changeFontSize(value);
+                        }
+                      },
+                    );
+                  },
+                )),
       ),
     );
   }

@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/provider/read_page_provider.dart';
+import 'package:flutter_rss_reader/pages/setting_page/read_setting_page/read_controller.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 
 class TextAlignSettingPage extends StatelessWidget {
-  const TextAlignSettingPage({Key? key}) : super(key: key);
-
+  TextAlignSettingPage({Key? key}) : super(key: key);
+  final _controller = Get.put(ReadController());
   @override
   Widget build(BuildContext context) {
     final Map<String, String> textAlignMap = {
@@ -19,21 +18,22 @@ class TextAlignSettingPage extends StatelessWidget {
         title: Text('textAlignment'.tr),
       ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: textAlignMap.length,
-          itemBuilder: (context, index) {
-            return RadioListTile(
-              value: textAlignMap.keys.toList()[index],
-              groupValue: context.watch<ReadPageProvider>().textAlign,
-              title: Text(textAlignMap.values.toList()[index]),
-              onChanged: (String? value) {
-                if (value != null) {
-                  context.read<ReadPageProvider>().changeTextAlign(value);
-                }
-              },
-            );
-          },
-        ),
+        child: GetBuilder<ReadController>(
+            builder: (_) => ListView.builder(
+                  itemCount: textAlignMap.length,
+                  itemBuilder: (context, index) {
+                    return RadioListTile(
+                      value: textAlignMap.keys.toList()[index],
+                      groupValue: _controller.textAlign,
+                      title: Text(textAlignMap.values.toList()[index]),
+                      onChanged: (String? value) {
+                        if (value != null) {
+                          _controller.changeTextAlign(value);
+                        }
+                      },
+                    );
+                  },
+                )),
       ),
     );
   }

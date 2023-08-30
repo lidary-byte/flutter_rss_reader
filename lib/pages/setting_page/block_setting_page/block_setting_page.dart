@@ -52,7 +52,7 @@ class BlockSettingPage extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: GetBuilder(
+        child: GetBuilder<SettingController>(
             builder: (_) => ListView.builder(
                   itemCount: _controller.blockList.length + 2,
                   itemBuilder: (BuildContext context, int index) {

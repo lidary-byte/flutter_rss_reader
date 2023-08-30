@@ -25,7 +25,7 @@ class FontSettingPage extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: GetBuilder(
+        child: GetBuilder<SettingController>(
           builder: (_) => ListView.builder(
             itemCount: _controller.fontNameList.length + 2,
             itemBuilder: (context, index) {

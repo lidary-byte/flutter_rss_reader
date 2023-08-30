@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/db/db.dart';
 import 'package:flutter_rss_reader/models/post.dart';
 import 'package:sqflite/sqflite.dart';
