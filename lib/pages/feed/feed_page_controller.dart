@@ -73,9 +73,7 @@ class FeedPageController extends GetxController {
       {List<String> refreshIds = const ['post_list']}) {
     _postList.clear();
     _postList.addAll(list ?? []);
-    if (_postList.isNotEmpty) {
-      update(refreshIds);
-    }
+    update(refreshIds);
   }
 
   void changeReadStatus() {

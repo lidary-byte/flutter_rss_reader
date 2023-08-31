@@ -80,7 +80,7 @@ const zh = {
   "others": "其他",
   "startBackgroundImport": "开始后台导入……",
   "importSuccess": "导入成功",
-  "importFailedForFeeds": "导入失败 {count} 个订阅源",
+  "importFailedForFeeds": "导入失败%s个订阅源",
   "shareOPMLFile": "分享 OPML 文件",
   "exportSuccess": "导出成功",
   "checkingForUpdates": "正在检查更新……",

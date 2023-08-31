@@ -1,13 +1,52 @@
 import 'dart:io';
-import 'dart:ui';
 
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter_rss_reader/global/com_constant.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/utils/font_manager.dart';
+import 'package:flutter_rss_reader/utils/parse.dart';
+import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
+import 'package:path_provider/path_provider.dart';
+import 'package:share_plus/share_plus.dart';
 
 class SettingController extends GetxController {
   final List<String> blockList = prefs.getStringList('blockList') ?? [];
+
+  // 导入 OPML 文件
+  void importOPML() async {
+    // 打开文件选择器
+    final result = await FilePicker.platform.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ['opml', 'xml'],
+    );
+    if (result != null) {
+      toast('startBackgroundImport'.tr);
+      final int failCount = await parseOpml(result);
+      toast(failCount == 0
+          ? 'importSuccess'.tr
+          : 'importFailedForFeeds(failCount)'.trArgs(['$failCount']));
+    }
+  }
+
+  // 导出 OPML 文件
+  Future<void> exportOPML() async {
+    final String successText = 'shareOPMLFile'.tr;
+    String opmlStr = await exportOpml();
+    // opmlStr 字符串写入 feeds.opml 文件并分享，分享后删除文件
+    final Directory tempDir = await getTemporaryDirectory();
+    final File file = File('${tempDir.path}/feeds-from-MeReader.xml');
+    await file.writeAsString(opmlStr);
+    await Share.shareXFiles(
+      [XFile(file.path)],
+      text: successText,
+    ).then((value) {
+      if (value.status == ShareResultStatus.success) {
+        toast('exportSuccess'.tr);
+      }
+    });
+    await file.delete();
+  }
 
   void removeBlock(int index) async {
     blockList.removeAt(index);
@@ -33,37 +72,6 @@ class SettingController extends GetxController {
   Future<void> changeThemeFont(String font) async {
     await prefs.setString(ComConstant.spKeyThemeFont, font);
     themeFont = font;
-    update();
-  }
-
-  double textScaleFactor =
-      prefs.getDouble(ComConstant.spKeyTextScaleFactor) ?? 1.0;
-  Future<void> changeTextScaleFactor(double factor) async {
-    await prefs.setDouble(ComConstant.spKeyTextScaleFactor, factor);
-    textScaleFactor = factor;
-    update();
-  }
-
-  /// 动态取色
-  bool isDynamicColor = prefs.getBool(ComConstant.spKeyDynamicColor) ?? false;
-  Future<void> changeDynamicColor(bool dynamicColor) async {
-    await prefs.setBool(ComConstant.spKeyDynamicColor, dynamicColor);
-    isDynamicColor = dynamicColor;
-    update();
-  }
-
-  Future<void> changeThemeIndex(int index) async {
-    cacheThemeIndex = index;
-    await prefs.setInt(ComConstant.spKeyTheme, index);
-    Get.changeThemeMode(themeMode[cacheThemeIndex]);
-    update();
-  }
-
-  Future<void> changeLanguage(String language) async {
-    cacheLaunage = language;
-    await prefs.setString(ComConstant.spKeyLanguage, language);
-    Get.updateLocale(
-        Locale(language == '' ? Platform.localeName.split("_")[0] : language));
     update();
   }
 

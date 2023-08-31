@@ -53,6 +53,7 @@ dependencies:
   get: ^4.6.5
   animated_bottom_navigation_bar: ^1.2.0
   animations: ^2.0.8
+  fluttertoast: ^8.2.2
 
 dev_dependencies:
   flutter_test:

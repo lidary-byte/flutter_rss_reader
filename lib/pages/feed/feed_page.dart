@@ -10,9 +10,12 @@ class FeedPage extends StatelessWidget {
   final _controller = Get.put(FeedPageController());
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<FeedPageController>(
-        builder: (_) => Scaffold(
-              appBar: AppBar(
+    return Scaffold(
+      body: SafeArea(
+          top: false,
+          child: CustomScrollView(
+            slivers: [
+              SliverAppBar.medium(
                 title: Text(_controller.feed?.name ?? ''),
                 actions: [
                   GetBuilder<FeedPageController>(
@@ -59,27 +62,32 @@ class FeedPage extends StatelessWidget {
                   ),
                 ],
               ),
-              body: SafeArea(
-                child: RefreshIndicator(
-                  onRefresh: () async => _controller.refreshPost(),
-                  child: GetBuilder<FeedPageController>(
-                      id: 'post_list',
-                      builder: (_) => ListView.separated(
-                            itemCount: _controller.postList.length,
-                            padding: const EdgeInsets.all(12),
-                            itemBuilder: (context, index) {
-                              return GestureDetector(
-                                onTap: () => _controller.openPost(index),
-                                child: PostContainer(
-                                    post: _controller.postList[index]),
-                              );
-                            },
-                            separatorBuilder: (context, index) {
-                              return const SizedBox(height: 4);
-                            },
-                          )),
-                ),
-              ),
-            ));
+              SliverPadding(
+                padding: const EdgeInsets.all(12),
+                sliver:
+                    // RefreshIndicator(
+                    //   onRefresh: () async => _controller.refreshPost(),
+                    //   child:
+                    GetBuilder<FeedPageController>(
+                        id: 'post_list',
+                        builder: (_) => SliverList.separated(
+                              itemCount: _controller.postList.length,
+                              // padding: const EdgeInsets.all(12),
+                              itemBuilder: (context, index) {
+                                return GestureDetector(
+                                  onTap: () => _controller.openPost(index),
+                                  child: PostContainer(
+                                      post: _controller.postList[index]),
+                                );
+                              },
+                              separatorBuilder: (context, index) {
+                                return const SizedBox(height: 4);
+                              },
+                            )),
+                // )
+              )
+            ],
+          )),
+    );
   }
 }

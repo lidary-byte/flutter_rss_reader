@@ -83,7 +83,7 @@ const en = {
   "others": "Others",
   "startBackgroundImport": "Start Background Import...",
   "importSuccess": "Import Success",
-  "importFailedForFeeds": "Import Failed for {count} Feeds",
+  "importFailedForFeeds": "Import Failed for %s Feeds",
   "shareOPMLFile": "Share OPML File",
   "exportSuccess": "Export Success",
   "checkingForUpdates": "Checking for Updates...",

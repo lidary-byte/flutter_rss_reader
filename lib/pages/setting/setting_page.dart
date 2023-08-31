@@ -1,19 +1,12 @@
-import 'dart:io';
-
 import 'package:dio/dio.dart';
-import 'package:file_picker/file_picker.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/global/global_controller.dart';
 import 'package:flutter_rss_reader/pages/setting/about_page/about_page.dart';
 import 'package:flutter_rss_reader/pages/setting/setting_controller.dart';
-import 'package:flutter_rss_reader/utils/parse.dart';
 import 'package:flutter_rss_reader/widgets/list_tile_group_title.dart';
 import 'package:get/get.dart';
-import 'package:path_provider/path_provider.dart';
-import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SettingPage extends StatelessWidget {
@@ -51,14 +44,14 @@ class SettingPage extends StatelessWidget {
             iconColor: Theme.of(context).textTheme.bodyLarge!.color,
             title: Text('importOPML'.tr),
             subtitle: Text('importFeedsFromOPML'.tr),
-            onTap: importOPML,
+            onTap: _controller.importOPML,
           ),
           ListTile(
             leading: const Icon(Icons.file_upload_outlined),
             iconColor: Theme.of(context).textTheme.bodyLarge!.color,
             title: Text('exportOPML'.tr),
             subtitle: Text('exportFeedsToOPML'.tr),
-            onTap: exportOPML,
+            onTap: _controller.exportOPML,
           ),
           ListTileGroupTitle(title: 'others'.tr),
           ListTile(
@@ -73,11 +66,7 @@ class SettingPage extends StatelessWidget {
             iconColor: Theme.of(context).textTheme.bodyLarge!.color,
             title: Text('about'.tr),
             subtitle: Text('contactAndOpenSource'.tr),
-            onTap: () {
-              Navigator.push(context, CupertinoPageRoute(builder: (context) {
-                return const AboutPage();
-              }));
-            },
+            onTap: () => Get.to(const AboutPage()),
           ),
         ]))
       ],
@@ -152,71 +141,6 @@ class SettingPage extends StatelessWidget {
                 'systemLanguage'.tr,
           ),
           onTap: () => Get.toNamed(AppRouter.languageSettingPageRouter)));
-
-  // 导入 OPML 文件
-  Future<void> importOPML() async {
-    // 打开文件选择器
-    final result = await FilePicker.platform.pickFiles(
-      type: FileType.custom,
-      allowedExtensions: ['opml', 'xml'],
-    );
-    if (result != null) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        SnackBar(
-          content: Text('startBackgroundImport'.tr),
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 2),
-          action: SnackBarAction(
-            label: 'ok'.tr,
-            onPressed: () {},
-          ),
-        ),
-      );
-      final int failCount = await parseOpml(result);
-
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        SnackBar(
-          content: Text(
-            failCount == 0
-                ? 'importSuccess'.tr
-                : 'importFailedForFeeds(failCount)'.tr,
-          ),
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 2),
-          action: SnackBarAction(
-            label: 'ok'.tr,
-            onPressed: () {},
-          ),
-        ),
-      );
-    }
-  }
-
-  // 导出 OPML 文件
-  Future<void> exportOPML() async {
-    final String successText = 'shareOPMLFile'.tr;
-    String opmlStr = await exportOpml();
-    // opmlStr 字符串写入 feeds.opml 文件并分享，分享后删除文件
-    final Directory tempDir = await getTemporaryDirectory();
-    final File file = File('${tempDir.path}/feeds-from-MeReader.xml');
-    await file.writeAsString(opmlStr);
-    await Share.shareXFiles(
-      [XFile(file.path)],
-      text: successText,
-    ).then((value) {
-      if (value.status == ShareResultStatus.success) {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(
-          SnackBar(
-            content: Text('exportSuccess'.tr),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-            action: SnackBarAction(label: 'ok'.tr, onPressed: () {}),
-          ),
-        );
-      }
-    });
-    await file.delete();
-  }
 
   // 检查更新
   Future<void> checkUpdate() async {
