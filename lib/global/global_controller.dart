@@ -13,7 +13,7 @@ class GlobalController extends GetxController {
       return;
     }
     cacheLaunage = language;
-    await prefs.setString('language', language);
+    await prefs.setString(ComConstant.spKeyLanguage, language);
     Get.updateLocale(
         Locale(language == '' ? Platform.localeName.split("_")[0] : language));
     update(['language']);
@@ -24,7 +24,7 @@ class GlobalController extends GetxController {
     if (index == cacheThemeIndex) {
       return;
     }
-    await prefs.setInt('themeIndex', index);
+    await prefs.setInt(ComConstant.spKeyTheme, index);
     cacheThemeIndex = index;
     Get.changeThemeMode(themeMode[index]);
     update(['theme']);

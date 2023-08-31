@@ -21,10 +21,14 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       extensions: [
         CustomTheme(
           colorLabelColor: Colors.black,
-          bottomNavigationBarBackgroundColor: Colors.white, // Colors.blue,
-          activeNavigationBarColor: HexColor('#FFA400'),
+          bottomNavigationBarBackgroundColor: Colors.white,
+          activeNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
+              ? lightDynamic.primary
+              : HexColor('#FFA400'),
           notActiveNavigationBarColor: Colors.white,
-          shadowNavigationBarColor: HexColor('#FFA400'),
+          shadowNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
+              ? lightDynamic.primary
+              : HexColor('#FFA400'),
         )
       ]);
 }
@@ -48,9 +52,13 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
         CustomTheme(
           colorLabelColor: Colors.white,
           bottomNavigationBarBackgroundColor: HexColor('#373A36'),
-          activeNavigationBarColor: HexColor('#FFA400'),
+          activeNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
+              ? darkDynamic.primary
+              : HexColor('#FFA400'),
           notActiveNavigationBarColor: Colors.white,
-          shadowNavigationBarColor: HexColor('#FFA400'),
+          shadowNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
+              ? darkDynamic.primary
+              : HexColor('#FFA400'),
         )
       ]);
 }
