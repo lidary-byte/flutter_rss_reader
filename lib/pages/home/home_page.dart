@@ -1,8 +1,8 @@
 import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
-import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/pages/home/home_controller.dart';
-import 'package:flutter_rss_reader/utils/hex_color.dart';
+import 'package:flutter_rss_reader/theme/custom_theme.dart';
+import 'package:flutter_rss_reader/widgets/anim_index_stack.dart';
 import 'package:get/get.dart';
 
 class HomePage extends StatelessWidget {
@@ -11,33 +11,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: GetBuilder<HomeController>(
-            builder: (_) => AnimatedBottomNavigationBar(
-                  icons: const [
-                    Icons.home,
-                    Icons.settings,
-                  ],
-                  backgroundColor: Get.theme.colorScheme.background,
-                  activeColor: HexColor('#FFA400'),
-                  splashColor: HexColor('#FFA400'),
-                  activeIndex: _controller.index,
-                  gapLocation: GapLocation.center,
-                  notchSmoothness: NotchSmoothness.verySmoothEdge,
-                  leftCornerRadius: 32,
-                  rightCornerRadius: 32,
-                  onTap: _controller.changeIndex,
-                )),
+        bottomNavigationBar: GetBuilder<HomeController>(builder: (_) {
+          final colors = Theme.of(context).extension<CustomTheme>()!;
+          return AnimatedBottomNavigationBar(
+            icons: const [
+              Icons.home,
+              Icons.settings,
+            ],
+            backgroundColor: colors.bottomNavigationBarBackgroundColor,
+            activeColor: colors.activeNavigationBarColor,
+            splashColor: colors.activeNavigationBarColor,
+            activeIndex: _controller.index,
+            gapLocation: GapLocation.center,
+            notchSmoothness: NotchSmoothness.verySmoothEdge,
+            leftCornerRadius: 16,
+            rightCornerRadius: 16,
+            onTap: _controller.changeIndex,
+          );
+        }),
         body: SafeArea(
-          child: PageTransitionSwitcher(
-              child:
-                  GetBuilder<HomeController>(builder: (_) => _controller.page),
-              transitionBuilder: (child, primaryAnimation, secondaryAnimation) {
-                return SharedAxisTransition(
-                    child: child,
-                    animation: primaryAnimation,
-                    secondaryAnimation: secondaryAnimation,
-                    transitionType: SharedAxisTransitionType.scaled);
-              }),
-        ));
+            top: false,
+            child: GetBuilder<HomeController>(
+                builder: (_) => AnimatedIndexedStack(
+                    index: _controller.index, children: _controller.pages))));
   }
 }

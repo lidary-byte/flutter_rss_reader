@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
-import 'package:flutter_rss_reader/provider/theme_provider.dart';
 import 'package:get/get.dart';
-import 'package:provider/provider.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -38,77 +36,27 @@ class ReadPage extends StatelessWidget {
           ),
           PopupMenuButton(
             position: PopupMenuPosition.under,
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry>[
-                PopupMenuItem(
-                  onTap: () async {
-                    await _controller.post.markUnread();
-                  },
-                  child: Text(
-                    "markAsUnread".tr,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                PopupMenuItem(
-                  onTap: () async {
-                    _controller.post.favorite =
-                        _controller.post.favorite == 0 ? 1 : 0;
-                    await _controller.post.changeFavorite();
-                  },
-                  child: Text(
-                    _controller.post.favorite == 1
-                        ? 'cancelCollect'.tr
-                        : 'collectPost'.tr,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-                const PopupMenuDivider(),
-                PopupMenuItem(
-                  onTap: () {
-                    Clipboard.setData(
-                        ClipboardData(text: _controller.post.link));
-                  },
-                  child: Text(
-                    'copyLink'.tr,
-                    style: Theme.of(context).textTheme.bodyMedium,
-                  ),
-                ),
-              ];
-            },
+            itemBuilder: (BuildContext context) => _popupMenu(),
           ),
         ],
       ),
       body: SafeArea(
         child: AnimatedSwitcher(
           duration: const Duration(milliseconds: 800),
-          child: _buildBody(cssStr, titleStr),
+          child: GetBuilder<ReadController>(
+              id: 'content',
+              builder: (_) => _controller.contentHtml == null
+                  ? _loadingWidget()
+                  : _bodyWidget(_controller.cssStr, _controller.titleStr)),
         ),
       ),
     );
   }
 
-  Widget _buildBody(String cssStr, String titleStr) {
-    if (_controller.index == 0) {
-      return Center(
-        child: SizedBox(
-          height: 200,
-          width: 200,
-          child: Column(
-            children: [
-              const CircularProgressIndicator(
-                strokeWidth: 3,
-              ),
-              const SizedBox(height: 12),
-              Text('gettingFullText'.tr),
-            ],
-          ),
-        ),
-      );
-    }
-    return InAppWebView(
-      initialData: _controller.post.openType == 0
-          ? InAppWebViewInitialData(
-              data: '''
+  Widget _bodyWidget(String cssStr, String titleStr) => InAppWebView(
+        initialData: _controller.post.openType == 0
+            ? InAppWebViewInitialData(
+                data: '''
 <!DOCTYPE html>
 <html>
 <head>
@@ -124,25 +72,77 @@ ${_controller.contentHtml}
 </body>
 </html>
 ''',
-              baseUrl: Uri.directory(_controller.fontDir),
-            )
-          : null,
-      initialUrlRequest: _controller.post.openType != 0
-          ? URLRequest(
-              url: Uri.parse(
-                _controller.post.link
-                    .replaceFirst(RegExp(r'^http://'), 'https://'),
-              ),
-            )
-          : null,
-      initialOptions: InAppWebViewGroupOptions(
-        android: AndroidInAppWebViewOptions(
-          useHybridComposition: true,
+                baseUrl: Uri.directory(_controller.fontDir),
+              )
+            : null,
+        initialUrlRequest: _controller.post.openType != 0
+            ? URLRequest(
+                url: Uri.parse(
+                  _controller.post.link
+                      .replaceFirst(RegExp(r'^http://'), 'https://'),
+                ),
+              )
+            : null,
+        initialOptions: InAppWebViewGroupOptions(
+          android: AndroidInAppWebViewOptions(
+            useHybridComposition: true,
+          ),
+          crossPlatform: InAppWebViewOptions(
+            transparentBackground: true,
+          ),
         ),
-        crossPlatform: InAppWebViewOptions(
-          transparentBackground: true,
+        onWebViewCreated: _controller.setWebViewController,
+      );
+
+  Widget _loadingWidget() => Center(
+      child: SizedBox(
+          height: 200,
+          width: 200,
+          child: Column(children: [
+            const CircularProgressIndicator(
+              strokeWidth: 3,
+            ),
+            const SizedBox(height: 12),
+            Text('gettingFullText'.tr),
+          ])));
+
+  List<PopupMenuEntry> _popupMenu() => <PopupMenuEntry>[
+        //只有当设置了在应用内打开才支持设置样式
+        if (_controller.post.openType == 0)
+          PopupMenuItem(
+            onTap: _controller.changeStylePage,
+            child: Text(
+              "customPostReadingPage".tr,
+              style: Get.theme.textTheme.bodyMedium,
+            ),
+          ),
+        PopupMenuItem(
+          onTap: () => _controller.post.markUnread(),
+          child: Text(
+            "markAsUnread".tr,
+            style: Get.theme.textTheme.bodyMedium,
+          ),
         ),
-      ),
-    );
-  }
+        PopupMenuItem(
+          onTap: () async {
+            _controller.post.favorite = _controller.post.favorite == 0 ? 1 : 0;
+            await _controller.post.changeFavorite();
+          },
+          child: Text(
+            _controller.post.favorite == 1
+                ? 'cancelCollect'.tr
+                : 'collectPost'.tr,
+            style: Get.theme.textTheme.bodyMedium,
+          ),
+        ),
+        const PopupMenuDivider(),
+        PopupMenuItem(
+          onTap: () =>
+              Clipboard.setData(ClipboardData(text: _controller.post.link)),
+          child: Text(
+            'copyLink'.tr,
+            style: Get.theme.textTheme.bodyMedium,
+          ),
+        ),
+      ];
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/models/post.dart';
+import 'package:flutter_rss_reader/pages/read/read_controller.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_controller.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/parse.dart';
@@ -138,6 +140,11 @@ class FeedPageController extends GetxController {
       );
     } else {
       if (_fontDir == null) return;
+      Get.toNamed(AppRouter.readPageRouter, arguments: {
+        ReadController.parametersFontDir: _fontDir,
+        ReadController.parametersFullText: _feed?.fullText == 1,
+        ReadController.parametersPost: _postList[index]
+      });
       // Get.to(ReadPage(
       //   post: _postList[index],
       //   fullText: _feed?.fullText == 1,

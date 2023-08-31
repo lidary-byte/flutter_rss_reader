@@ -1,5 +1,5 @@
 const en = {
-  "meRead": "MeRead",
+  "meRead": "ARead",
   "markAllAsRead": "Mark All as Read",
   "addFeed": "Add Feed",
   "settings": "Settings",
@@ -80,8 +80,6 @@ const en = {
   "checkForUpdates": "Check for Updates",
   "getLatestVersion": "Get Latest Version",
   "contactAndOpenSource": "Contact & Open Source",
-  "openSourceLicenses": "Open Source Licenses",
-  "viewOpenSourceLicenses": "View Open Source Licenses",
   "others": "Others",
   "startBackgroundImport": "Start Background Import...",
   "importSuccess": "Import Success",

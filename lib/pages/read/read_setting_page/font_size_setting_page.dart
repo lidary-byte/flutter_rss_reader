@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/pages/setting/read_setting_page/read_controller.dart';
+import 'package:flutter_rss_reader/pages/read/read_controller.dart';
 import 'package:get/get.dart';
 
 class FontSizeSettingPage extends StatelessWidget {
   FontSizeSettingPage({Key? key}) : super(key: key);
-  final _controller = Get.put(ReadController());
+  final _controller = Get.find<ReadController>();
   @override
   Widget build(BuildContext context) {
     final Map<int, String> fontSizeMap = {
@@ -19,22 +19,19 @@ class FontSizeSettingPage extends StatelessWidget {
         title: Text('fontSize'.tr),
       ),
       body: SafeArea(
-        child: GetBuilder<ReadController>(
-            builder: (_) => ListView.builder(
-                  itemCount: fontSizeMap.length,
-                  itemBuilder: (context, index) {
-                    return RadioListTile(
+        child: ListView.builder(
+          itemCount: fontSizeMap.length,
+          itemBuilder: (context, index) {
+            return GetBuilder<ReadController>(
+                id: 'font_size',
+                builder: (_) => RadioListTile(
                       value: fontSizeMap.keys.toList()[index],
                       groupValue: _controller.fontSize,
                       title: Text(fontSizeMap.values.toList()[index]),
-                      onChanged: (int? value) {
-                        if (value != null) {
-                          _controller.changeFontSize(value);
-                        }
-                      },
-                    );
-                  },
-                )),
+                      onChanged: _controller.changeFontSize,
+                    ));
+          },
+        ),
       ),
     );
   }

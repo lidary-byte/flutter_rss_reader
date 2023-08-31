@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/pages/setting/setting_controller.dart';
+import 'package:flutter_rss_reader/global/global.dart';
+import 'package:flutter_rss_reader/global/global_controller.dart';
 import 'package:get/get.dart';
 
 class DynamicColorSettingPage extends StatelessWidget {
   DynamicColorSettingPage({Key? key}) : super(key: key);
-  final _controller = Get.find<SettingController>();
+  final _controller = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,22 +13,22 @@ class DynamicColorSettingPage extends StatelessWidget {
         title: Text('dynamicColor'.tr),
       ),
       body: SafeArea(
-          child: GetBuilder<SettingController>(
-        builder: (_) => ListView(
-          children: [
-            SwitchListTile(
-              value: _controller.isDynamicColor,
+          child: ListView(
+        children: [
+          GetBuilder<GlobalController>(
+            builder: (_) => SwitchListTile(
+              value: cacheDynamicColor,
               onChanged: _controller.changeDynamicColor,
               title: Text('openDynamicColor'.tr),
               subtitle: Text('dynamicColorFromWallpaper'.tr),
             ),
-            const Divider(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-              child: Text('dynamicColorInfo'.tr),
-            ),
-          ],
-        ),
+          ),
+          const Divider(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
+            child: Text('dynamicColorInfo'.tr),
+          ),
+        ],
       )),
     );
   }

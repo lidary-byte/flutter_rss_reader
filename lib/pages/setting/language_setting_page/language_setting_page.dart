@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/pages/setting/setting_controller.dart';
+import 'package:flutter_rss_reader/global/global_controller.dart';
 import 'package:get/get.dart';
 
 class LanguageSettingPage extends StatelessWidget {
   LanguageSettingPage({super.key});
-  final _controller = Get.find<SettingController>();
+  final _controller = Get.find<GlobalController>();
   @override
   Widget build(BuildContext context) {
     final languageMap = {
@@ -21,7 +21,8 @@ class LanguageSettingPage extends StatelessWidget {
         child: ListView.builder(
           itemCount: languageMap.length,
           itemBuilder: (context, index) {
-            return GetBuilder<SettingController>(
+            return GetBuilder<GlobalController>(
+                id: 'language',
                 builder: (_) => RadioListTile(
                       value: languageMap.keys.toList()[index],
                       groupValue: cacheLaunage,

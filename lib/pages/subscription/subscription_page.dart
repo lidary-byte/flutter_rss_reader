@@ -11,55 +11,53 @@ class SubscriptionPage extends StatelessWidget {
   final _controller = Get.put(SubscriptionController());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('meRead'.tr),
-        actions: [
-          IconButton(
-              onPressed: _controller.toAddFeedPage, icon: const Icon(Icons.add))
-        ],
-      ),
-      body: SafeArea(
-          child: GetBuilder<SubscriptionController>(
-              builder: (_) => ListView.builder(
-                    itemBuilder: (context, index) {
-                      final dataKey = _controller.feedListGroupByCategory.keys
-                          .toList()[index];
-                      final dataValue =
-                          _controller.feedListGroupByCategory[dataKey];
-                      return ExpansionTile(
-                        title: Text(
-                          dataKey,
-                        ),
-                        shape: Border.all(color: Colors.transparent),
-                        children: dataValue?.isEmpty == true
-                            ? []
-                            : dataValue!
-                                .map(
-                                  (feed) => ListTile(
-                                    dense: true,
-                                    contentPadding: const EdgeInsets.only(
-                                      left: 40,
-                                      right: 28,
-                                    ),
-                                    title: Text(
-                                      feed.name,
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                    onTap: () => Get.toNamed(
-                                        AppRouter.feedPageRouter,
-                                        arguments: {
-                                          FeedPageController.parametersFeed:
-                                              feed
-                                        }),
-                                  ),
-                                )
-                                .toList(),
-                      );
-                    },
-                    itemCount: _controller.feedListGroupByCategory.length,
-                  ))),
+    return CustomScrollView(
+      slivers: [
+        SliverAppBar.large(
+          title: Text('meRead'.tr),
+          actions: [
+            IconButton(
+                onPressed: _controller.toAddFeedPage,
+                icon: const Icon(Icons.add))
+          ],
+        ),
+        GetBuilder<SubscriptionController>(
+            builder: (_) => SliverList.builder(
+                itemBuilder: (context, index) {
+                  final dataKey =
+                      _controller.feedListGroupByCategory.keys.toList()[index];
+                  final dataValue =
+                      _controller.feedListGroupByCategory[dataKey];
+                  return ExpansionTile(
+                    title: Text(dataKey),
+                    shape: Border.all(color: Colors.transparent),
+                    children: dataValue?.isEmpty == true
+                        ? []
+                        : dataValue!
+                            .map(
+                              (feed) => ListTile(
+                                dense: true,
+                                contentPadding: const EdgeInsets.only(
+                                  left: 40,
+                                  right: 28,
+                                ),
+                                title: Text(
+                                  feed.name,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                                onTap: () => Get.toNamed(
+                                    AppRouter.feedPageRouter,
+                                    arguments: {
+                                      FeedPageController.parametersFeed: feed
+                                    }),
+                              ),
+                            )
+                            .toList(),
+                  );
+                },
+                itemCount: _controller.feedListGroupByCategory.length)),
+      ],
     );
   }
 }

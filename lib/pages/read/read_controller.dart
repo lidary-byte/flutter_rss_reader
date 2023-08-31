@@ -1,14 +1,24 @@
 import 'package:dio/dio.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/models/post.dart';
 import 'package:get/get.dart';
-import 'package:html_main_element/html_main_element.dart';
 import 'package:html/parser.dart' as html_parser;
+import 'package:html_main_element/html_main_element.dart';
 
 class ReadController extends GetxController {
+  InAppWebViewController? _webViewController;
+
   final Post post = Get.arguments[parametersPost];
   final bool fullText = Get.arguments[parametersFullText];
   final String fontDir = Get.arguments[parametersFontDir];
+
+  int fontSize = prefs.getInt('fontSize') ?? 18;
+  double lineHeight = prefs.getDouble('lineheight') ?? 1.5;
+  int pagePadding = prefs.getInt('pagePadding') ?? 18;
+  String textAlign = prefs.getString('textAlign') ?? 'justify';
+  String customCss = prefs.getString('customCss') ?? '';
 
   String _cssStr = '';
   String get cssStr => _cssStr;
@@ -17,7 +27,35 @@ class ReadController extends GetxController {
   @override
   void onInit() {
     _titleStr = '<h1>${post.title}</h1>';
+    createCss();
+    super.onInit();
+  }
 
+  String? _contentHtml; // 内容 html
+  String? get contentHtml => _contentHtml;
+  // 根据 url 获取 html 内容
+  Future<void> initData(String url) async {
+    if (fullText && post.read != 2 && post.openType == 0) {
+      final response = await Dio().get(url);
+      final document = html_parser.parse(response.data);
+      final bestElemReadability =
+          readabilityMainElement(document.documentElement!);
+      post.content = bestElemReadability.outerHtml;
+      post.read = 2;
+      post.updateToDb();
+    }
+    _contentHtml = post.content;
+    update(['content']);
+    _changeStyle = false;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    initData(post.link);
+  }
+
+  void createCss() {
     final String textColor = Get.theme.textTheme.bodyLarge!.color!.value
         .toRadixString(16)
         .substring(2);
@@ -26,7 +64,7 @@ class ReadController extends GetxController {
     _cssStr = '''
 @font-face {
   font-family: 'customFont';
-  src: url('$fontDir/${themeFont}');
+  src: url('$fontDir/$cacheThemeFont');
 }
 body {
   font-family: 'customFont';
@@ -39,7 +77,7 @@ body {
   margin: 0;
   word-wrap: break-word;
   padding: 12px ${pagePadding}px !important;
-  text-align: ${textAlign};
+  text-align: $textAlign;
 }
 h1 {
   font-size: 1.5em;
@@ -88,89 +126,74 @@ table, th, td {
   border: 1px solid #$textColor;
   border-collapse: collapse;
 }
-${customCss}
+$customCss
 ''';
-    super.onInit();
   }
 
-  int _index = 0; // 堆叠索引
-  int get index => _index;
-  String _contentHtml = ''; // 内容 html
-  String get contentHtml => _contentHtml;
-  // 根据 url 获取 html 内容
-  Future<void> initData(String url) async {
-    if (fullText && post.read != 2 && post.openType == 0) {
-      _index = 0;
-      update();
+  void changeStylePage() {
+    Get.toNamed(AppRouter.readSettingPage)?.then((value) {
+      if (_changeStyle) {
+        createCss();
+        _webViewController?.injectCSSCode(source: cssStr);
+      }
+    });
+  }
 
-      final response = await Dio().get(url);
-      final document = html_parser.parse(response.data);
-      final bestElemReadability =
-          readabilityMainElement(document.documentElement!);
-      post.content = bestElemReadability.outerHtml;
-      post.read = 2;
-      post.updateToDb();
+  void setWebViewController(InAppWebViewController webViewController) {
+    _webViewController = webViewController;
+  }
 
-      _contentHtml = post.content;
-      _index = 1;
-      update();
-    } else {
-      _contentHtml = post.content;
-      _index = 1;
-      update();
+  /// 阅读页面样式相关设置
+  bool _changeStyle = false;
+
+  Future<void> changeFontSize(int? size) async {
+    if (size == null || size == fontSize) {
+      return;
     }
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    initData(post.link);
-  }
-
-  int fontSize = prefs.getInt('fontSize') ?? 18;
-  double lineHeight = prefs.getDouble('lineheight') ?? 1.5;
-  int pagePadding = prefs.getInt('pagePadding') ?? 18;
-  String textAlign = prefs.getString('textAlign') ?? 'justify';
-  String customCss = prefs.getString('customCss') ?? '';
-
-  Future<void> changeFontSize(int size) async {
     await prefs.setInt('fontSize', size);
-    setState(() {
-      fontSize = size;
-    });
+    fontSize = size;
+    _changeStyle = true;
+    update(['font_size']);
   }
 
-  Future<void> changeLineHeight(double height) async {
+  Future<void> changeLineHeight(double? height) async {
+    if (height == null || height == lineHeight) {
+      return;
+    }
     await prefs.setDouble('lineheight', height);
-    setState(() {
-      lineHeight = height;
-    });
+    lineHeight = height;
+    _changeStyle = true;
+    update(['line_height']);
   }
 
-  Future<void> changePagePadding(int padding) async {
+  Future<void> changePagePadding(int? padding) async {
+    if (padding == null || padding == pagePadding) {
+      return;
+    }
     await prefs.setInt('pagePadding', padding);
-    setState(() {
-      pagePadding = padding;
-    });
+    pagePadding = padding;
+    _changeStyle = true;
+    update(['page_padding']);
   }
 
-  Future<void> changeTextAlign(String align) async {
+  Future<void> changeTextAlign(String? align) async {
+    if (align == null || align == textAlign) {
+      return;
+    }
     await prefs.setString('textAlign', align);
-    setState(() {
-      textAlign = align;
-    });
+    textAlign = align;
+    _changeStyle = true;
+    update(['text_alignment']);
   }
 
-  Future<void> changeCustomCss(String css) async {
+  Future<void> changeCustomCss(String? css) async {
+    if (css == null || css.isBlank == true || css == customCss) {
+      return;
+    }
     await prefs.setString('customCss', css);
-    setState(() {
-      customCss = css;
-    });
-  }
-
-  void setState(VoidCallback fn) {
-    fn();
-    notifyListeners();
+    customCss = css;
+    _changeStyle = true;
+    update(['custom_css']);
   }
 
   static const String parametersPost = 'post';

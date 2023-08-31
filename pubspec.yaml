@@ -2,7 +2,7 @@ name: flutter_rss_reader
 description: A new Flutter project.
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.1.0 <4.0.0'
+  sdk: ">=3.1.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -38,7 +38,7 @@ dependencies:
   flutter_inappwebview: ^5.7.2+3 # 创建 WebView
   path: ^1.8.3
   shared_preferences: ^2.2.0 # 本地存储
-  provider: ^6.0.5 # 状态管理
+  # provider: ^6.0.5 # 状态管理
   share_plus: ^7.1.0 # 分享
   file_picker: ^5.3.4 # 文件选择
   opml: ^0.4.0 # OPML 解析
@@ -50,9 +50,9 @@ dependencies:
   dynamic_color: ^1.6.6
   xml: ^6.3.0
   intl: ^0.18.1
-  animations: ^2.0.7
   get: ^4.6.5
   animated_bottom_navigation_bar: ^1.2.0
+  animations: ^2.0.8
 
 dev_dependencies:
   flutter_test:

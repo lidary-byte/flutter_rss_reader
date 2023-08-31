@@ -1,5 +1,5 @@
 const zh = {
-  "meRead": "悦读",
+  "meRead": "ARead",
   "markAllAsRead": "全标已读",
   "addFeed": "添加订阅",
   "settings": "设置",
@@ -77,8 +77,6 @@ const zh = {
   "checkForUpdates": "检查更新",
   "getLatestVersion": "获取应用最新版本",
   "contactAndOpenSource": "联系作者与开源地址",
-  "openSourceLicenses": "开源协议",
-  "viewOpenSourceLicenses": "查看应用开源协议",
   "others": "其他",
   "startBackgroundImport": "开始后台导入……",
   "importSuccess": "导入成功",

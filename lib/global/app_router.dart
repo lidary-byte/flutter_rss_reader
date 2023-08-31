@@ -2,11 +2,12 @@ import 'package:flutter_rss_reader/pages/feed/add_feed/add_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page.dart';
 import 'package:flutter_rss_reader/pages/home/home_page.dart';
+import 'package:flutter_rss_reader/pages/read/read_page.dart';
 import 'package:flutter_rss_reader/pages/setting/block_setting_page/block_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/dynamic_color_setting_page/dynamic_color_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/font_setting_page/font_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/language_setting_page/language_setting_page.dart';
-import 'package:flutter_rss_reader/pages/setting/read_setting_page/read_setting_page.dart';
+import 'package:flutter_rss_reader/pages/read/read_setting_page/read_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/text_scale_factor_setting_page/text_scale_factor_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/theme_setting_page/theme_setting_page.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -41,6 +42,6 @@ abstract class AppRouter {
         page: () => TextScaleFactorSettingPage()),
     GetPage(name: readSettingPage, page: () => ReadSettingPage()),
     GetPage(name: blockSettingPage, page: () => BlockSettingPage()),
-    // GetPage(name: readPageRouter, page: () => ReadPage()),
+    GetPage(name: readPageRouter, page: () => ReadPage()),
   ];
 }
