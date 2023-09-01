@@ -34,13 +34,11 @@ class EditFeedController extends GetxController {
   void saveOrUpdate() async {
     feed?.name = _nameController.text;
     feed?.category = _categoryController.text;
+    await feed?.insertOrUpdateToDb();
     // 如果 feed 不存在，添加 feed，否则更新 feed
+
     if (await Feed.isExist(feed?.url ?? '')) {
-      await feed?.updateToDb();
-      await feed?.updatePostFeedName();
-      await feed?.updatePostsOpenType();
-    } else {
-      await feed?.insertToDb();
+      await feed?.updatePostsFeedNameAndOpenTypeAndFullText();
     }
     if (_editFeed) {
       Get.find<FeedPageController>().refreshPost();
@@ -50,7 +48,7 @@ class EditFeedController extends GetxController {
   }
 
   void readFillText(bool value) {
-    feed?.fullText = value ? 1 : 0;
+    feed?.fullText = value;
     update(['switch_filltext']);
   }
 

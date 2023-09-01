@@ -19,12 +19,12 @@ class AboutPage extends StatelessWidget {
               padding: EdgeInsets.fromLTRB(0, 24, 0, 8),
               child: CircleAvatar(
                 radius: 50,
-                backgroundImage: AssetImage('assets/meread.png'),
+                backgroundImage: AssetImage('assets/aRead.png'),
               ),
             ),
             Center(
               child: Text(
-                'meRead'.tr,
+                'aRead'.tr,
                 style: const TextStyle(fontSize: 20),
               ),
             ),
@@ -52,7 +52,7 @@ class AboutPage extends StatelessWidget {
                 OutlinedButton(
                   onPressed: () async {
                     await launchUrl(
-                      Uri.parse("https://github.com/gvenusleo/meread"),
+                      Uri.parse("https://github.com/gvenusleo/aRead"),
                       mode: LaunchMode.externalApplication,
                     );
                   },
@@ -62,7 +62,7 @@ class AboutPage extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             Text(
-              '© 2022 - 2023 ${'meRead'.tr}. All rights reserved.',
+              '© 2022 - 2023 ${'aRead'.tr}. All rights reserved.',
               style: const TextStyle(fontSize: 14),
             ),
             const SizedBox(height: 24),

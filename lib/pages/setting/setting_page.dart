@@ -53,21 +53,21 @@ class SettingPage extends StatelessWidget {
             subtitle: Text('exportFeedsToOPML'.tr),
             onTap: _controller.exportOPML,
           ),
-          ListTileGroupTitle(title: 'others'.tr),
-          ListTile(
-            leading: const Icon(Icons.update_outlined),
-            iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-            title: Text('checkForUpdates'.tr),
-            subtitle: Text('getLatestVersion'.tr),
-            onTap: checkUpdate,
-          ),
-          ListTile(
-            leading: const Icon(Icons.android_outlined),
-            iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-            title: Text('about'.tr),
-            subtitle: Text('contactAndOpenSource'.tr),
-            onTap: () => Get.to(const AboutPage()),
-          ),
+          // ListTileGroupTitle(title: 'others'.tr),
+          // ListTile(
+          //   leading: const Icon(Icons.update_outlined),
+          //   iconColor: Theme.of(context).textTheme.bodyLarge!.color,
+          //   title: Text('checkForUpdates'.tr),
+          //   subtitle: Text('getLatestVersion'.tr),
+          //   onTap: checkUpdate,
+          // ),
+          // ListTile(
+          //   leading: const Icon(Icons.android_outlined),
+          //   iconColor: Theme.of(context).textTheme.bodyLarge!.color,
+          //   title: Text('about'.tr),
+          //   subtitle: Text('contactAndOpenSource'.tr),
+          //   onTap: () => Get.to(const AboutPage()),
+          // ),
         ]))
       ],
     );
@@ -156,10 +156,10 @@ class SettingPage extends StatelessWidget {
       ),
     );
     try {
-      // 通过访问 https://github.com/gvenusleo/MeRead/releases/latest 获取最新版本号
+      // 通过访问 https://github.com/gvenusleo/aRead/releases/latest 获取最新版本号
       final Dio dio = Dio();
       final response = await dio.get(
-        'https://github.com/gvenusleo/MeRead/releases/latest',
+        'https://github.com/gvenusleo/aRead/releases/latest',
       );
       // 获取网页 title
       final String title =
@@ -193,7 +193,7 @@ class SettingPage extends StatelessWidget {
                   onPressed: () async {
                     await launchUrl(
                       Uri.parse(
-                          'https://github.com/gvenusleo/MeRead/releases/latest'),
+                          'https://github.com/gvenusleo/aRead/releases/latest'),
                       mode: LaunchMode.externalApplication,
                     );
                   },

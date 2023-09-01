@@ -27,7 +27,7 @@ Future<Feed?> parseFeed(String url,
         url: url,
         description: rssFeed.description!,
         category: categoryName,
-        fullText: 0,
+        fullText: false,
         openType: defaultOpenType,
       );
     } catch (e) {
@@ -37,7 +37,7 @@ Future<Feed?> parseFeed(String url,
         url: url,
         description: atomFeed.subtitle!,
         category: categoryName,
-        fullText: 0,
+        fullText: false,
         openType: defaultOpenType,
       );
     }
@@ -103,8 +103,10 @@ Future<void> parseRSSPostFuturesItem(RssItem item, Feed feed) async {
     link: item.link!,
     content: item.description!,
     pubDate: item.pubDate!.toString(),
-    read: 0,
-    favorite: 0,
+    read: false,
+    fullText: false,
+    fullTextCache: false,
+    favorite: false,
     openType: feed.openType,
   );
   await post.insertToDb();
@@ -130,8 +132,10 @@ Future<void> parseAtomPostFuturesItem(AtomItem item, Feed feed) async {
     link: item.links![0].href!,
     content: item.content!,
     pubDate: item.updated!.toString(),
-    read: 0,
-    favorite: 0,
+    read: false,
+    favorite: false,
+    fullText: false,
+    fullTextCache: false,
     openType: feed.openType,
   );
   await post.insertToDb();
@@ -156,7 +160,7 @@ Future<int> parseOpml(FilePickerResult result) async {
                 Feed? feedObj =
                     await parseFeed(feed.xmlUrl!, categoryName, feed.title!);
                 if (feedObj != null) {
-                  await feedObj.insertToDb();
+                  await feedObj.insertOrUpdateToDb();
                 } else {
                   failCount++;
                 }

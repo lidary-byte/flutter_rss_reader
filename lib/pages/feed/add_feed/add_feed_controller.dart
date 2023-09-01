@@ -1,8 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
-import 'package:flutter_rss_reader/utils/parse.dart';
-import 'package:flutter_rss_reader/widgets/snackbar.dart';
+import 'package:flutter_rss_reader/utils/parse_feed_util.dart';
+import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
 
 class AddFeedController extends GetxController {
@@ -25,13 +25,13 @@ class AddFeedController extends GetxController {
 
   void parse() async {
     if (await Feed.isExist(_urlController.text)) {
-      showSnackBar(content: 'feedAlreadyExists'.tr);
+      toast('feedAlreadyExists'.tr);
       return;
     }
 
     _feed = await parseFeed(_urlController.text);
     if (_feed == null) {
-      showSnackBar(content: 'unableToParseFeed'.tr);
+      toast('unableToParseFeed'.tr);
       return;
     }
     update(['feed']);

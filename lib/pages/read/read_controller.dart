@@ -35,13 +35,14 @@ class ReadController extends GetxController {
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
   Future<void> initData(String url) async {
-    if (fullText && post.read != 2 && post.openType == 0) {
+    if (fullText && post.fullTextCache == false && post.openType == 0) {
       final response = await Dio().get(url);
       final document = html_parser.parse(response.data);
       final bestElemReadability =
           readabilityMainElement(document.documentElement!);
       post.content = bestElemReadability.outerHtml;
-      post.read = 2;
+      post.read = true;
+      post.fullTextCache = true;
       post.updateToDb();
     }
     _contentHtml = post.content;

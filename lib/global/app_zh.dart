@@ -1,5 +1,5 @@
 const zh = {
-  "meRead": "ARead",
+  "aRead": "ARead",
   "markAllAsRead": "全标已读",
   "addFeed": "添加订阅",
   "settings": "设置",

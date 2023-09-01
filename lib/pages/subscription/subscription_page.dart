@@ -14,7 +14,7 @@ class SubscriptionPage extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverAppBar.large(
-          title: Text('meRead'.tr),
+          title: Text('aRead'.tr),
           actions: [
             IconButton(
                 onPressed: _controller.toAddFeedPage,

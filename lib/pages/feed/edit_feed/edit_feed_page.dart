@@ -56,7 +56,7 @@ class EditFeedPage extends StatelessWidget {
               GetBuilder<EditFeedController>(
                 id: 'switch_filltext',
                 builder: (_) => SwitchListTile(
-                  value: _controller.feed?.fullText == 1,
+                  value: _controller.feed?.fullText ?? false,
                   title: Text('fullText'.tr),
                   onChanged: _controller.readFillText,
                 ),

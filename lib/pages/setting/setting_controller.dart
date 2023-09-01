@@ -35,7 +35,7 @@ class SettingController extends GetxController {
     String opmlStr = await exportOpml();
     // opmlStr 字符串写入 feeds.opml 文件并分享，分享后删除文件
     final Directory tempDir = await getTemporaryDirectory();
-    final File file = File('${tempDir.path}/feeds-from-MeReader.xml');
+    final File file = File('${tempDir.path}/feeds-from-aReader.xml');
     await file.writeAsString(opmlStr);
     await Share.shareXFiles(
       [XFile(file.path)],

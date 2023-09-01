@@ -21,7 +21,10 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       extensions: [
         CustomTheme(
           colorLabelColor: Colors.black,
-          bottomNavigationBarBackgroundColor: Colors.white,
+          bottomNavigationBarBackgroundColor:
+              (cacheDynamicColor && lightDynamic != null)
+                  ? lightDynamic.secondaryContainer
+                  : HexColor('#F5EDEB'),
           activeNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
               ? lightDynamic.primary
               : HexColor('#FFA400'),
@@ -51,7 +54,10 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       extensions: [
         CustomTheme(
           colorLabelColor: Colors.white,
-          bottomNavigationBarBackgroundColor: HexColor('#373A36'),
+          bottomNavigationBarBackgroundColor:
+              (cacheDynamicColor && darkDynamic != null)
+                  ? darkDynamic.secondaryContainer
+                  : HexColor('#30271B'),
           activeNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
               ? darkDynamic.primary
               : HexColor('#FFA400'),

@@ -1,5 +1,5 @@
 const en = {
-  "meRead": "ARead",
+  "aRead": "ARead",
   "markAllAsRead": "Mark All as Read",
   "addFeed": "Add Feed",
   "settings": "Settings",

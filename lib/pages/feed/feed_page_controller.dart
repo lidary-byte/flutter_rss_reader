@@ -56,17 +56,25 @@ class FeedPageController extends GetxController {
   }
 
   void getPostList({List<String> refreshIds = const ['post_list']}) async {
-    _addPostListData(await feed?.getAllPosts(), refreshIds: refreshIds);
+    _addPostListData(await feed?.getPostByFeeds(), refreshIds: refreshIds);
   }
 
   Future<void> getUnreadPostList(
       {List<String> refreshIds = const ['post_list']}) async {
-    _addPostListData(await feed?.getUnreadPosts(), refreshIds: refreshIds);
+    _addPostListData(
+        (await Post.getAllByFeeds([feed!]))
+            .where((element) => !element.read)
+            .toList(),
+        refreshIds: refreshIds);
   }
 
   Future<void> getFavoritePostList(
       {List<String> refreshIds = const ['post_list']}) async {
-    _addPostListData(await feed?.getAllfavoritePosts(), refreshIds: refreshIds);
+    _addPostListData(
+        (await Post.getAllByFeeds([feed!]))
+            .where((element) => element.favorite)
+            .toList(),
+        refreshIds: refreshIds);
   }
 
   void _addPostListData(List<Post>? list,
@@ -100,7 +108,7 @@ class FeedPageController extends GetxController {
 
   /// 全部已读
   void markPostsAsRead() async {
-    await feed?.markPostsAsRead();
+    await Post.markAllRead(postList);
     refresh();
   }
 
@@ -159,8 +167,8 @@ class FeedPageController extends GetxController {
     }
 
     // 标记文章为已读
-    if (_postList[index].read == 0) {
-      _postList[index].markRead();
+    if (!_postList[index].read) {
+      _postList[index].markAsRead();
     }
   }
 

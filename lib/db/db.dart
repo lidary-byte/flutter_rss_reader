@@ -6,7 +6,7 @@ import 'package:sqflite/sqflite.dart';
 // 打开数据库，如果不存在则创建
 Future<Database> openDb() async {
   return openDatabase(
-    join(await getDatabasesPath(), 'meread.db'),
+    join(await getDatabasesPath(), 'aRead.db'),
     onCreate: (db, version) async {
       await db.execute(
         "CREATE TABLE feed(id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT, url TEXT, description TEXT, category TEXT, fullText INTEGER, openType INTEGER)",

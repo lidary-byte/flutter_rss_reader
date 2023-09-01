@@ -117,21 +117,16 @@ ${_controller.contentHtml}
             ),
           ),
         PopupMenuItem(
-          onTap: () => _controller.post.markUnread(),
+          onTap: () => _controller.post.markAsUnread(),
           child: Text(
             "markAsUnread".tr,
             style: Get.theme.textTheme.bodyMedium,
           ),
         ),
         PopupMenuItem(
-          onTap: () async {
-            _controller.post.favorite = _controller.post.favorite == 0 ? 1 : 0;
-            await _controller.post.changeFavorite();
-          },
+          onTap: () async => await _controller.post.changeFavorite(),
           child: Text(
-            _controller.post.favorite == 1
-                ? 'cancelCollect'.tr
-                : 'collectPost'.tr,
+            _controller.post.favorite ? 'cancelCollect'.tr : 'collectPost'.tr,
             style: Get.theme.textTheme.bodyMedium,
           ),
         ),
