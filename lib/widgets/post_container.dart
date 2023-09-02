@@ -8,49 +8,46 @@ class PostContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      // elevation: 0,
-      // color: Theme.of(context).colorScheme.surfaceVariant,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              post.title,
-              style: const TextStyle(fontSize: 16),
-            ),
-            const SizedBox(height: 4),
-            Wrap(
-              spacing: 8,
-              crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
-                if (post.read == 0)
-                  Icon(
-                    Icons.circle,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                if (post.favorite == 1)
-                  Icon(
-                    Icons.star_rounded,
-                    size: 16,
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-                Text(
-                  post.feedName,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12),
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            post.title,
+            style: const TextStyle(fontSize: 18),
+          ),
+          const SizedBox(height: 4),
+          Wrap(
+            spacing: 8,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              if (post.read)
+                Icon(
+                  Icons.circle,
+                  size: 15,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
-                Text(
-                  post.pubDate.substring(0, 16),
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(fontSize: 12),
-                )
-              ],
-            )
-          ],
-        ),
+              if (post.favorite)
+                Icon(
+                  Icons.bookmark,
+                  size: 16,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+              Text(
+                post.feedName,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 12),
+              ),
+              Text(
+                post.pubDate.substring(0, 16),
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(fontSize: 12),
+              )
+            ],
+          )
+        ],
       ),
     );
   }

@@ -22,42 +22,58 @@ class SubscriptionPage extends StatelessWidget {
           ],
         ),
         GetBuilder<SubscriptionController>(
-            builder: (_) => SliverList.builder(
-                itemBuilder: (context, index) {
-                  final dataKey =
-                      _controller.feedListGroupByCategory.keys.toList()[index];
-                  final dataValue =
-                      _controller.feedListGroupByCategory[dataKey];
-                  return ExpansionTile(
-                    title: Text(dataKey),
-                    shape: Border.all(color: Colors.transparent),
-                    children: dataValue?.isEmpty == true
-                        ? []
-                        : dataValue!
-                            .map(
-                              (feed) => ListTile(
-                                dense: true,
-                                contentPadding: const EdgeInsets.only(
-                                  left: 40,
-                                  right: 28,
-                                ),
-                                title: Text(
-                                  feed.name,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                onTap: () => Get.toNamed(
-                                    AppRouter.feedPageRouter,
-                                    arguments: {
-                                      FeedPageController.parametersFeed: feed
-                                    }),
-                              ),
-                            )
-                            .toList(),
-                  );
-                },
-                itemCount: _controller.feedListGroupByCategory.length)),
+            builder: (_) => _controller.feedListGroupByCategory.isEmpty
+                ? _emptyWidget()
+                : _contentWidget()),
       ],
+    );
+  }
+
+  Widget _contentWidget() {
+    return SliverList.builder(
+        itemBuilder: (context, index) {
+          final dataKey =
+              _controller.feedListGroupByCategory.keys.toList()[index];
+          final dataValue = _controller.feedListGroupByCategory[dataKey];
+          return ExpansionTile(
+            title: Text(dataKey),
+            shape: Border.all(color: Colors.transparent),
+            children: dataValue?.isEmpty == true
+                ? []
+                : dataValue!
+                    .map(
+                      (feed) => ListTile(
+                        dense: true,
+                        contentPadding: const EdgeInsets.only(
+                          left: 40,
+                          right: 28,
+                        ),
+                        title: Text(
+                          feed.name,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        onTap: () => Get.toNamed(AppRouter.feedPageRouter,
+                            arguments: {
+                              FeedPageController.parametersFeed: feed
+                            }),
+                      ),
+                    )
+                    .toList(),
+          );
+        },
+        itemCount: _controller.feedListGroupByCategory.length);
+  }
+
+  Widget _emptyWidget() {
+    return SliverToBoxAdapter(
+      child: Container(
+          alignment: Alignment.center,
+          padding: const EdgeInsets.only(top: 240),
+          child: Text(
+            'feedEmpty'.tr,
+            style: const TextStyle(fontSize: 22),
+          )),
     );
   }
 }

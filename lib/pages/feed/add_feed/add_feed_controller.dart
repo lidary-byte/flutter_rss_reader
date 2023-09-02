@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/utils/parse_feed_util.dart';
+import 'package:flutter_rss_reader/widgets/loading_widget.dart';
 import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
 
@@ -29,11 +30,14 @@ class AddFeedController extends GetxController {
       return;
     }
 
+    showLoadingDialog(title: '解析中...');
     _feed = await parseFeed(_urlController.text);
     if (_feed == null) {
+      dismissDialog();
       toast('unableToParseFeed'.tr);
       return;
     }
+    dismissDialog();
     update(['feed']);
   }
 }

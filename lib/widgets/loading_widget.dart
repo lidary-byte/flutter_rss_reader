@@ -1,6 +1,12 @@
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
+void dismissDialog() {
+  if (Get.isDialogOpen == true) {
+    Get.back();
+  }
+}
+
 void showLoadingDialog({String title = '加载中'}) {
   Get.dialog(LoadingWidget(loadingTitle: title));
 }

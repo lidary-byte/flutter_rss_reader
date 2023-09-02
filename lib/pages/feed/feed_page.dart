@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/models/post.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page_controller.dart';
 import 'package:flutter_rss_reader/widgets/post_container.dart';
+import 'package:flutter_rss_reader/widgets/sliver_status_page.dart';
 import 'package:get/get.dart';
 
 class FeedPage extends StatelessWidget {
@@ -46,8 +48,7 @@ class FeedPage extends StatelessWidget {
                           onTap: () => Get.toNamed(AppRouter.editFeedPageRouter,
                               arguments: {
                                 EditFeedController.parametersFeed:
-                                    _controller.feed,
-                                EditFeedController.editFeed: true
+                                    _controller.feed
                               }),
                           child: Text('editFeed'.tr),
                         ),
@@ -70,19 +71,22 @@ class FeedPage extends StatelessWidget {
                     //   child:
                     GetBuilder<FeedPageController>(
                         id: 'post_list',
-                        builder: (_) => SliverList.separated(
-                              itemCount: _controller.postList.length,
-                              // padding: const EdgeInsets.all(12),
-                              itemBuilder: (context, index) {
-                                return GestureDetector(
-                                  onTap: () => _controller.openPost(index),
-                                  child: PostContainer(
-                                      post: _controller.postList[index]),
+                        builder: (_) => SliverStatusPage<List<Post>>(
+                              contentWidget: (data) {
+                                return SliverList.separated(
+                                  itemCount: data.length,
+                                  itemBuilder: (context, index) {
+                                    return GestureDetector(
+                                      onTap: () => _controller.openPost(index),
+                                      child: PostContainer(post: data[index]),
+                                    );
+                                  },
+                                  separatorBuilder: (context, index) {
+                                    return const SizedBox(height: 4);
+                                  },
                                 );
                               },
-                              separatorBuilder: (context, index) {
-                                return const SizedBox(height: 4);
-                              },
+                              status: _controller.pageStatusBean,
                             )),
                 // )
               )

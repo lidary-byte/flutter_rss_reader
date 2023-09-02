@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/global/global_controller.dart';
-import 'package:flutter_rss_reader/pages/setting/about_page/about_page.dart';
 import 'package:flutter_rss_reader/pages/setting/setting_controller.dart';
 import 'package:flutter_rss_reader/widgets/list_tile_group_title.dart';
 import 'package:get/get.dart';

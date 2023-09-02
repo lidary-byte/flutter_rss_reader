@@ -15,9 +15,9 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.symmetric(horizontal: 24),
       ),
-      appBarTheme: const AppBarTheme().copyWith(
-          titleTextStyle: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black)),
+      // appBarTheme: const AppBarTheme().copyWith(
+      //     titleTextStyle: const TextStyle(
+      //         fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black)),
       extensions: [
         CustomTheme(
           colorLabelColor: Colors.black,
@@ -48,9 +48,9 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.symmetric(horizontal: 24),
       ),
-      appBarTheme: const AppBarTheme().copyWith(
-          titleTextStyle: const TextStyle(
-              fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white)),
+      // appBarTheme: const AppBarTheme().copyWith(
+      //     titleTextStyle: const TextStyle(
+      //         fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white)),
       extensions: [
         CustomTheme(
           colorLabelColor: Colors.white,

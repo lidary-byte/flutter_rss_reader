@@ -4,7 +4,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_rss_reader/global/com_constant.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/utils/font_manager.dart';
-import 'package:flutter_rss_reader/utils/parse.dart';
+import 'package:flutter_rss_reader/utils/opml_util.dart';
 import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
 import 'package:path_provider/path_provider.dart';
@@ -32,7 +32,7 @@ class SettingController extends GetxController {
   // 导出 OPML 文件
   Future<void> exportOPML() async {
     final String successText = 'shareOPMLFile'.tr;
-    String opmlStr = await exportOpml();
+    String opmlStr = await exportOpmlBase();
     // opmlStr 字符串写入 feeds.opml 文件并分享，分享后删除文件
     final Directory tempDir = await getTemporaryDirectory();
     final File file = File('${tempDir.path}/feeds-from-aReader.xml');

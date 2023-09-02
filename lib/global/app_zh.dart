@@ -93,5 +93,8 @@ const zh = {
   "gettingFullText": "正在获取全文……",
   "newVersionAvailable": "有新版本可用",
   "downloadNow": "是否立即前往下载？",
-  "download": "下载"
+  "download": "下载",
+  'feedEmpty': '你还没有订阅源',
+  'loadingErrorTip': '数据加载失败',
+  'retry': '重试'
 };

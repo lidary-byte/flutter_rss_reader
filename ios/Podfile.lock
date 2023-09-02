@@ -47,6 +47,8 @@ PODS:
   - FMDB (2.7.5):
     - FMDB/standard (= 2.7.5)
   - FMDB/standard (2.7.5)
+  - isar_flutter_libs (1.0.0):
+    - Flutter
   - OrderedSet (5.0.0)
   - path_provider_foundation (0.0.1):
     - Flutter
@@ -72,6 +74,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_inappwebview (from `.symlinks/plugins/flutter_inappwebview/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
+  - isar_flutter_libs (from `.symlinks/plugins/isar_flutter_libs/ios`)
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -97,6 +100,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappwebview/ios"
   fluttertoast:
     :path: ".symlinks/plugins/fluttertoast/ios"
+  isar_flutter_libs:
+    :path: ".symlinks/plugins/isar_flutter_libs/ios"
   path_provider_foundation:
     :path: ".symlinks/plugins/path_provider_foundation/darwin"
   share_plus:
@@ -116,6 +121,7 @@ SPEC CHECKSUMS:
   flutter_inappwebview: bfd58618f49dc62f2676de690fc6dcda1d6c3721
   fluttertoast: fafc4fa4d01a6a9e4f772ecd190ffa525e9e2d9c
   FMDB: 2ce00b547f966261cd18927a3ddb07cb6f3db82a
+  isar_flutter_libs: b69f437aeab9c521821c3f376198c4371fa21073
   OrderedSet: aaeb196f7fef5a9edf55d89760da9176ad40b93c
   path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
   SDWebImage: 750adf017a315a280c60fde706ab1e552a3ae4e9

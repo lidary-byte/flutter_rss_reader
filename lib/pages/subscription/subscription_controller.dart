@@ -1,30 +1,34 @@
 import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:get/get.dart';
+import 'package:isar/isar.dart';
 
 class SubscriptionController extends GetxController {
   Map<String, List<Feed>> _feedListGroupByCategory = {};
   Map<String, List<Feed>> get feedListGroupByCategory =>
       _feedListGroupByCategory;
+  Stream<void>? _feedSteream;
+
+  @override
+  void onReady() {
+    super.onReady();
+
+    /// 对数据源进行监听 有变化时刷新
+    _feedSteream = isar.feeds.where().watchLazy();
+    _feedSteream?.listen((_) {
+      getFeedList();
+    });
+    getFeedList();
+  }
 
   void toAddFeedPage() {
     // 跨页面了 不能通过result刷新
     Get.toNamed(AppRouter.addFeedPageRouter);
-    // ?.then((value) {
-    //   if (value != null && value) {
-    //     getFeedList();
-    //   }
-    // });
   }
 
   void getFeedList() async {
     _feedListGroupByCategory = await Feed.groupByCategory();
     update();
-  }
-
-  @override
-  void onReady() {
-    super.onReady();
-    getFeedList();
   }
 }
