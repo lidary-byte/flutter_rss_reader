@@ -1,6 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/models/post.dart';
@@ -9,6 +9,10 @@ import 'package:html/parser.dart' as html_parser;
 import 'package:html_main_element/html_main_element.dart';
 
 class ReadController extends GetxController {
+  final CancelToken _cancelToken = CancelToken();
+
+  InAppWebViewController? _webViewController;
+
   final Post post = Get.arguments[parametersPost];
   final String fontDir = Get.arguments[parametersFontDir];
 
@@ -18,40 +22,38 @@ class ReadController extends GetxController {
   String textAlign = prefs.getString('textAlign') ?? 'justify';
   String customCss = prefs.getString('customCss') ?? '';
 
-  Map<String, Style> _cssMap = {};
-  Map<String, Style> get cssMap => _cssMap;
+  String _css = '';
+  String get css => _css;
   String _titleStr = '';
   String get titleStr => _titleStr;
-  @override
-  void onInit() {
-    _titleStr = '<h1>${post.title}</h1>';
-    _createCss();
-    super.onInit();
-  }
 
   String? _contentHtml; // 内容 html
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
   Future<void> initData(String url) async {
     if (post.fullText && !post.fullTextCache && post.openType == 0) {
-      final response = await Dio().get(url);
+      final response =
+          await ApiProvider().dio.get(url, cancelToken: _cancelToken);
       final document = html_parser.parse(response.data);
       final bestElemReadability =
           readabilityMainElement(document.documentElement!);
       post.content = bestElemReadability.outerHtml;
-      post.read = true;
       post.fullTextCache = true;
-      post.updateToDb();
     }
     _contentHtml = post.content;
     update(['content']);
     _changeStyle = false;
+    if (!post.read) {
+      post.read = true;
+    }
+    post.updateToDb();
   }
 
   @override
   void onReady() {
     super.onReady();
-    debugPrint('------------${post.link}');
+    _titleStr = '<h1>${post.title}</h1>';
+    _createCss();
     initData(post.link);
   }
 
@@ -59,60 +61,76 @@ class ReadController extends GetxController {
     Get.toNamed(AppRouter.readSettingPage)?.then((value) {
       if (_changeStyle) {
         _createCss();
-        _changeStyle = false;
-        update(['content']);
+        _webViewController?.injectCSSCode(source: _css);
       }
     });
   }
 
+  void setWebViewController(InAppWebViewController webViewController) {
+    _webViewController = webViewController;
+  }
+
   void _createCss() {
-    _cssMap = {
-      'body': Style(
-        fontSize: FontSize(
-          fontSize.toDouble(),
-        ),
-        lineHeight: LineHeight(
-          lineHeight,
-        ),
-        textAlign: {
-              'left': TextAlign.left,
-              'right': TextAlign.right,
-              'center': TextAlign.center,
-              'justify': TextAlign.justify,
-            }[textAlign] ??
-            TextAlign.justify,
-      ),
-      'h1': Style(
-        fontSize: FontSize(
-          fontSize.toDouble() * 1.5,
-        ),
-      ),
-      'h2': Style(
-        fontSize: FontSize(
-          fontSize.toDouble() * 1.3,
-        ),
-      ),
-      'h3': Style(
-        fontSize: FontSize(
-          fontSize.toDouble() * 1.1,
-        ),
-      ),
-      'h4': Style(
-        fontSize: FontSize(
-          fontSize.toDouble(),
-        ),
-      ),
-      'h5': Style(
-        fontSize: FontSize(
-          fontSize.toDouble(),
-        ),
-      ),
-      'h6': Style(
-        fontSize: FontSize(
-          fontSize.toDouble(),
-        ),
-      ),
-    };
+    _css = '''
+@font-face {
+  font-family: 'customFont';
+  src: url('$fontDir/$cacheThemeFont');
+}
+body {
+  font-family: 'customFont';
+  font-size: ${fontSize}px;
+  line-height: $lineHeight; 
+  width: auto;
+  height: auto;
+  margin: 0;
+  word-wrap: break-word;
+  padding: 12px ${pagePadding}px !important;
+  text-align: $textAlign;
+}
+h1 {
+  font-size: 1.5em;
+  font-weight: 700;
+}
+h2 {
+  font-size: 1.25em;
+  font-weight: 700;
+}
+h3,h4,h5,h6 {
+  font-size: 1.0em;
+  font-weight: 700;
+}
+img,figure,video,iframe {
+  max-width: 100% !important;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+a { 
+  text-decoration: none;
+  padding-bottom: 1px;
+  word-break: break-all;
+}
+blockquote {
+  margin: 0;
+  padding: 0 0 0 16px;
+  border-left: 4px solid #9e9e9e;
+}
+pre {
+  white-space: pre-wrap;
+  word-break: break-all;
+}
+table {
+  width: 100% !important;
+  table-layout: fixed;
+}
+table td {
+  padding: 0 8px;
+}
+table, th, td { 
+  border-collapse: collapse;
+}
+$customCss
+''';
   }
 
   /// 阅读页面样式相关设置
@@ -166,6 +184,12 @@ class ReadController extends GetxController {
     customCss = css;
     _changeStyle = true;
     update(['custom_css']);
+  }
+
+  @override
+  void onClose() {
+    _cancelToken.cancel();
+    super.onClose();
   }
 
   static const String parametersPost = 'post';

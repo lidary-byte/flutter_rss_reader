@@ -61,13 +61,14 @@ class Post {
   }
 
   /// Post 插入数据库
+  /// 如果存在则是更新操作
   Future<void> insertToDb() async {
-    /* 根据 link 判断是否重复，如果重复则不插入 */
-    final List<Post> posts =
-        isar.posts.where().filter().linkEqualTo(link).findAllSync();
-    if (posts.isNotEmpty) {
-      return;
-    }
+    // /* 根据 link 判断是否重复，如果重复则不插入 */
+    // final List<Post> posts =
+    //     isar.posts.where().filter().linkEqualTo(link).findAllSync();
+    // if (posts.isNotEmpty) {
+    //   return;
+    // }
     await isar.writeTxn(() async {
       await isar.posts.put(this);
     });

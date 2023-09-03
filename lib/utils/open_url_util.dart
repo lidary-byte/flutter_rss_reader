@@ -5,17 +5,12 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 使用 [InAppBrowser] 打开一个 url
-void openUrl(String url) {
-  try {
-    // InAppBrowser browser = InAppBrowser();
-    // browser.openUrlRequest(
-    //   urlRequest: URLRequest(
-    //     url: Uri.parse(url),
-    //   ),
-    // );
+/// [thisApp] 是否在当前应用内打开
+void openUrl(String url, {bool thisApp = true}) {
+  if (thisApp) {
     Get.toNamed(AppRouter.webViewPageRouter,
         arguments: {WebViewController.parametersUrl: url});
-  } catch (e) {
+  } else {
     launchUrl(
       Uri.parse(url),
       mode: LaunchMode.externalApplication,

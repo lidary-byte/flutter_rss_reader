@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
@@ -12,10 +13,11 @@ import 'package:flutter_rss_reader/webfeed/domain/rss_item.dart';
 /// 参数：订阅源地址
 /// 返回：是否成功
 /// 注意：如果 [Post] 已存在，则不存入数据库
-Future<bool> parsePosts(Feed feed) async {
+Future<bool> parsePosts(Feed feed, {CancelToken? cancelToken}) async {
   try {
-    final response =
-        await ApiProvider().dio.get(feed.url); // Dio().get(feed.url);
+    final response = await ApiProvider()
+        .dio
+        .get(feed.url, cancelToken: cancelToken); // Dio().get(feed.url);
     final postXmlString = response.data;
     final String? feedLastUpdated = await feed.getLatesPubDate();
     try {

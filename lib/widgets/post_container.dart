@@ -23,7 +23,7 @@ class PostContainer extends StatelessWidget {
             spacing: 8,
             crossAxisAlignment: WrapCrossAlignment.center,
             children: [
-              if (post.read)
+              if (!post.read)
                 Icon(
                   Icons.circle,
                   size: 15,

@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/global/global_controller.dart';
-import 'package:flutter_rss_reader/global/message.dart';
+import 'package:flutter_rss_reader/language/message.dart';
 import 'package:flutter_rss_reader/theme/theme.dart';
 import 'package:get/get.dart';
 

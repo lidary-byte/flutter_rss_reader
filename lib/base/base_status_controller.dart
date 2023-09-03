@@ -21,9 +21,9 @@ class BaseGetxController extends GetxController {
   }
 
   void updateSuccessStatus<T>(T data, {List<Object> updateIds = const []}) {
-    if (_pageStatusBean is! SuccessStatusBean) {
-      _pageStatusBean = SuccessStatusBean(data: data);
-      update(updateIds);
-    }
+    // if (_pageStatusBean is! SuccessStatusBean) {
+    _pageStatusBean = SuccessStatusBean(data: data);
+    update(updateIds);
+    // }
   }
 }

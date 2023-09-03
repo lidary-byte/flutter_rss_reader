@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 
 class ApiProvider {
   static final ApiProvider _instance = ApiProvider._internal();
@@ -11,7 +10,7 @@ class ApiProvider {
   }
 
   ApiProvider._internal() {
-    _dio.interceptors
-        .add(LogInterceptor(requestBody: true, responseBody: true));
+    // _dio.interceptors
+    //     .add(LogInterceptor(requestBody: true, responseBody: true));
   }
 }

@@ -1,7 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/models/post.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
@@ -13,25 +14,34 @@ import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class FeedPageController extends BaseGetxController {
+  final CancelToken _cancelToken = CancelToken();
+
   Feed? _feed;
   Feed? get feed => _feed;
 
   final List<Post> _postList = [];
-  List<Post> get postList => _postList;
+  // List<Post> get postList => _postList;
 
-  /// 是否已读
+  ///  只显示未读
   bool _onlyUnread = false;
   bool get onlyUnread => _onlyUnread;
 
+  /// 只显示加标签的
   bool _onlyFavorite = false;
   bool get onlyFavorite => _onlyFavorite;
   String? _fontDir;
 
+  ///  监听数据是否被更改
+  Stream<void>? _postSteream;
   @override
   void onInit() {
     _feed = Get.arguments[parametersFeed];
     super.onInit();
     _initFontDir();
+    _postSteream = isar.posts.watchLazy();
+    _postSteream?.listen((_) {
+      getPostListToSql();
+    });
   }
 
   @override
@@ -42,77 +52,59 @@ class FeedPageController extends BaseGetxController {
 
   void refreshPost() async {
     if (_feed != null) {
+      //初始化数据库
       updateLoadingStatus(updateIds: ['post_list']);
-      bool parseFeed = await parsePosts(feed!);
+      bool parseFeed = await parsePosts(feed!, cancelToken: _cancelToken);
+
       if (!parseFeed) {
         toast(parseFeed ? 'updateSuccess'.tr : 'updateFailed'.tr);
         return;
       }
-      if (_onlyUnread) {
-        getUnreadPostList();
-      } else if (_onlyFavorite) {
-        getFavoritePostList();
-      } else {
-        getPostList();
-      }
+      getPostListToSql();
     }
   }
 
-  void getPostList({List<String> refreshIds = const ['post_list']}) async {
-    _addPostListData(await feed?.getPostByFeeds(), refreshIds: refreshIds);
-  }
-
-  Future<void> getUnreadPostList(
-      {List<String> refreshIds = const ['post_list']}) async {
-    _addPostListData(
-        (await Post.getAllByFeeds([feed!]))
-            .where((element) => !element.read)
-            .toList(),
-        refreshIds: refreshIds);
-  }
-
-  Future<void> getFavoritePostList(
-      {List<String> refreshIds = const ['post_list']}) async {
-    _addPostListData(
-        (await Post.getAllByFeeds([feed!]))
-            .where((element) => element.favorite)
-            .toList(),
-        refreshIds: refreshIds);
+  void getPostListToSql({List<String> refreshIds = const ['post_list']}) async {
+    if (_onlyUnread) {
+      _addPostListData(
+          (await feed?.getPostByFeeds())
+              ?.where((element) => !element.read)
+              .toList(),
+          refreshIds: refreshIds);
+    } else if (_onlyFavorite) {
+      _addPostListData(
+          (await feed?.getPostByFeeds())
+              ?.where((element) => element.favorite)
+              .toList(),
+          refreshIds: refreshIds);
+    } else {
+      _addPostListData(await feed?.getPostByFeeds(), refreshIds: refreshIds);
+    }
   }
 
   void _addPostListData(List<Post>? list,
       {List<String> refreshIds = const ['post_list']}) {
     _postList.clear();
     _postList.addAll(list ?? []);
-    updateSuccessStatus(_postList, updateIds: refreshIds);
+    updateSuccessStatus(list, updateIds: refreshIds);
   }
 
+  /// 查询未读
   void changeReadStatus() {
     _onlyUnread = !_onlyUnread;
     _onlyFavorite = false;
-    if (_onlyUnread) {
-      getUnreadPostList(
-          refreshIds: ['post_list', 'only_unread', 'only_favorite']);
-    } else {
-      getPostList(refreshIds: ['post_list', 'only_unread', 'only_favorite']);
-    }
+    getPostListToSql(refreshIds: ['post_list', 'only_unread', 'only_favorite']);
   }
 
   void changeFavoriteStatus() {
     _onlyFavorite = !_onlyFavorite;
     _onlyUnread = false;
-    if (_onlyFavorite) {
-      getFavoritePostList(
-          refreshIds: ['post_list', 'only_unread', 'only_favorite']);
-    } else {
-      getPostList(refreshIds: ['post_list', 'only_unread', 'only_favorite']);
-    }
+    getPostListToSql(refreshIds: ['post_list', 'only_unread', 'only_favorite']);
   }
 
   /// 全部已读
   void markPostsAsRead() async {
-    await Post.markAllRead(postList);
-    refresh();
+    await Post.markAllRead(_postList);
   }
 
   void deleteFeed() {
@@ -140,15 +132,8 @@ class FeedPageController extends BaseGetxController {
 
   void openPost(int index) async {
     final post = _postList[index];
-    if (post.openType == 1) {
-      /* 在应用内标签页中打开 */
-      openUrl(post.link);
-    } else if (post.openType == 2) {
-      /* 系统浏览器打开 */
-      launchUrl(
-        Uri.parse(post.link),
-        mode: LaunchMode.externalApplication,
-      );
+    if (post.openType == 1 || post.openType == 2) {
+      openUrl(post.link, thisApp: post.openType == 1);
     } else {
       Get.toNamed(AppRouter.readPageRouter, arguments: {
         ReadController.parametersFontDir: _fontDir,
@@ -166,9 +151,9 @@ class FeedPageController extends BaseGetxController {
   }
 
   @override
-  void dispose() {
-    ApiProvider().dio.close();
-    super.dispose();
+  void onClose() {
+    _cancelToken.cancel();
+    super.onClose();
   }
 
   static const String parametersFeed = 'feed';

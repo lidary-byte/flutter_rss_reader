@@ -2,7 +2,6 @@ import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:get/get.dart';
-import 'package:isar/isar.dart';
 
 class SubscriptionController extends GetxController {
   Map<String, List<Feed>> _feedListGroupByCategory = {};
@@ -15,7 +14,7 @@ class SubscriptionController extends GetxController {
     super.onReady();
 
     /// 对数据源进行监听 有变化时刷新
-    _feedSteream = isar.feeds.where().watchLazy();
+    _feedSteream = isar.feeds.watchLazy();
     _feedSteream?.listen((_) {
       getFeedList();
     });

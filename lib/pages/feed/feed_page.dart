@@ -22,12 +22,14 @@ class FeedPage extends StatelessWidget {
                 actions: [
                   GetBuilder<FeedPageController>(
                       id: 'only_unread',
-                      builder: (_) => IconButton(
-                            onPressed: _controller.changeReadStatus,
-                            icon: _controller.onlyUnread
-                                ? const Icon(Icons.radio_button_checked)
-                                : const Icon(Icons.radio_button_unchecked),
-                          )),
+                      builder: (_) {
+                        return IconButton(
+                          onPressed: _controller.changeReadStatus,
+                          icon: _controller.onlyUnread
+                              ? const Icon(Icons.radio_button_checked)
+                              : const Icon(Icons.radio_button_unchecked),
+                        );
+                      }),
                   GetBuilder<FeedPageController>(
                       id: 'only_favorite',
                       builder: (_) => IconButton(
