@@ -11,7 +11,6 @@ import 'package:flutter_rss_reader/utils/open_url_util.dart';
 import 'package:flutter_rss_reader/utils/parse_post_util.dart';
 import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class FeedPageController extends BaseGetxController {
   final CancelToken _cancelToken = CancelToken();
