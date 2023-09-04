@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
+import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/models/post.dart';
@@ -8,7 +9,7 @@ import 'package:get/get.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html_main_element/html_main_element.dart';
 
-class ReadController extends GetxController {
+class ReadController extends BaseGetxController {
   final CancelToken _cancelToken = CancelToken();
 
   InAppWebViewController? _webViewController;
@@ -30,10 +31,11 @@ class ReadController extends GetxController {
   String? _contentHtml; // 内容 html
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
-  Future<void> initData(String url) async {
+  void _initData() async {
+    updateLoadingStatus(updateIds: ['content']);
     if (post.fullText && !post.fullTextCache && post.openType == 0) {
       final response =
-          await ApiProvider().dio.get(url, cancelToken: _cancelToken);
+          await ApiProvider().dio.get(post.link, cancelToken: _cancelToken);
       final document = html_parser.parse(response.data);
       final bestElemReadability =
           readabilityMainElement(document.documentElement!);
@@ -41,7 +43,8 @@ class ReadController extends GetxController {
       post.fullTextCache = true;
     }
     _contentHtml = post.content;
-    update(['content']);
+
+    updateSuccessStatus(contentHtml, updateIds: ['content']);
     _changeStyle = false;
     if (!post.read) {
       post.read = true;
@@ -54,7 +57,7 @@ class ReadController extends GetxController {
     super.onReady();
     _titleStr = '<h1>${post.title}</h1>';
     _createCss();
-    initData(post.link);
+    _initData();
   }
 
   void changeStylePage() {
@@ -71,6 +74,14 @@ class ReadController extends GetxController {
   }
 
   void _createCss() {
+    final String textColor = Get.theme.textTheme.bodyLarge!.color!.value
+        .toRadixString(16)
+        .substring(2);
+    final String backgroundColor =
+        Get.theme.scaffoldBackgroundColor.value.toRadixString(16).substring(2);
+    final String themeColor =
+        Get.theme.colorScheme.primary.value.toRadixString(16).substring(2);
+
     _css = '''
 @font-face {
   font-family: 'customFont';
@@ -79,7 +90,9 @@ class ReadController extends GetxController {
 body {
   font-family: 'customFont';
   font-size: ${fontSize}px;
-  line-height: $lineHeight; 
+  line-height: $lineHeight;
+  color: #$textColor;
+  background-color: #$backgroundColor;
   width: auto;
   height: auto;
   margin: 0;
@@ -105,8 +118,11 @@ img,figure,video,iframe {
   margin: 0 auto;
   display: block;
 }
-a { 
+
+a {
+  color: #$themeColor;
   text-decoration: none;
+  border-bottom: 1px solid #$themeColor;
   padding-bottom: 1px;
   word-break: break-all;
 }
@@ -126,7 +142,9 @@ table {
 table td {
   padding: 0 8px;
 }
-table, th, td { 
+
+table, th, td {
+  border: 1px solid #$textColor;
   border-collapse: collapse;
 }
 $customCss

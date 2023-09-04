@@ -96,5 +96,7 @@ const zh = {
   "download": "下载",
   'feedEmpty': '你还没有订阅源',
   'loadingErrorTip': '数据加载失败',
-  'retry': '重试'
+  'retry': '重试',
+  'onlyUnRead': '只显示未读',
+  'onlyUnFavorite': '只显示收藏'
 };

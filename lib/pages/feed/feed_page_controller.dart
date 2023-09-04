@@ -92,13 +92,13 @@ class FeedPageController extends BaseGetxController {
   void changeReadStatus() {
     _onlyUnread = !_onlyUnread;
     _onlyFavorite = false;
-    getPostListToSql(refreshIds: ['post_list', 'only_unread', 'only_favorite']);
+    getPostListToSql(refreshIds: ['post_list', 'popup_menu']);
   }
 
   void changeFavoriteStatus() {
     _onlyFavorite = !_onlyFavorite;
     _onlyUnread = false;
-    getPostListToSql(refreshIds: ['post_list', 'only_unread', 'only_favorite']);
+    getPostListToSql(refreshIds: ['post_list', 'popup_menu']);
   }
 
   /// 全部已读

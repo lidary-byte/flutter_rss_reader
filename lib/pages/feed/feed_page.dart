@@ -21,48 +21,12 @@ class FeedPage extends StatelessWidget {
                 title: Text(_controller.feed?.name ?? ''),
                 actions: [
                   GetBuilder<FeedPageController>(
-                      id: 'only_unread',
-                      builder: (_) {
-                        return IconButton(
-                          onPressed: _controller.changeReadStatus,
-                          icon: _controller.onlyUnread
-                              ? const Icon(Icons.radio_button_checked)
-                              : const Icon(Icons.radio_button_unchecked),
-                        );
-                      }),
-                  GetBuilder<FeedPageController>(
-                      id: 'only_favorite',
-                      builder: (_) => IconButton(
-                            onPressed: _controller.changeFavoriteStatus,
-                            icon: _controller.onlyFavorite
-                                ? const Icon(Icons.bookmark)
-                                : const Icon(Icons.bookmark_border_outlined),
-                          )),
-                  PopupMenuButton(
-                    position: PopupMenuPosition.under,
-                    itemBuilder: (BuildContext context) {
-                      return <PopupMenuEntry>[
-                        PopupMenuItem(
-                          onTap: _controller.markPostsAsRead,
-                          child: Text('markAllAsRead'.tr),
-                        ),
-                        PopupMenuItem(
-                          onTap: () => Get.toNamed(AppRouter.editFeedPageRouter,
-                              arguments: {
-                                EditFeedController.parametersFeed:
-                                    _controller.feed
-                              }),
-                          child: Text('editFeed'.tr),
-                        ),
-                        const PopupMenuDivider(),
-                        // 删除订阅源
-                        PopupMenuItem(
-                          onTap: _controller.deleteFeed,
-                          child: Text('deleteFeed'.tr),
-                        ),
-                      ];
-                    },
-                  ),
+                    id: 'popup_menu',
+                    builder: (_) => PopupMenuButton(
+                      position: PopupMenuPosition.under,
+                      itemBuilder: (BuildContext context) => _popupWidget(),
+                    ),
+                  )
                 ],
               ),
               SliverPadding(
@@ -96,4 +60,52 @@ class FeedPage extends StatelessWidget {
           )),
     );
   }
+
+  List<PopupMenuEntry> _popupWidget() => [
+        PopupMenuItem(
+          onTap: _controller.markPostsAsRead,
+          child: Text('markAllAsRead'.tr),
+        ),
+        const PopupMenuDivider(),
+
+        /// 只看未读
+        PopupMenuItem(
+          onTap: _controller.changeReadStatus,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('onlyUnRead'.tr),
+              Icon(_controller.onlyUnread
+                  ? Icons.radio_button_checked
+                  : Icons.radio_button_unchecked)
+            ],
+          ),
+        ),
+        PopupMenuItem(
+          onTap: _controller.changeFavoriteStatus,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text('onlyUnFavorite'.tr),
+              Icon(_controller.onlyFavorite
+                  ? Icons.bookmark
+                  : Icons.bookmark_border_outlined)
+            ],
+          ),
+        ),
+        const PopupMenuDivider(),
+
+        /// 编辑订阅源
+        PopupMenuItem(
+          onTap: () => Get.toNamed(AppRouter.editFeedPageRouter,
+              arguments: {EditFeedController.parametersFeed: _controller.feed}),
+          child: Text('editFeed'.tr),
+        ),
+
+        // 删除订阅源
+        PopupMenuItem(
+          onTap: _controller.deleteFeed,
+          child: Text('deleteFeed'.tr),
+        ),
+      ];
 }

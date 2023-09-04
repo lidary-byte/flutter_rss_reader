@@ -11,13 +11,12 @@ class StatusPage<T> extends StatelessWidget {
   final VoidCallback? onRetry;
   final PageStatusBean status;
   final ContentWidget<T> contentWidget;
-  bool hasPadding;
+
   StatusPage(
       {super.key,
       required this.contentWidget,
       required this.status,
-      this.onRetry,
-      this.hasPadding = true});
+      this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -27,15 +26,9 @@ class StatusPage<T> extends StatelessWidget {
   Widget _statusWidget(BuildContext context) {
     if (status is LoadingStatusBean) {
       return Center(
-        child: Padding(
-          padding: EdgeInsets.only(
-              top: hasPadding
-                  ? MediaQuery.of(context).size.height / 2 - 200
-                  : 0),
-          child: Platform.isAndroid
-              ? const CircularProgressIndicator()
-              : const CupertinoActivityIndicator(radius: 18),
-        ),
+        child: Platform.isAndroid
+            ? const CircularProgressIndicator()
+            : const CupertinoActivityIndicator(radius: 18),
       );
     } else if (status is SuccessStatusBean) {
       final contentBean = status as SuccessStatusBean;

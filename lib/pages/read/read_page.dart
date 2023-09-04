@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
 import 'package:flutter_rss_reader/utils/open_url_util.dart';
+import 'package:flutter_rss_reader/widgets/status_page.dart';
 import 'package:get/get.dart';
 import 'package:share_plus/share_plus.dart';
 
@@ -26,6 +27,8 @@ class ReadPage extends StatelessWidget {
                 _controller.post.link,
                 subject: _controller.post.title,
               );
+              Clipboard.setData(
+                  ClipboardData(text: _controller.contentHtml ?? ''));
             },
             icon: const Icon(Icons.share_outlined),
           ),
@@ -36,23 +39,19 @@ class ReadPage extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: AnimatedSwitcher(
-          duration: const Duration(milliseconds: 800),
-          child: GetBuilder<ReadController>(
-              id: 'content',
-              builder: (_) => _controller.contentHtml == null
-                  ? _loadingWidget()
-                  : _buildBody()),
-        ),
+        child: GetBuilder<ReadController>(
+            id: 'content',
+            builder: (_) => StatusPage<String>(
+                contentWidget: (data) => _buildBody(),
+                status: _controller.pageStatusBean)),
       ),
     );
   }
 
   Widget _buildBody() {
     return InAppWebView(
-      initialData: _controller.post.openType == 0
-          ? InAppWebViewInitialData(
-              data: '''
+      initialData: InAppWebViewInitialData(
+        data: '''
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,42 +67,25 @@ ${_controller.contentHtml}
 </body>
 </html>
 ''',
-              baseUrl: Uri.directory(_controller.fontDir),
-            )
-          : null,
-      initialUrlRequest: _controller.post.openType != 0
-          ? URLRequest(
-              url: Uri.parse(
-                _controller.post.link
-                    .replaceFirst(RegExp(r'^http://'), 'https://'),
-              ),
-            )
-          : null,
+        baseUrl: Uri.directory(_controller.fontDir),
+      ),
       initialOptions: InAppWebViewGroupOptions(
         android: AndroidInAppWebViewOptions(
           useHybridComposition: true,
         ),
         crossPlatform: InAppWebViewOptions(
           transparentBackground: true,
+          useShouldOverrideUrlLoading: true,
         ),
       ),
+      /* 点击链接时使用内置标签页打开 */
+      shouldOverrideUrlLoading: (controller, navigationAction) async {
+        openUrl(navigationAction.request.url.toString());
+        return NavigationActionPolicy.CANCEL;
+      },
       onWebViewCreated: _controller.setWebViewController,
     );
   }
-
-  Widget _loadingWidget() => Center(
-      child: SizedBox(
-          height: 200,
-          width: 200,
-          child: Column(
-            children: [
-              const CircularProgressIndicator(
-                strokeWidth: 3,
-              ),
-              const SizedBox(height: 12),
-              Text('gettingFullText'.tr),
-            ],
-          )));
 
   List<PopupMenuEntry> _popupMenu() => <PopupMenuEntry>[
         //只有当设置了在应用内打开才支持设置样式
