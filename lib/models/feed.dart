@@ -92,6 +92,7 @@ class Feed {
       post.fullText = fullText;
       post.updateToDb();
     }
+    insertOrUpdateToDb();
   }
 
   /// 删除 Feed

@@ -30,7 +30,6 @@ class EditFeedController extends GetxController {
     feed?.name = _nameController.text;
     feed?.category = _categoryController.text;
     // 如果 feed 不存在，添加 feed，否则更新 feed
-
     if (await Feed.isExist(feed?.url ?? '')) {
       await feed?.updatePostsFeedNameAndOpenTypeAndFullText();
     } else {
