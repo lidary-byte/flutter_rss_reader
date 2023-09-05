@@ -21,6 +21,7 @@ class HomePage extends StatelessWidget {
             backgroundColor: colors.bottomNavigationBarBackgroundColor,
             activeColor: colors.activeNavigationBarColor,
             splashColor: colors.activeNavigationBarColor,
+            inactiveColor: colors.notActiveNavigationBarColor,
             activeIndex: _controller.index,
             gapLocation: GapLocation.center,
             notchSmoothness: NotchSmoothness.verySmoothEdge,

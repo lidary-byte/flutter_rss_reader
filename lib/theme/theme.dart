@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/global.dart';
+import 'package:flutter_rss_reader/theme/color_schemes.g.dart';
 import 'package:flutter_rss_reader/theme/custom_theme.dart';
 import 'package:flutter_rss_reader/utils/hex_color.dart';
 
@@ -8,10 +9,7 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       brightness: Brightness.light,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
-      colorScheme: cacheDynamicColor ? lightDynamic : null,
-      colorSchemeSeed: (!cacheDynamicColor || lightDynamic == null)
-          ? HexColor('#FFA400')
-          : null,
+      colorScheme: cacheDynamicColor ? lightDynamic : lightColorScheme,
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.symmetric(horizontal: 24),
       ),
@@ -20,18 +18,25 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       //         fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black)),
       extensions: [
         CustomTheme(
-          colorLabelColor: Colors.black,
+          colorLabelColor: (cacheDynamicColor && lightDynamic != null)
+              ? lightDynamic.secondaryContainer
+              : lightColorScheme.secondaryContainer,
           bottomNavigationBarBackgroundColor:
               (cacheDynamicColor && lightDynamic != null)
                   ? lightDynamic.secondaryContainer
-                  : HexColor('#F5EDEB'),
+                  : lightColorScheme.secondaryContainer,
+          // 选中
           activeNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
               ? lightDynamic.primary
-              : HexColor('#FFA400'),
-          notActiveNavigationBarColor: Colors.white,
+              : lightColorScheme.primary,
+          // 未选中
+          notActiveNavigationBarColor:
+              (cacheDynamicColor && lightDynamic != null)
+                  ? lightDynamic.onBackground
+                  : lightColorScheme.onBackground,
           shadowNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
-              ? lightDynamic.primary
-              : HexColor('#FFA400'),
+              ? lightDynamic.secondaryContainer
+              : lightColorScheme.secondaryContainer,
         )
       ]);
 }
@@ -41,10 +46,7 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       brightness: Brightness.dark,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
-      colorScheme: cacheDynamicColor ? darkDynamic : null,
-      colorSchemeSeed: (!cacheDynamicColor || darkDynamic == null)
-          ? HexColor('#FFA400')
-          : null,
+      colorScheme: cacheDynamicColor ? darkDynamic : darkColorScheme,
       listTileTheme: const ListTileThemeData(
         contentPadding: EdgeInsets.symmetric(horizontal: 24),
       ),
@@ -53,18 +55,25 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       //         fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white)),
       extensions: [
         CustomTheme(
-          colorLabelColor: Colors.white,
+          colorLabelColor: (cacheDynamicColor && darkDynamic != null)
+              ? darkDynamic.secondaryContainer
+              : lightColorScheme.secondaryContainer,
           bottomNavigationBarBackgroundColor:
               (cacheDynamicColor && darkDynamic != null)
                   ? darkDynamic.secondaryContainer
-                  : HexColor('#30271B'),
+                  : darkColorScheme.secondaryContainer,
+          // 选中
           activeNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
               ? darkDynamic.primary
-              : HexColor('#FFA400'),
-          notActiveNavigationBarColor: Colors.white,
+              : darkColorScheme.primary,
+          // 未选中
+          notActiveNavigationBarColor:
+              (cacheDynamicColor && darkDynamic != null)
+                  ? darkDynamic.onBackground
+                  : darkColorScheme.onBackground,
           shadowNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
-              ? darkDynamic.primary
-              : HexColor('#FFA400'),
+              ? darkDynamic.secondaryContainer
+              : darkColorScheme.secondaryContainer,
         )
       ]);
 }
