@@ -130,7 +130,7 @@ class FeedPageController extends BaseGetxController {
     ));
   }
 
-  void openPost(int index) async {
+  void openPost(int index) {
     final post = _postList[index];
     if (post.openType == 1 || post.openType == 2) {
       openUrl(post.link, thisApp: post.openType == 1);

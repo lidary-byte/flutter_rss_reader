@@ -83,8 +83,12 @@ class ReadPage extends StatelessWidget {
         ),
         /* 点击链接时使用内置标签页打开 */
         shouldOverrideUrlLoading: (controller, navigationAction) async {
-          openUrl(navigationAction.request.url.toString());
-          return NavigationActionPolicy.CANCEL;
+          final url = navigationAction.request.url.toString();
+          if (url.startsWith('http://') || url.startsWith('https://')) {
+            openUrl(url);
+            return NavigationActionPolicy.CANCEL;
+          }
+          return NavigationActionPolicy.ALLOW;
         },
         onWebViewCreated: _controller.setWebViewController,
       ),
