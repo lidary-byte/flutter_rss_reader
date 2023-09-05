@@ -13,6 +13,13 @@ class AddFeedPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('addFeed'.tr),
+        actions: [
+          IconButton(
+              onPressed: () {
+                Get.toNamed(AppRouter.builtInFeedPageRouter);
+              },
+              icon: Icon(Icons.add))
+        ],
       ),
       body: SafeArea(
         child: ListView(

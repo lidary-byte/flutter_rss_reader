@@ -1,0 +1,187 @@
+{
+    "result": {
+        "items": [
+            {
+                "text": "Business Insider",
+                "url": "https://feeds2.feedburner.com/businessinsider",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Bustle",
+                "url": "https://www.bustle.com/rss",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Dazed",
+                "url": "https://www.dazeddigital.com/rss",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Engadget is a web magazine with obsessive daily coverage of everything new in gadgets and consumer electronics",
+                "url": "https://www.engadget.com/rss-full.xml",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Fast Company",
+                "url": "https://feeds.feedburner.com/fastcompany/headlines",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Forbes - Business",
+                "url": "https://www.forbes.com/business/feed",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Forbes - Entrepreneurs",
+                "url": "https://www.forbes.com/entrepreneurs/feed",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "NYT > Business",
+                "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "NYT > Technology",
+                "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "NYT > Top Stories",
+                "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "News : NPR",
+                "url": "https://feeds.npr.org/1001/rss.xml",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Quartz",
+                "url": "https://cms.qz.com/feed",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "TechCrunch",
+                "url": "https://techcrunch.com/feed",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "The Atlantic",
+                "url": "https://feeds.feedburner.com/TheAtlantic",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "The Guardian",
+                "url": "https://www.theguardian.com/uk/rss",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "The Verge -  All Posts",
+                "url": "https://www.theverge.com/rss/full.xml",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "VICE US",
+                "url": "https://www.vice.com/en/rss?locale=en_us",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Variety",
+                "url": "https://variety.com/feed",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "VentureBeat",
+                "url": "https://venturebeat.com/feed",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Vox -  All",
+                "url": "https://www.vox.com/rss/index.xml",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "Vulture",
+                "url": "https://www.vulture.com/feeds/flipboard.rss",
+                "categories": [
+                    "News"
+                ]
+            },
+            {
+                "text": "CSS-Tricks",
+                "url": "https://css-tricks.com/feed",
+                "categories": [
+                    "WebDev"
+                ]
+            },
+            {
+                "text": "web.dev",
+                "url": "https://web.dev/feed.xml",
+                "categories": [
+                    "WebDev"
+                ]
+            },
+            {
+                "text": "Colossal",
+                "url": "https://www.thisiscolossal.com/feed",
+                "categories": []
+            },
+            {
+                "text": "Daring Fireball",
+                "url": "https://daringfireball.net/feeds/json",
+                "categories": []
+            },
+            {
+                "text": "Six Colors",
+                "url": "https://sixcolors.com/?feed=json",
+                "categories": []
+            },
+            {
+                "text": "The Loop",
+                "url": "https://www.loopinsight.com/feed",
+                "categories": []
+            }
+        ]
+    }
+}

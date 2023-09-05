@@ -1,3 +1,4 @@
+import 'package:flutter_rss_reader/pages/built_in_feed/built_in_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/add_feed/add_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page.dart';
@@ -28,6 +29,7 @@ abstract class AppRouter {
   static const String blockSettingPage = '/block_setting_page';
   static const String readPageRouter = '/read_page';
   static const String webViewPageRouter = '/web_view_page';
+  static const String builtInFeedPageRouter = '/built_in_feed_page';
 
   static List<GetPage> routerPages = [
     GetPage(name: homePageRouter, page: () => HomePage()),
@@ -75,6 +77,10 @@ abstract class AppRouter {
     GetPage(
         name: webViewPageRouter,
         page: () => WebViewPage(),
+        transition: Transition.rightToLeft),
+    GetPage(
+        name: builtInFeedPageRouter,
+        page: () => BuiltInFeedPage(),
         transition: Transition.rightToLeft),
   ];
 }
