@@ -12,10 +12,13 @@ import 'package:html_main_element/html_main_element.dart';
 class ReadController extends BaseGetxController {
   final CancelToken _cancelToken = CancelToken();
 
+  bool _isBottomOpen = true;
+  bool get isBottomOpen => _isBottomOpen;
+
   InAppWebViewController? _webViewController;
 
-  final Post post = Get.arguments[parametersPost];
-  final String fontDir = Get.arguments[parametersFontDir];
+  Post post = Get.arguments[parametersPost];
+  String fontDir = Get.arguments[parametersFontDir];
 
   int fontSize = prefs.getInt('fontSize') ?? 18;
   double lineHeight = prefs.getDouble('lineheight') ?? 1.5;
@@ -32,19 +35,31 @@ class ReadController extends BaseGetxController {
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
   void _initData() async {
-    updateLoadingStatus(updateIds: ['content']);
     if (post.fullText && !post.fullTextCache && post.openType == 0) {
-      final response =
-          await ApiProvider().dio.get(post.link, cancelToken: _cancelToken);
-      final document = html_parser.parse(response.data);
-      final bestElemReadability =
-          readabilityMainElement(document.documentElement!);
-      post.content = bestElemReadability.outerHtml;
-      post.fullTextCache = true;
+      getHtml();
+    } else {
+      _contentHtml = post.content;
+      updateSuccessStatus(contentHtml, updateIds: ['content', 'html_cache']);
+      _changeStyle = false;
+      if (!post.read) {
+        post.read = true;
+      }
+      post.updateToDb();
     }
-    _contentHtml = post.content;
+  }
 
-    updateSuccessStatus(contentHtml, updateIds: ['content']);
+  void getHtml() async {
+    updateLoadingStatus(updateIds: ['content']);
+    final response =
+        await ApiProvider().dio.get(post.link, cancelToken: _cancelToken);
+    final document = html_parser.parse(response.data);
+    final bestElemReadability =
+        readabilityMainElement(document.documentElement!);
+    post.content = bestElemReadability.outerHtml;
+    post.fullTextCache = true;
+
+    _contentHtml = post.content;
+    updateSuccessStatus(contentHtml, updateIds: ['content', 'html_cache']);
     _changeStyle = false;
     if (!post.read) {
       post.read = true;
@@ -149,6 +164,54 @@ table, th, td {
 }
 $customCss
 ''';
+  }
+
+  double _moveLastX = 0;
+  double _moveLastY = 0;
+
+  void setMoveXY(double x, double y) {
+    if (_moveLastX == 0 && _moveLastY == 0) {
+      _moveLastX = x;
+      _moveLastY = y;
+    }
+  }
+
+  void moveXY(double x, double y) {
+    if (_isBottomOpen &&
+        (x - _moveLastX).abs() > 10 &&
+        (y - _moveLastY).abs() > 10) {
+      bottomWidgetClose();
+    }
+  }
+
+  void reSetMoveXY(double x, double y) {
+    if ((x - _moveLastX).abs() < 5 && (y - _moveLastY).abs() < 5) {
+      bottomOpenStatus();
+    }
+    _moveLastX = 0;
+    _moveLastY = 0;
+  }
+
+  void bottomOpenStatus() {
+    _isBottomOpen = !_isBottomOpen;
+    update(['bottom']);
+  }
+
+  void bottomWidgetClose() {
+    if (_isBottomOpen) {
+      _isBottomOpen = false;
+      update(['bottom']);
+    }
+  }
+
+  void changeReadStatus() {
+    post.changeReadStatus();
+    update(['read_status']);
+  }
+
+  void changeFavoriteStatus() {
+    post.changeFavorite();
+    update(['favorite']);
   }
 
   /// 阅读页面样式相关设置

@@ -29,6 +29,7 @@ class FeedPageController extends BaseGetxController {
   bool _onlyFavorite = false;
   bool get onlyFavorite => _onlyFavorite;
   String? _fontDir;
+  String? get fontDir => _fontDir;
 
   ///  监听数据是否被更改
   Stream<void>? _postSteream;
@@ -136,12 +137,12 @@ class FeedPageController extends BaseGetxController {
     } else {
       Get.toNamed(AppRouter.readPageRouter, arguments: {
         ReadController.parametersFontDir: _fontDir,
-        ReadController.parametersPost: _postList[index]
+        ReadController.parametersPost: post
       });
     }
     // 标记文章为已读
-    if (!_postList[index].read) {
-      _postList[index].markAsRead();
+    if (!post.read) {
+      post.markAsRead();
     }
   }
 

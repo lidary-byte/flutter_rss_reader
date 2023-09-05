@@ -98,5 +98,8 @@ const zh = {
   'loadingErrorTip': '数据加载失败',
   'retry': '重试',
   'onlyUnRead': '只显示未读',
-  'onlyUnFavorite': '只显示收藏'
+  'onlyUnFavorite': '只显示收藏',
+  'share': '分享',
+  'openInBrowser': '系统浏览器打开',
+  'openInNewTab': '新标签页打开'
 };

@@ -42,7 +42,7 @@ class FeedPage extends StatelessWidget {
                                 return SliverList.separated(
                                   itemCount: data.length,
                                   itemBuilder: (context, index) {
-                                    return GestureDetector(
+                                    return InkWell(
                                       onTap: () => _controller.openPost(index),
                                       child: PostContainer(post: data[index]),
                                     );

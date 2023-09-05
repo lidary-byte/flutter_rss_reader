@@ -97,8 +97,16 @@ class Post {
     });
   }
 
+  /// 标记 Post 为阅读状态
+  void changeReadStatus() async {
+    read = !read;
+    await isar.writeTxn(() async {
+      await isar.posts.put(this);
+    });
+  }
+
   /// 改变 Post 的收藏状态
-  Future<void> changeFavorite() async {
+  void changeFavorite() async {
     favorite = !favorite;
     await isar.writeTxn(() async {
       await isar.posts.put(this);

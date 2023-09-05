@@ -33,6 +33,7 @@ class Feed {
   }
 
   /// 查询所有 Feed 并按分类分组
+  // @Deprecated('过期方法')
   static Future<Map<String, List<Feed>>> groupByCategory() async {
     final List<Feed> feeds = isar.feeds.where().findAllSync();
     Map<String, List<Feed>> feedsGroupByCategory = {};
@@ -44,6 +45,15 @@ class Feed {
     }
     return feedsGroupByCategory;
   }
+
+  /// 查询所有 Feed 并按分类分组
+  // static Future<List<FeedCategory>> groupByCategoryList() async {
+  //   final List<Feed> feeds = isar.feeds.where().findAllSync();
+  //   return groupBy(feeds, (feed) => feed.category)
+  //       .entries
+  //       .map((entry) => FeedCategory(category: entry.key, feeds: entry.value))
+  //       .toList();
+  // }
 
   /// 查询所有 Feed 未读 Post 数量，返回一个 Map
   static Future<Map<int, int>> unreadPostCount() async {
