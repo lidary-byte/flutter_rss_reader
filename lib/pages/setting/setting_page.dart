@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
@@ -27,7 +29,8 @@ class SettingPage extends StatelessWidget {
           ),
           _languageWidget(),
           _themeWidget(),
-          _dynamicWidget(),
+          // 只有Android才有动态取色
+          if (Platform.isAndroid) _dynamicWidget(),
           _fontWidget(),
           _scaleWidget(),
           ListTileGroupTitle(title: 'dataManagement'.tr),
