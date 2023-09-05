@@ -240,6 +240,14 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "8.2.2"
+  fps_monitor:
+    dependency: "direct main"
+    description:
+      name: fps_monitor
+      sha256: e7a3a890be45cafd997bbb52677abeb8def1d6bfdf7db1af0642631e367af940
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "2.0.0"
   get:
     dependency: "direct main"
     description:
