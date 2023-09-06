@@ -4,12 +4,10 @@ import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page.dart';
 import 'package:flutter_rss_reader/pages/home/home_page.dart';
 import 'package:flutter_rss_reader/pages/read/read_page.dart';
+import 'package:flutter_rss_reader/pages/read/read_setting_page/read_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/block_setting_page/block_setting_page.dart';
-import 'package:flutter_rss_reader/pages/setting/dynamic_color_setting_page/dynamic_color_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/font_setting_page/font_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/language_setting_page/language_setting_page.dart';
-import 'package:flutter_rss_reader/pages/read/read_setting_page/read_setting_page.dart';
-import 'package:flutter_rss_reader/pages/setting/text_scale_factor_setting_page/text_scale_factor_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/theme_setting_page/theme_setting_page.dart';
 import 'package:flutter_rss_reader/pages/web_view/web_view_page.dart';
 import 'package:get/get_navigation/get_navigation.dart';
@@ -23,8 +21,7 @@ abstract class AppRouter {
   static const String themeSettingPageRouter = '/theme_setting_page';
   static const String dynamicColorSettingPage = '/dynamic_color_setting_page';
   static const String fontSettingPage = '/font_setting_page';
-  static const String textScaleFactorSettingPage =
-      '/text_scale_factor_setting_page';
+
   static const String readSettingPage = '/read_setting_page';
   static const String blockSettingPage = '/block_setting_page';
   static const String readPageRouter = '/read_page';
@@ -54,16 +51,8 @@ abstract class AppRouter {
         page: () => ThemeSettingPage(),
         transition: Transition.rightToLeft),
     GetPage(
-        name: dynamicColorSettingPage,
-        page: () => DynamicColorSettingPage(),
-        transition: Transition.rightToLeft),
-    GetPage(
         name: fontSettingPage,
         page: () => FontSettingPage(),
-        transition: Transition.rightToLeft),
-    GetPage(
-        name: textScaleFactorSettingPage,
-        page: () => TextScaleFactorSettingPage(),
         transition: Transition.rightToLeft),
     GetPage(
         name: readSettingPage,

@@ -1,6 +1,10 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/global/global_controller.dart';
+import 'package:flutter_rss_reader/widgets/list_section.dart';
 import 'package:get/get.dart';
 
 class ThemeSettingPage extends StatelessWidget {
@@ -14,22 +18,53 @@ class ThemeSettingPage extends StatelessWidget {
         title: Text('themeMode'.tr),
       ),
       body: SafeArea(
-        child: ListView.builder(
-          itemCount: themeMode.length,
-          itemBuilder: (context, index) {
-            return GetBuilder<GlobalController>(
-                id: 'theme',
-                builder: (_) => RadioListTile(
-                      value: index,
-                      groupValue: cacheThemeIndex,
-                      title: Text(themeMode[index]),
-                      onChanged: (int? value) {
-                        if (value != null) {
-                          _controller.changeThemeIndex(value);
-                        }
-                      },
-                    ));
-          },
+        child: ListView(
+          children: [
+            ListSectionGroup(
+              hasPadding: false,
+              children: themeMode
+                  .map((e) => GetBuilder<GlobalController>(
+                      id: 'theme',
+                      builder: (_) => SectionChild(
+                            title: e,
+                            trailing: CupertinoRadio(
+                              value: themeMode.indexOf(e),
+                              groupValue: cacheThemeIndex,
+                              onChanged: null,
+                            ),
+                            onTap: () => _controller
+                                .changeThemeIndex(themeMode.indexOf(e)),
+                          )))
+                  .toList(),
+            ),
+            GetBuilder<GlobalController>(
+              builder: (_) => ListSectionGroup(
+                titleText: 'dynamicColor'.tr,
+                children: [
+                  SectionChild(
+                    title: 'openDynamicColor'.tr,
+                    subTitle: 'dynamicColorFromWallpaper'.tr,
+                    trailing: CupertinoSwitch(
+                      value: cacheDynamicColor,
+                      onChanged: Platform.isAndroid
+                          ? _controller.changeDynamicColor
+                          : null,
+                    ),
+                    onTap: () => Platform.isAndroid
+                        ? _controller.changeDynamicColor(!cacheDynamicColor)
+                        : null,
+                  )
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Text(
+                'dynamicColorInfo'.tr,
+                style: const TextStyle(fontSize: 12),
+              ),
+            ),
+          ],
         ),
       ),
     );

@@ -2,19 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/theme/color_schemes.g.dart';
 import 'package:flutter_rss_reader/theme/custom_theme.dart';
+import 'package:flutter_rss_reader/utils/hex_color.dart';
 
 ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
   return ThemeData(
       brightness: Brightness.light,
       useMaterial3: true,
-      fontFamily: cacheThemeFont,
-      colorScheme: cacheDynamicColor ? lightDynamic : lightColorScheme,
-      listTileTheme: const ListTileThemeData(
-        contentPadding: EdgeInsets.symmetric(horizontal: 24),
-      ),
-      // appBarTheme: const AppBarTheme().copyWith(
-      //     titleTextStyle: const TextStyle(
-      //         fontWeight: FontWeight.bold, fontSize: 24, color: Colors.black)),
+      // fontFamily: cacheThemeFont,
+      // colorScheme: cacheDynamicColor ? lightDynamic : lightColorScheme,
+      // listTileTheme: const ListTileThemeData().copyWith(
+      //     enableFeedback: true,
+      //     titleTextStyle: const TextStyle().copyWith(
+      //         fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
+      //     subtitleTextStyle: const TextStyle().copyWith(
+      //         fontSize: 10,
+      //         fontWeight: FontWeight.bold,
+      //         color: HexColor('#8D8D8D'))),
+      cardTheme: const CardTheme().copyWith(color: Colors.white),
+      scaffoldBackgroundColor: HexColor('#F5F5F5'),
+      appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: Colors.white, foregroundColor: Colors.black),
+      bottomAppBarTheme:
+          const BottomAppBarTheme().copyWith(color: Colors.white),
       extensions: [
         CustomTheme(
           colorLabelColor: (cacheDynamicColor && lightDynamic != null)
@@ -44,14 +53,21 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
   return ThemeData(
       brightness: Brightness.dark,
       useMaterial3: true,
-      fontFamily: cacheThemeFont,
-      colorScheme: cacheDynamicColor ? darkDynamic : darkColorScheme,
-      listTileTheme: const ListTileThemeData(
-        contentPadding: EdgeInsets.symmetric(horizontal: 24),
-      ),
-      // appBarTheme: const AppBarTheme().copyWith(
-      //     titleTextStyle: const TextStyle(
-      //         fontWeight: FontWeight.bold, fontSize: 24, color: Colors.white)),
+      // fontFamily: cacheThemeFont,
+      // colorScheme: cacheDynamicColor ? darkDynamic : darkColorScheme,
+      listTileTheme: const ListTileThemeData().copyWith(
+          titleTextStyle: const TextStyle().copyWith(
+              fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+          subtitleTextStyle: const TextStyle().copyWith(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: HexColor('#8D8D8D'))),
+      scaffoldBackgroundColor: HexColor('#010101'),
+      appBarTheme: const AppBarTheme().copyWith(
+          backgroundColor: HexColor('#121212'), foregroundColor: Colors.white),
+      cardTheme: const CardTheme().copyWith(color: HexColor('#121212')),
+      bottomAppBarTheme:
+          const BottomAppBarTheme().copyWith(color: Colors.black),
       extensions: [
         CustomTheme(
           colorLabelColor: (cacheDynamicColor && darkDynamic != null)

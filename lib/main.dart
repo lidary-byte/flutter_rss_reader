@@ -67,14 +67,8 @@ class MyApp extends StatelessWidget {
                   themeMode: themeMode[cacheThemeIndex],
                   initialRoute: AppRouter.homePageRouter,
                   getPages: AppRouter.routerPages,
-                  builder: (context, child) {
-                    return MediaQuery(
-                      data: MediaQuery.of(context).copyWith(
-                        textScaleFactor: cacheTextScaleFactor,
-                      ),
-                      child: CustomWidgetInspector(child: child!),
-                    );
-                  },
+                  builder: (context, child) =>
+                      CustomWidgetInspector(child: child!),
                 ));
       },
     );

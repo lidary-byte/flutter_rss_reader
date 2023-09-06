@@ -36,12 +36,6 @@ class GlobalController extends GetxController {
     update(['font']);
   }
 
-  Future<void> changeTextScaleFactor(double factor) async {
-    await prefs.setDouble(ComConstant.spKeyTextScaleFactor, factor);
-    cacheTextScaleFactor = factor;
-    update();
-  }
-
   Future<void> changeDynamicColor(bool dynamicColor) async {
     await prefs.setBool(ComConstant.spKeyDynamicColor, dynamicColor);
     cacheDynamicColor = dynamicColor;

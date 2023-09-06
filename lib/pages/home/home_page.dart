@@ -18,7 +18,8 @@ class HomePage extends StatelessWidget {
               Icons.home,
               Icons.settings,
             ],
-            backgroundColor: colors.bottomNavigationBarBackgroundColor,
+            backgroundColor: Get.theme.bottomAppBarTheme
+                .color, //colors.bottomNavigationBarBackgroundColor,
             activeColor: colors.activeNavigationBarColor,
             splashColor: colors.activeNavigationBarColor,
             inactiveColor: colors.notActiveNavigationBarColor,
