@@ -8,7 +8,7 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
   return ThemeData(
       brightness: Brightness.light,
       useMaterial3: true,
-      // fontFamily: cacheThemeFont,
+      fontFamily: cacheThemeFont,
       // colorScheme: cacheDynamicColor ? lightDynamic : lightColorScheme,
       // listTileTheme: const ListTileThemeData().copyWith(
       //     enableFeedback: true,
@@ -18,10 +18,19 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       //         fontSize: 10,
       //         fontWeight: FontWeight.bold,
       //         color: HexColor('#8D8D8D'))),
-      cardTheme: const CardTheme().copyWith(color: Colors.white),
+      cardTheme: const CardTheme().copyWith(
+        color: Colors.white,
+        elevation: 0,
+        margin: const EdgeInsets.all(0),
+        clipBehavior: Clip.hardEdge,
+      ),
+      dividerTheme:
+          const DividerThemeData().copyWith(color: HexColor('#8D8D8D')),
       scaffoldBackgroundColor: HexColor('#F5F5F5'),
       appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: Colors.white, foregroundColor: Colors.black),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+          surfaceTintColor: Colors.transparent),
       bottomAppBarTheme:
           const BottomAppBarTheme().copyWith(color: Colors.white),
       extensions: [
@@ -53,7 +62,7 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
   return ThemeData(
       brightness: Brightness.dark,
       useMaterial3: true,
-      // fontFamily: cacheThemeFont,
+      fontFamily: cacheThemeFont,
       // colorScheme: cacheDynamicColor ? darkDynamic : darkColorScheme,
       listTileTheme: const ListTileThemeData().copyWith(
           titleTextStyle: const TextStyle().copyWith(
@@ -62,12 +71,21 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
               fontSize: 10,
               fontWeight: FontWeight.bold,
               color: HexColor('#8D8D8D'))),
+      dividerTheme:
+          const DividerThemeData().copyWith(color: HexColor('#8D8D8D')),
       scaffoldBackgroundColor: HexColor('#010101'),
       appBarTheme: const AppBarTheme().copyWith(
-          backgroundColor: HexColor('#121212'), foregroundColor: Colors.white),
-      cardTheme: const CardTheme().copyWith(color: HexColor('#121212')),
+          backgroundColor: HexColor('#121212'),
+          foregroundColor: Colors.white,
+          surfaceTintColor: Colors.transparent),
+      cardTheme: const CardTheme().copyWith(
+        color: HexColor('#121212'),
+        elevation: 0,
+        margin: const EdgeInsets.all(0),
+        clipBehavior: Clip.hardEdge,
+      ),
       bottomAppBarTheme:
-          const BottomAppBarTheme().copyWith(color: Colors.black),
+          const BottomAppBarTheme().copyWith(color: HexColor('#121212')),
       extensions: [
         CustomTheme(
           colorLabelColor: (cacheDynamicColor && darkDynamic != null)

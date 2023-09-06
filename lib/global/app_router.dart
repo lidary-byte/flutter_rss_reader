@@ -58,7 +58,10 @@ abstract class AppRouter {
         name: readSettingPage,
         page: () => ReadSettingPage(),
         transition: Transition.rightToLeft),
-    GetPage(name: blockSettingPage, page: () => BlockSettingPage()),
+    GetPage(
+        name: blockSettingPage,
+        page: () => BlockSettingPage(),
+        transition: Transition.rightToLeft),
     GetPage(
         name: readPageRouter,
         page: () => ReadPage(),

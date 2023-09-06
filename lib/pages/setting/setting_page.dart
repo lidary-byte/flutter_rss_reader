@@ -82,7 +82,6 @@ class SettingPage extends StatelessWidget {
   }
 
   Widget _fontWidget() => GetBuilder<GlobalController>(
-      id: 'font',
       builder: (_) => SectionChild(
             icon: Icons.font_download_outlined,
             iconColor: Colors.blue,

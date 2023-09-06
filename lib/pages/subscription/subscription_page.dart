@@ -11,26 +11,41 @@ class SubscriptionPage extends StatelessWidget {
   final _controller = Get.put(SubscriptionController());
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        SliverAppBar.large(
-          title: Text('aRead'.tr),
-          actions: [
-            IconButton(
-                onPressed: _controller.toAddFeedPage,
-                icon: const Icon(Icons.add))
-          ],
-        ),
-        GetBuilder<SubscriptionController>(
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('aRead'.tr),
+        actions: [
+          IconButton(
+              onPressed: _controller.toAddFeedPage, icon: const Icon(Icons.add))
+        ],
+      ),
+      body: SafeArea(
+        child: GetBuilder<SubscriptionController>(
             builder: (_) => _controller.feedListGroupByCategory.isEmpty
                 ? _emptyWidget()
                 : _contentWidget()),
-      ],
+      ),
     );
+    // return CustomScrollView(
+    //   slivers: [
+    //     SliverAppBar.large(
+    //       title: Text('aRead'.tr),
+    //       actions: [
+    //         IconButton(
+    //             onPressed: _controller.toAddFeedPage,
+    //             icon: const Icon(Icons.add))
+    //       ],
+    //     ),
+    //     GetBuilder<SubscriptionController>(
+    //         builder: (_) => _controller.feedListGroupByCategory.isEmpty
+    //             ? _emptyWidget()
+    //             : _contentWidget()),
+    //   ],
+    // );
   }
 
   Widget _contentWidget() {
-    return SliverList.builder(
+    return ListView.builder(
         itemBuilder: (context, index) {
           final dataKey =
               _controller.feedListGroupByCategory.keys.toList()[index];

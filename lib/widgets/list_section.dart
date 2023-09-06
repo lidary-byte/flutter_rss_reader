@@ -29,9 +29,6 @@ class ListSectionGroup extends StatelessWidget {
             ),
           const SizedBox(height: 6),
           Card(
-            elevation: 0,
-            margin: const EdgeInsets.all(0),
-            clipBehavior: Clip.hardEdge,
             child: Column(
               children: buildChildren(),
             ),
@@ -73,6 +70,7 @@ class SectionChild extends StatelessWidget {
   final Color? iconColor;
   final IconData? icon;
   final String? title;
+  final Widget? titleWidget;
   final String? subTitle;
   final Widget? trailing;
   final VoidCallback? onTap;
@@ -82,6 +80,7 @@ class SectionChild extends StatelessWidget {
       this.iconColor,
       this.icon,
       this.title,
+      this.titleWidget,
       this.subTitle,
       this.trailing,
       this.onTap});
@@ -114,9 +113,11 @@ class SectionChild extends StatelessWidget {
                 child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title ?? '',
-                    style: const TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.bold)),
+                titleWidget == null
+                    ? Text(title ?? '',
+                        style: const TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold))
+                    : titleWidget!,
                 if (subTitle != null)
                   Text(subTitle!,
                       style: TextStyle(

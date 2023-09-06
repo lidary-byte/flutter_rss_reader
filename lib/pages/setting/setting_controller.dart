@@ -1,9 +1,7 @@
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:flutter_rss_reader/global/com_constant.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/utils/font_manager.dart';
 import 'package:flutter_rss_reader/utils/opml_util.dart';
 import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
@@ -48,36 +46,15 @@ class SettingController extends GetxController {
     await file.delete();
   }
 
-  void removeBlock(int index) async {
-    blockList.removeAt(index);
+  void removeBlock(String item) async {
+    blockList.remove(item);
     await prefs.setStringList('blockList', blockList);
-    update();
+    update(['block_list']);
   }
 
   void addBlock(String text) async {
     blockList.add(text);
     await prefs.setStringList('blockList', blockList);
-    update();
-  }
-
-  final List<String> fontNameList = []; // 字体名称列表
-  // 初始化字体名称列表
-  Future<void> fontList() async {
-    fontNameList.clear();
-    fontNameList.addAll(await readAllFont());
-    update();
-  }
-
-  String themeFont = prefs.getString(ComConstant.spKeyThemeFont) ?? '默认字体';
-  Future<void> changeThemeFont(String font) async {
-    await prefs.setString(ComConstant.spKeyThemeFont, font);
-    themeFont = font;
-    update();
-  }
-
-  @override
-  void onInit() {
-    fontList();
-    super.onInit();
+    update(['block_list']);
   }
 }
