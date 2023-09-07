@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:agconnect_crash/agconnect_crash.dart';
 import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -30,9 +32,17 @@ void main() async {
   SystemChrome.setEnabledSystemUIMode(
     SystemUiMode.edgeToEdge, // 适配 EdgeToEdge
   );
-  await init(); // 初始化
-
-  runApp(const MyApp());
+  // 初始化
+  await init();
+  await initHuawei();
+  runZonedGuarded<Future<void>>(
+    () async {
+      runApp(const MyApp());
+    },
+    (dynamic error, StackTrace stackTrace) {
+      AGCCrash.instance.recordError(error, stackTrace);
+    },
+  );
 }
 
 class MyApp extends StatelessWidget {

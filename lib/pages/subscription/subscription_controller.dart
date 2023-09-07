@@ -11,17 +11,19 @@ class SubscriptionController extends GetxController {
   Map<int, int> _unRead = {};
   Map<int, int> get unRead => _unRead;
 
-  Stream<void>? _feedSteream;
+  @override
+  void onInit() {
+    super.onInit();
+
+    /// 对数据源进行监听 有变化时刷新
+    isar.feeds.watchLazy().listen((_) {
+      getFeedList();
+    });
+  }
 
   @override
   void onReady() {
     super.onReady();
-
-    /// 对数据源进行监听 有变化时刷新
-    _feedSteream = isar.feeds.watchLazy();
-    _feedSteream?.listen((_) {
-      getFeedList();
-    });
     getUnreadCount();
     getFeedList();
   }

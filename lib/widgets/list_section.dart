@@ -70,6 +70,7 @@ class SectionChild extends StatelessWidget {
   final Color? iconColor;
   final IconData? icon;
   final String? title;
+  final TextStyle? titleStyle;
   final Widget? titleWidget;
   final String? subTitle;
   final Widget? trailing;
@@ -80,6 +81,7 @@ class SectionChild extends StatelessWidget {
       this.iconColor,
       this.icon,
       this.title,
+      this.titleStyle,
       this.titleWidget,
       this.subTitle,
       this.trailing,
@@ -115,8 +117,9 @@ class SectionChild extends StatelessWidget {
               children: [
                 titleWidget == null
                     ? Text(title ?? '',
-                        style: const TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold))
+                        style: titleStyle ??
+                            const TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.bold))
                     : titleWidget!,
                 if (subTitle != null)
                   Text(subTitle!,

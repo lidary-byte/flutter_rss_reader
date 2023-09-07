@@ -1,49 +1,16 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/models/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
-import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
+import 'package:flutter_rss_reader/models/parse_help_bean.dart';
 import 'package:flutter_rss_reader/utils/parse_feed_util.dart';
-import 'package:flutter_rss_reader/widgets/loading_widget.dart';
-import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
 
 class AddFeedController extends GetxController {
   final TextEditingController _urlController = TextEditingController();
   TextEditingController get urlController => _urlController;
 
-  Feed? _feed;
-  Feed? get feed => _feed;
-
-  List<Items> _feedZhBean = [];
-  List<Items> get feedZhBean => _feedZhBean;
-  List<Items> _feedEnBean = [];
-  List<Items> get feedEnBean => _feedEnBean;
-
-  @override
-  void onReady() {
-    super.onReady();
-    _loadJson('zh');
-    _loadJson('en');
-  }
-
-  void _loadJson(String type) async {
-    final jsonString = await rootBundle.loadString(
-        type == 'zh' ? 'assets/featured_zh.json' : 'assets/featured_en.json');
-
-    if (type == 'zh') {
-      _feedZhBean =
-          BuiltInFeedBean.fromJson(json.decode(jsonString)).result?.items ?? [];
-      update(['data_zh']);
-    } else {
-      _feedEnBean =
-          BuiltInFeedBean.fromJson(json.decode(jsonString)).result?.items ?? [];
-      update(['data_en']);
-    }
-  }
+  List<ParseHelpBean>? _parseHelp;
+  List<ParseHelpBean> get parseHelp => _parseHelp ?? [];
 
   ///  从剪贴板获取订阅源地址，光标移到末尾
   void clipBoard() async {
@@ -56,28 +23,61 @@ class AddFeedController extends GetxController {
     }
   }
 
-  void parse({String? url, String? category}) async {
-    if (url == null) {
+  void parseUrlString() {
+    String url = _urlController.text;
+    if (url.isEmpty) {
       return;
     }
-    if (await Feed.isExist(url)) {
-      toast('feedAlreadyExists'.tr);
+    _urlController.clear();
+    RegExp regExp = RegExp(r'https?://[^\s]+');
+    _parseHelp = regExp
+        .allMatches(url)
+        .map((match) => ParseHelpBean(
+            url: match.group(0)!, parseStatus: ParseStatus.loading))
+        .where(
+            (element) => element.url != null && element.url?.isBlank == false)
+        .toList();
+    update(['list_view']);
+    _parseList();
+  }
+
+  void _parseList() async {
+    if (_parseHelp?.isEmpty == true) {
+      return;
+    }
+    for (int i = 0; i < _parseHelp!.length; i++) {
+      final item = _parseHelp![i];
+      final url = item.url ?? '';
+      final localFeed = await Feed.isExistToFeed(url);
+      if (localFeed != null) {
+        item.parseStatus = ParseStatus.isExist;
+        item.feed = localFeed;
+        update(['list_view']);
+        continue;
+      }
+      final feed = await parseFeed(url);
+      if (feed == null) {
+        item.parseStatus = ParseStatus.error;
+        update(['list_view']);
+        continue;
+      }
+      item.parseStatus = ParseStatus.success;
+      item.feed = feed;
+      _saveOrUpdate(feed);
+    }
+  }
+
+  void _saveOrUpdate(Feed? feed) async {
+    if (feed == null) {
       return;
     }
 
-    showLoadingDialog(title: '解析中...');
-    _feed = await parseFeed(url);
-    if (_feed == null) {
-      dismissDialog();
-      toast('unableToParseFeed'.tr);
-      return;
+    // 如果 feed 不存在，添加 feed，否则更新 feed
+    if (await Feed.isExist(feed.url)) {
+      await feed.updatePostsFeedNameAndOpenTypeAndFullText();
+    } else {
+      await feed.insertOrUpdateToDb();
     }
-    dismissDialog();
-    update(['feed']);
-    if (category != null) {
-      feed?.category = category;
-    }
-    Get.toNamed(AppRouter.editFeedPageRouter,
-        arguments: {EditFeedController.parametersFeed: feed});
+    update(['list_view']);
   }
 }

@@ -93,14 +93,10 @@ class SubscriptionPage extends StatelessWidget {
   }
 
   Widget _emptyWidget() {
-    return SliverToBoxAdapter(
-      child: Container(
-          alignment: Alignment.center,
-          padding: const EdgeInsets.only(top: 240),
-          child: Text(
-            'feedEmpty'.tr,
-            style: const TextStyle(fontSize: 22),
-          )),
-    );
+    return Center(
+        child: Text(
+      'feedEmpty'.tr,
+      style: const TextStyle(fontSize: 22),
+    ));
   }
 }

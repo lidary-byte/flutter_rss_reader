@@ -4,7 +4,6 @@ const zh = {
   "addFeed": "添加订阅",
   "settings": "设置",
   "feedUrl": "订阅源地址",
-  "enterFeedUrl": "输入订阅源地址",
   "paste": "粘贴",
   "parse": "解析",
   "editFeed": "编辑订阅",
@@ -103,5 +102,13 @@ const zh = {
   'openInBrowser': '系统浏览器打开',
   'openInNewTab': '新标签页打开',
   'import': '导入',
-  'alreadyExist': '已存在'
+  'alreadyExist': '已存在',
+  "enterFeedUrl":
+      "输入订阅源地址,支持多个订阅源(以回车分开),例如:\nhttps://baidu.com\nhttps://google.com\nhttps://bing.com",
+  'builtFeed': '内置订阅源',
+  'add': '添加',
+  'parseError': '解析异常',
+  'addSuccess': '添加成功',
+  'subscribed': '已订阅',
+  'parseing': '解析中'
 };

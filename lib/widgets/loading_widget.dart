@@ -7,14 +7,14 @@ void dismissDialog() {
   }
 }
 
-void showLoadingDialog({String title = '加载中'}) {
-  Get.dialog(LoadingWidget(loadingTitle: title));
+void showLoadingDialog() {
+  Get.dialog(LoadingWidget());
 }
 
 // ignore: must_be_immutable
 class LoadingWidget extends StatelessWidget {
-  String loadingTitle;
-  LoadingWidget({super.key, required this.loadingTitle});
+  Color? backgroudColor;
+  LoadingWidget({super.key, this.backgroudColor});
 
   @override
   Widget build(BuildContext context) {
@@ -24,9 +24,9 @@ class LoadingWidget extends StatelessWidget {
         child: Container(
             height: 100,
             width: 100,
-            color: Get.theme.colorScheme.onSurface,
+            color: backgroudColor ?? Get.theme.colorScheme.onSurface,
             child: CupertinoActivityIndicator(
-              color: Get.theme.colorScheme.surface,
+              color: Get.theme.colorScheme.primary,
               radius: 16,
             )),
       ),

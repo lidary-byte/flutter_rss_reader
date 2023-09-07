@@ -32,6 +32,13 @@ class Feed {
     return feeds.isNotEmpty;
   }
 
+  /// 根据 url 判断 Feed 是否已存在
+  static Future<Feed?> isExistToFeed(String url) async {
+    final Feed? feeds =
+        await isar.feeds.where().filter().urlEqualTo(url).findFirst();
+    return feeds;
+  }
+
   /// 根据 url 判断 Feed 是否已存在 同步方法
   static bool isExistSync(String url) {
     final List<Feed> feeds =

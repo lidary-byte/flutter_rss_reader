@@ -9,6 +9,22 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "61.0.0"
+  agconnect_clouddb:
+    dependency: "direct main"
+    description:
+      name: agconnect_clouddb
+      sha256: "59aea5c8ba120af6a0d61b129f53f60b7185c854d81ec8825b5dd08e4a7c0234"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "1.5.0+300"
+  agconnect_crash:
+    dependency: "direct main"
+    description:
+      name: agconnect_crash
+      sha256: "38338bce6bd3d7a6a2fc2ade15b71642f51cfffb5fc0a4a04783daf50cf07e79"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "1.9.0+300"
   analyzer:
     dependency: transitive
     description:
