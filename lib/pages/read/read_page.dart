@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
-import 'package:flutter_rss_reader/theme/custom_theme.dart';
+import 'package:flutter_rss_reader/theme/custom_bottom_nav_theme.dart';
 import 'package:flutter_rss_reader/utils/open_url_util.dart';
 import 'package:flutter_rss_reader/widgets/popup_menu_widget.dart';
 import 'package:flutter_rss_reader/widgets/status_page.dart';
@@ -17,7 +17,6 @@ class ReadPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         title: Text(_controller.post.feedName),
         actions: [
@@ -134,7 +133,7 @@ class ReadPage extends StatelessWidget {
                 ? Container(
                     decoration: BoxDecoration(
                       color: Get.theme
-                          .extension<CustomTheme>()!
+                          .extension<CustomBottomNavTheme>()!
                           .bottomNavigationBarBackgroundColor, // 背景颜色
                       borderRadius: BorderRadius.circular(10.0), // 圆角半径
                     ),
@@ -146,9 +145,7 @@ class ReadPage extends StatelessWidget {
                                 Get.toNamed(AppRouter.readSettingPage),
                             icon: Icon(
                               Icons.font_download_outlined,
-                              color: Get.theme
-                                  .extension<CustomTheme>()!
-                                  .activeNavigationBarColor,
+                              color: Get.theme.primaryColor,
                             )),
                         // 标记未读
                         GetBuilder<ReadController>(
@@ -159,9 +156,7 @@ class ReadPage extends StatelessWidget {
                                     _controller.post.read
                                         ? Icons.radio_button_unchecked
                                         : Icons.radio_button_checked,
-                                    color: Get.theme
-                                        .extension<CustomTheme>()!
-                                        .activeNavigationBarColor))),
+                                    color: Get.theme.primaryColor))),
                         //收藏文章
                         GetBuilder<ReadController>(
                             id: 'favorite',
@@ -171,9 +166,7 @@ class ReadPage extends StatelessWidget {
                                     _controller.post.favorite
                                         ? Icons.bookmark
                                         : Icons.bookmark_border_outlined,
-                                    color: Get.theme
-                                        .extension<CustomTheme>()!
-                                        .activeNavigationBarColor))),
+                                    color: Get.theme.primaryColor))),
                         GetBuilder<ReadController>(
                             id: 'html_cache',
                             builder: (_) => IconButton(
@@ -181,9 +174,7 @@ class ReadPage extends StatelessWidget {
                                     ? null
                                     : _controller.getHtml,
                                 icon: Icon(Icons.article_outlined,
-                                    color: Get.theme
-                                        .extension<CustomTheme>()!
-                                        .activeNavigationBarColor))),
+                                    color: Get.theme.primaryColor))),
                       ],
                     ),
                   )

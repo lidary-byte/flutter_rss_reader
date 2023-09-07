@@ -56,12 +56,14 @@ class FeedPageController extends BaseGetxController {
       updateLoadingStatus(updateIds: ['post_list']);
       bool parseFeed = await parsePosts(feed!, cancelToken: _cancelToken);
 
+      /// 如果加载失败则去load本地数据
       if (!parseFeed) {
         toast(parseFeed ? 'updateSuccess'.tr : 'updateFailed'.tr);
+        getPostListToSql();
         return;
       }
-      getPostListToSql();
     }
+    getPostListToSql();
   }
 
   void getPostListToSql({List<String> refreshIds = const ['post_list']}) async {

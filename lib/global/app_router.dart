@@ -1,4 +1,3 @@
-import 'package:flutter_rss_reader/pages/built_in_feed/built_in_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/add_feed/add_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_page.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page.dart';
@@ -69,10 +68,6 @@ abstract class AppRouter {
     GetPage(
         name: webViewPageRouter,
         page: () => WebViewPage(),
-        transition: Transition.rightToLeft),
-    GetPage(
-        name: builtInFeedPageRouter,
-        page: () => BuiltInFeedPage(),
         transition: Transition.rightToLeft),
   ];
 }

@@ -101,5 +101,7 @@ const zh = {
   'onlyUnFavorite': '只显示收藏',
   'share': '分享',
   'openInBrowser': '系统浏览器打开',
-  'openInNewTab': '新标签页打开'
+  'openInNewTab': '新标签页打开',
+  'import': '导入',
+  'alreadyExist': '已存在'
 };

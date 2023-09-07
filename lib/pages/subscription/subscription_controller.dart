@@ -7,6 +7,10 @@ class SubscriptionController extends GetxController {
   Map<String, List<Feed>> _feedListGroupByCategory = {};
   Map<String, List<Feed>> get feedListGroupByCategory =>
       _feedListGroupByCategory;
+
+  Map<int, int> _unRead = {};
+  Map<int, int> get unRead => _unRead;
+
   Stream<void>? _feedSteream;
 
   @override
@@ -18,6 +22,7 @@ class SubscriptionController extends GetxController {
     _feedSteream?.listen((_) {
       getFeedList();
     });
+    getUnreadCount();
     getFeedList();
   }
 
@@ -29,5 +34,10 @@ class SubscriptionController extends GetxController {
   void getFeedList() async {
     _feedListGroupByCategory = await Feed.groupByCategory();
     update();
+  }
+
+  /* 获取未读文章数 */
+  void getUnreadCount() async {
+    await Feed.unreadPostCount().then((value) => _unRead = value);
   }
 }

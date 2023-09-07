@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/theme/color_schemes.g.dart';
-import 'package:flutter_rss_reader/theme/custom_theme.dart';
+import 'package:flutter_rss_reader/theme/custom_bottom_nav_theme.dart';
 import 'package:flutter_rss_reader/utils/hex_color.dart';
 
 ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
@@ -9,6 +9,11 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       brightness: Brightness.light,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
+      // primaryColor: Colors.blue,
+      colorScheme: cacheDynamicColor
+          ? lightDynamic
+          : const ColorScheme.light(
+              brightness: Brightness.light, primary: Colors.blue),
       // colorScheme: cacheDynamicColor ? lightDynamic : lightColorScheme,
       // listTileTheme: const ListTileThemeData().copyWith(
       //     enableFeedback: true,
@@ -34,26 +39,20 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       bottomAppBarTheme:
           const BottomAppBarTheme().copyWith(color: Colors.white),
       extensions: [
-        CustomTheme(
-          colorLabelColor: (cacheDynamicColor && lightDynamic != null)
-              ? lightDynamic.secondaryContainer
-              : lightColorScheme.secondaryContainer,
+        CustomBottomNavTheme(
           bottomNavigationBarBackgroundColor:
               (cacheDynamicColor && lightDynamic != null)
                   ? lightDynamic.secondaryContainer
-                  : lightColorScheme.secondaryContainer,
+                  : Colors.white,
           // 选中
           activeNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
               ? lightDynamic.primary
-              : lightColorScheme.primary,
+              : Colors.blue,
           // 未选中
           notActiveNavigationBarColor:
               (cacheDynamicColor && lightDynamic != null)
                   ? lightDynamic.onBackground
                   : lightColorScheme.onBackground,
-          shadowNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
-              ? lightDynamic.secondaryContainer
-              : lightColorScheme.secondaryContainer,
         )
       ]);
 }
@@ -63,7 +62,10 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       brightness: Brightness.dark,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
-      // colorScheme: cacheDynamicColor ? darkDynamic : darkColorScheme,
+      colorScheme: cacheDynamicColor
+          ? darkDynamic
+          : const ColorScheme.light(
+              brightness: Brightness.dark, primary: Colors.blue),
       listTileTheme: const ListTileThemeData().copyWith(
           titleTextStyle: const TextStyle().copyWith(
               fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
@@ -87,26 +89,20 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       bottomAppBarTheme:
           const BottomAppBarTheme().copyWith(color: HexColor('#121212')),
       extensions: [
-        CustomTheme(
-          colorLabelColor: (cacheDynamicColor && darkDynamic != null)
-              ? darkDynamic.secondaryContainer
-              : lightColorScheme.secondaryContainer,
+        CustomBottomNavTheme(
           bottomNavigationBarBackgroundColor:
               (cacheDynamicColor && darkDynamic != null)
                   ? darkDynamic.secondaryContainer
-                  : darkColorScheme.secondaryContainer,
+                  : HexColor('#121212'),
           // 选中
           activeNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
               ? darkDynamic.primary
-              : darkColorScheme.primary,
+              : Colors.blue,
           // 未选中
           notActiveNavigationBarColor:
               (cacheDynamicColor && darkDynamic != null)
                   ? darkDynamic.onBackground
-                  : darkColorScheme.onBackground,
-          shadowNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
-              ? darkDynamic.secondaryContainer
-              : darkColorScheme.secondaryContainer,
+                  : Colors.white,
         )
       ]);
 }

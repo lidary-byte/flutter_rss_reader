@@ -1,3 +1,5 @@
+import 'package:flutter_rss_reader/models/feed.dart';
+
 class BuiltInFeedBean {
   Result? result;
 
@@ -43,6 +45,8 @@ class Items {
   String? text;
   String? url;
   List<String>? categories;
+  // 该数据源是否已存在
+  bool? isExit;
 
   Items({this.text, this.url, this.categories});
 
@@ -50,6 +54,7 @@ class Items {
     text = json['text'];
     url = json['url'];
     categories = json['categories'].cast<String>();
+    isExit = url == null ? true : Feed.isExistSync(url!);
   }
 
   Map<String, dynamic> toJson() {
@@ -57,6 +62,7 @@ class Items {
     data['text'] = text;
     data['url'] = url;
     data['categories'] = categories;
+    data['isExit'] = isExit;
     return data;
   }
 }
