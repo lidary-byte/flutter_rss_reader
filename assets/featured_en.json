@@ -1,187 +1,262 @@
-{
-    "result": {
-        "items": [
-            {
-                "text": "Business Insider",
-                "url": "https://feeds2.feedburner.com/businessinsider",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Bustle",
-                "url": "https://www.bustle.com/rss",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Dazed",
-                "url": "https://www.dazeddigital.com/rss",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Engadget is a web magazine with obsessive daily coverage of everything new in gadgets and consumer electronics",
-                "url": "https://www.engadget.com/rss-full.xml",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Fast Company",
-                "url": "https://feeds.feedburner.com/fastcompany/headlines",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Forbes - Business",
-                "url": "https://www.forbes.com/business/feed",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Forbes - Entrepreneurs",
-                "url": "https://www.forbes.com/entrepreneurs/feed",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "NYT > Business",
-                "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "NYT > Technology",
-                "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "NYT > Top Stories",
-                "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "News : NPR",
-                "url": "https://feeds.npr.org/1001/rss.xml",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Quartz",
-                "url": "https://cms.qz.com/feed",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "TechCrunch",
-                "url": "https://techcrunch.com/feed",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "The Atlantic",
-                "url": "https://feeds.feedburner.com/TheAtlantic",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "The Guardian",
-                "url": "https://www.theguardian.com/uk/rss",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "The Verge -  All Posts",
-                "url": "https://www.theverge.com/rss/full.xml",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "VICE US",
-                "url": "https://www.vice.com/en/rss?locale=en_us",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Variety",
-                "url": "https://variety.com/feed",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "VentureBeat",
-                "url": "https://venturebeat.com/feed",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Vox -  All",
-                "url": "https://www.vox.com/rss/index.xml",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "Vulture",
-                "url": "https://www.vulture.com/feeds/flipboard.rss",
-                "categories": [
-                    "News"
-                ]
-            },
-            {
-                "text": "CSS-Tricks",
-                "url": "https://css-tricks.com/feed",
-                "categories": [
-                    "WebDev"
-                ]
-            },
-            {
-                "text": "web.dev",
-                "url": "https://web.dev/feed.xml",
-                "categories": [
-                    "WebDev"
-                ]
-            },
-            {
-                "text": "Colossal",
-                "url": "https://www.thisiscolossal.com/feed",
-                "categories": []
-            },
-            {
-                "text": "Daring Fireball",
-                "url": "https://daringfireball.net/feeds/json",
-                "categories": []
-            },
-            {
-                "text": "Six Colors",
-                "url": "https://sixcolors.com/?feed=json",
-                "categories": []
-            },
-            {
-                "text": "The Loop",
-                "url": "https://www.loopinsight.com/feed",
-                "categories": []
-            }
-        ]
+[
+    {
+        "text": "Business Insider",
+        "url": "https://feeds2.feedburner.com/businessinsider",
+        "categorie": "News"
+    },
+    {
+        "text": "Bustle",
+        "url": "https://www.bustle.com/rss",
+        "categorie": "News"
+    },
+    {
+        "text": "Dazed",
+        "url": "https://www.dazeddigital.com/rss",
+        "categorie": "News"
+    },
+    {
+        "text": "Engadget is a web magazine with obsessive daily coverage of everything new in gadgets and consumer electronics",
+        "url": "https://www.engadget.com/rss-full.xml",
+        "categorie": "News"
+    },
+    {
+        "text": "Fast Company",
+        "url": "https://feeds.feedburner.com/fastcompany/headlines",
+        "categorie": "News"
+    },
+    {
+        "text": "Forbes - Business",
+        "url": "https://www.forbes.com/business/feed",
+        "categorie": "News"
+    },
+    {
+        "text": "Forbes - Entrepreneurs",
+        "url": "https://www.forbes.com/entrepreneurs/feed",
+        "categorie": "News"
+    },
+    {
+        "text": "NYT > Business",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Business.xml",
+        "categorie": "News"
+    },
+    {
+        "text": "NYT > Technology",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/Technology.xml",
+        "categorie": "News"
+    },
+    {
+        "text": "NYT > Top Stories",
+        "url": "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml",
+        "categorie": "News"
+    },
+    {
+        "text": "News : NPR",
+        "url": "https://feeds.npr.org/1001/rss.xml",
+        "categorie": "News"
+    },
+    {
+        "text": "Quartz",
+        "url": "https://cms.qz.com/feed",
+        "categorie": "News"
+    },
+    {
+        "text": "TechCrunch",
+        "url": "https://techcrunch.com/feed",
+        "categorie": "News"
+    },
+    {
+        "text": "The Atlantic",
+        "url": "https://feeds.feedburner.com/TheAtlantic",
+        "categorie": "News"
+    },
+    {
+        "text": "The Guardian",
+        "url": "https://www.theguardian.com/uk/rss",
+        "categorie": "News"
+    },
+    {
+        "text": "The Verge -  All Posts",
+        "url": "https://www.theverge.com/rss/full.xml",
+        "categorie": "News"
+    },
+    {
+        "text": "VICE US",
+        "url": "https://www.vice.com/en/rss?locale=en_us",
+        "categorie": "News"
+    },
+    {
+        "text": "Variety",
+        "url": "https://variety.com/feed",
+        "categorie": "News"
+    },
+    {
+        "text": "VentureBeat",
+        "url": "https://venturebeat.com/feed",
+        "categorie": "News"
+    },
+    {
+        "text": "Vox -  All",
+        "url": "https://www.vox.com/rss/index.xml",
+        "categorie": "News"
+    },
+    {
+        "text": "Vulture",
+        "url": "https://www.vulture.com/feeds/flipboard.rss",
+        "categorie": "News"
+    },
+    {
+        "text": "CSS-Tricks",
+        "url": "https://css-tricks.com/feed",
+        "categorie": "WebDev"
+    },
+    {
+        "text": "web.dev",
+        "url": "https://web.dev/feed.xml",
+        "categorie": "WebDev"
+    },
+    {
+        "text": "Colossal",
+        "url": "https://www.thisiscolossal.com/feed",
+        "categories": ""
+    },
+    {
+        "text": "Daring Fireball",
+        "url": "https://daringfireball.net/feeds/json",
+        "categorie": ""
+    },
+    {
+        "text": "Six Colors",
+        "url": "https://sixcolors.com/?feed=json",
+        "categorie": ""
+    },
+    {
+        "text": "The Loop",
+        "url": "https://www.loopinsight.com/feed",
+        "categorie": ""
+    },
+    {
+        "text": "BBC News Top Stories",
+        "url": "https://plink.anyfeeder.com/bbc",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News business",
+        "url": "https://plink.anyfeeder.com/bbc/business",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News education",
+        "url": "https://plink.anyfeeder.com/bbc/education",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News entertainment_and_arts",
+        "url": "https://plink.anyfeeder.com/bbc/entertainment_and_arts",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News health",
+        "url": "https://plink.anyfeeder.com/bbc/health",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News politics",
+        "url": "https://plink.anyfeeder.com/bbc/politics",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News science_and_environment",
+        "url": "https://plink.anyfeeder.com/bbc/science_and_environment",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News technology",
+        "url": "https://plink.anyfeeder.com/bbc/technology",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News uk",
+        "url": "https://plink.anyfeeder.com/bbc/uk",
+        "categorie": "英语"
+    },
+    {
+        "text": "BBC News world",
+        "url": "https://plink.anyfeeder.com/bbc/world",
+        "categorie": "英语"
+    },
+    {
+        "text": "CGTN - Editors' Pick",
+        "url": "https://plink.anyfeeder.com/cgtn/pick",
+        "categorie": "英语"
+    },
+    {
+        "text": "CGTN - Opinions",
+        "url": "https://plink.anyfeeder.com/cgtn/opinions",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: Business",
+        "url": "https://plink.anyfeeder.com/the-economist/business",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: Asia",
+        "url": "https://plink.anyfeeder.com/the-economist/asia",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: China",
+        "url": "https://plink.anyfeeder.com/the-economist/china",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: Europe",
+        "url": "https://plink.anyfeeder.com/the-economist/europe",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: Finance & economics",
+        "url": "https://plink.anyfeeder.com/the-economist/finance-and-economics",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: International",
+        "url": "https://plink.anyfeeder.com/the-economist/international",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: Latest Updates",
+        "url": "https://plink.anyfeeder.com/the-economist",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: Science & technology",
+        "url": "https://plink.anyfeeder.com/the-economist/science-and-technology",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: The Americas",
+        "url": "https://plink.anyfeeder.com/the-economist/the-americas",
+        "categorie": "英语"
+    },
+    {
+        "text": "Economist: United States",
+        "url": "https://plink.anyfeeder.com/the-economist/united-states",
+        "categorie": "英语"
+    },
+    {
+        "text": "Latest | Focus Taiwan - CNA English News",
+        "url": "https://plink.anyfeeder.com/focustaiwan",
+        "categorie": "英语"
+    },
+    {
+        "text": "Sixth Tone RSS",
+        "url": "https://plink.anyfeeder.com/sixthtone",
+        "categorie": "英语"
+    },
+    {
+        "text": "The Verge -  All Posts",
+        "url": "https://plink.anyfeeder.com/verge",
+        "categorie": "英语"
     }
-}
+]

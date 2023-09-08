@@ -106,9 +106,9 @@ const zh = {
   "enterFeedUrl":
       "输入订阅源地址,支持多个订阅源(以回车分开),例如:\nhttps://baidu.com\nhttps://google.com\nhttps://bing.com",
   'builtFeed': '内置订阅源',
-  'add': '添加',
   'parseError': '解析异常',
   'addSuccess': '添加成功',
   'subscribed': '已订阅',
-  'parseing': '解析中'
+  'parseing': '解析中',
+  'importAll': '全部导入'
 };

@@ -22,8 +22,8 @@ Future<int> parseOpml(FilePickerResult result) async {
           category.children!.map(
             (opmlOutline) async {
               if (!await Feed.isExist(opmlOutline.xmlUrl!)) {
-                Feed? feed = await parseFeed(
-                    opmlOutline.xmlUrl!, categoryName, opmlOutline.title!);
+                Feed? feed = await parseFeed(opmlOutline.xmlUrl!,
+                    categoryName: categoryName, feedName: opmlOutline.title!);
                 if (feed != null) {
                   await feed.insertOrUpdateToDb();
                 } else {

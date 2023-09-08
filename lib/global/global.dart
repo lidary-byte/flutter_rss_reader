@@ -1,6 +1,5 @@
 import 'dart:async';
 
-import 'package:agconnect_crash/agconnect_crash.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/com_constant.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
@@ -32,9 +31,4 @@ Future<void> init() async {
 
   // 初始化services
   await Get.putAsync(() => ParseFeedServices().init());
-}
-
-Future initHuawei() async {
-  FlutterError.onError = AGCCrash.instance.onFlutterError;
-  await AGCCrash.instance.enableCrashCollection(true);
 }

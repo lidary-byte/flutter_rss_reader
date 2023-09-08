@@ -1,561 +1,282 @@
-{
-    "result": {
-        "items": [
-            {
-                "text": "奇客Solidot–传递最新科技情报",
-                "url": "https://www.solidot.org/index.rss",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "知乎每日精选",
-                "url": "https://www.zhihu.com/rss",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "知乎日报",
-                "url": "https://plink.anyfeeder.com/zhihu/daily",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "少数派",
-                "url": "https://sspai.com/feed",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "SocialBeta - 首页",
-                "url": "https://plink.anyfeeder.com/socialbeta",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "iDaily 每日环球视野",
-                "url": "https://plink.anyfeeder.com/idaily/today",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "机核",
-                "url": "https://www.gcores.com/rss",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "人人都是产品经理",
-                "url": "https://plink.anyfeeder.com/woshipm/popular",
-                "categories": [
-                    "社交媒体"
-                ]
-            },
-            {
-                "text": "南方周末-推荐",
-                "url": "https://plink.anyfeeder.com/infzm/recommends",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "南方周末-新闻",
-                "url": "https://plink.anyfeeder.com/infzm/news",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "澎湃新闻 - 首页头条",
-                "url": "https://plink.anyfeeder.com/thepaper",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "今日关注 - 网易新闻",
-                "url": "https://plink.anyfeeder.com/netease/today",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "商业 - 财富中文网 - FORTUNEChina.com",
-                "url": "https://plink.anyfeeder.com/fortunechina/shangye",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "头条 - 求是网",
-                "url": "https://plink.anyfeeder.com/qstheory",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "新京报 - 好新闻，无止境",
-                "url": "https://plink.anyfeeder.com/bjnews",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "新华社新闻_新华网",
-                "url": "https://plink.anyfeeder.com/newscn/whxw",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "新闻 - SBS中文",
-                "url": "https://plink.anyfeeder.com/sbs/chinese",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "研究 - 财富中文网 - FORTUNEChina.com",
-                "url": "https://plink.anyfeeder.com/fortunechina/report",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "科技 - 财富中文网 - FORTUNEChina.com",
-                "url": "https://plink.anyfeeder.com/fortunechina/keji",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "财富中文网",
-                "url": "https://plink.anyfeeder.com/fortunechina",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "遠見 - 最新文章",
-                "url": "https://plink.anyfeeder.com/gvm/newest",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "首页头条--人民网",
-                "url": "https://plink.anyfeeder.com/people",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "Aljazeera半岛网 - 新闻",
-                "url": "https://plink.anyfeeder.com/aljazeera/news",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "《联合早报》-中港台-即时",
-                "url": "https://plink.anyfeeder.com/zaobao/realtime/china",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "《联合早报》-国际-即时",
-                "url": "https://plink.anyfeeder.com/zaobao/realtime/world",
-                "categories": [
-                    "传统媒体"
-                ]
-            },
-            {
-                "text": "数字尾巴 - 首页",
-                "url": "https://plink.anyfeeder.com/dgtle",
-                "categories": [
-                    "数码设备"
-                ]
-            },
-            {
-                "text": "超能网",
-                "url": "https://www.expreview.com/rss.php",
-                "categories": [
-                    "数码设备"
-                ]
-            },
-            {
-                "text": "爱范儿",
-                "url": "https://plink.anyfeeder.com/ifanr",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "36氪",
-                "url": "https://plink.anyfeeder.com/36kr",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "IT 之家 - IT 资讯",
-                "url": "https://plink.anyfeeder.com/ithome/it",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "MIT 科技评论 - 本周热榜",
-                "url": "https://plink.anyfeeder.com/mittrchina/hot",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "cnBeta",
-                "url": "https://plink.anyfeeder.com/cnbeta",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "品玩",
-                "url": "https://www.pingwest.com/feed",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "小众软件",
-                "url": "https://www.appinn.com/feed",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "晚晴幽草轩",
-                "url": "https://www.jeffjade.com/atom.xml",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "驱动之家新闻",
-                "url": "https://plink.anyfeeder.com/mydrivers",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "极客公园",
-                "url": "https://www.geekpark.net/rss",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "猎云网",
-                "url": "https://www.lieyunwang.com/newrss/feed.xml",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "虎嗅",
-                "url": "https://plink.anyfeeder.com/huxiu",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "软餐 - 新鲜软件资讯",
-                "url": "https://plink.anyfeeder.com/ruancan",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "钛媒体：引领未来商业与生活新知",
-                "url": "https://www.tmtpost.com/rss.xml",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "阮一峰的网络日志",
-                "url": "https://www.ruanyifeng.com/blog/atom.xml",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "雷峰网",
-                "url": "https://plink.anyfeeder.com/leiphone",
-                "categories": [
-                    "科技新闻"
-                ]
-            },
-            {
-                "text": "InfoQ推荐",
-                "url": "https://plink.anyfeeder.com/infoq/recommend",
-                "categories": [
-                    "编程"
-                ]
-            },
-            {
-                "text": "Linux 中国◆开源社区",
-                "url": "https://linux.cn/rss.xml",
-                "categories": [
-                    "编程"
-                ]
-            },
-            {
-                "text": "混沌周刊",
-                "url": "https://weekly.love/feed",
-                "categories": [
-                    "编程"
-                ]
-            },
-            {
-                "text": "潮流周刊",
-                "url": "https://weekly.tw93.fun/rss.xml",
-                "categories": [
-                    "编程"
-                ]
-            },
-            {
-                "text": "DecoHack周刊",
-                "url": "https://www.decohack.com/feed",
-                "categories": [
-                    "编程"
-                ]
-            },
-            {
-                "text": "酷 壳 – CoolShell",
-                "url": "https://coolshell.cn/feed",
-                "categories": [
-                    "编程"
-                ]
-            },
-            {
-                "text": "BBC News Top Stories",
-                "url": "https://plink.anyfeeder.com/bbc",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News business",
-                "url": "https://plink.anyfeeder.com/bbc/business",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News education",
-                "url": "https://plink.anyfeeder.com/bbc/education",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News entertainment_and_arts",
-                "url": "https://plink.anyfeeder.com/bbc/entertainment_and_arts",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News health",
-                "url": "https://plink.anyfeeder.com/bbc/health",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News politics",
-                "url": "https://plink.anyfeeder.com/bbc/politics",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News science_and_environment",
-                "url": "https://plink.anyfeeder.com/bbc/science_and_environment",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News technology",
-                "url": "https://plink.anyfeeder.com/bbc/technology",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News uk",
-                "url": "https://plink.anyfeeder.com/bbc/uk",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "BBC News world",
-                "url": "https://plink.anyfeeder.com/bbc/world",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "CGTN - Editors' Pick",
-                "url": "https://plink.anyfeeder.com/cgtn/pick",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "CGTN - Opinions",
-                "url": "https://plink.anyfeeder.com/cgtn/opinions",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: Business",
-                "url": "https://plink.anyfeeder.com/the-economist/business",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: Asia",
-                "url": "https://plink.anyfeeder.com/the-economist/asia",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: China",
-                "url": "https://plink.anyfeeder.com/the-economist/china",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: Europe",
-                "url": "https://plink.anyfeeder.com/the-economist/europe",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: Finance & economics",
-                "url": "https://plink.anyfeeder.com/the-economist/finance-and-economics",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: International",
-                "url": "https://plink.anyfeeder.com/the-economist/international",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: Latest Updates",
-                "url": "https://plink.anyfeeder.com/the-economist",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: Science & technology",
-                "url": "https://plink.anyfeeder.com/the-economist/science-and-technology",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: The Americas",
-                "url": "https://plink.anyfeeder.com/the-economist/the-americas",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Economist: United States",
-                "url": "https://plink.anyfeeder.com/the-economist/united-states",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Latest | Focus Taiwan - CNA English News",
-                "url": "https://plink.anyfeeder.com/focustaiwan",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "Sixth Tone RSS",
-                "url": "https://plink.anyfeeder.com/sixthtone",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "The Verge -  All Posts",
-                "url": "https://plink.anyfeeder.com/verge",
-                "categories": [
-                    "英语"
-                ]
-            },
-            {
-                "text": "热帖 - 雪球",
-                "url": "https://plink.anyfeeder.com/xueqiu/hot",
-                "categories": [
-                    "财经"
-                ]
-            },
-            {
-                "text": "一周口碑电影榜",
-                "url": "https://plink.anyfeeder.com/douban/movie/weekly",
-                "categories": []
-            },
-            {
-                "text": "豆瓣热门图书-虚构类",
-                "url": "https://plink.anyfeeder.com/douban/book/rank/fiction",
-                "categories": []
-            },
-            {
-                "text": "豆瓣热门图书-非虚构类",
-                "url": "https://plink.anyfeeder.com/douban/book/rank/nonfiction",
-                "categories": []
-            },
-            {
-                "text": "数字尾巴 - 鲸图 - 下载日排行",
-                "url": "https://plink.anyfeeder.com/dgtle/whale/rank/download/day",
-                "categories": []
-            },
-            {
-                "text": "抽屉新热榜",
-                "url": "https://plink.anyfeeder.com/chouti/hot",
-                "categories": []
-            },
-            {
-                "text": "维基百科优良条目供稿",
-                "url": "https://zh.wikipedia.org/w/api.php?action=featuredfeed&feed=good&feedformat=atom",
-                "categories": []
-            }
-        ]
+[
+    {
+        "text": "奇客Solidot–传递最新科技情报",
+        "url": "https://www.solidot.org/index.rss",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "知乎每日精选",
+        "url": "https://www.zhihu.com/rss",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "知乎日报",
+        "url": "https://plink.anyfeeder.com/zhihu/daily",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "少数派",
+        "url": "https://sspai.com/feed",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "SocialBeta - 首页",
+        "url": "https://plink.anyfeeder.com/socialbeta",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "iDaily 每日环球视野",
+        "url": "https://plink.anyfeeder.com/idaily/today",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "机核",
+        "url": "https://www.gcores.com/rss",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "人人都是产品经理",
+        "url": "https://plink.anyfeeder.com/woshipm/popular",
+        "categorie": "社交媒体"
+    },
+    {
+        "text": "南方周末-推荐",
+        "url": "https://plink.anyfeeder.com/infzm/recommends",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "南方周末-新闻",
+        "url": "https://plink.anyfeeder.com/infzm/news",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "澎湃新闻 - 首页头条",
+        "url": "https://plink.anyfeeder.com/thepaper",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "今日关注 - 网易新闻",
+        "url": "https://plink.anyfeeder.com/netease/today",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "商业 - 财富中文网 - FORTUNEChina.com",
+        "url": "https://plink.anyfeeder.com/fortunechina/shangye",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "头条 - 求是网",
+        "url": "https://plink.anyfeeder.com/qstheory",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "新京报 - 好新闻，无止境",
+        "url": "https://plink.anyfeeder.com/bjnews",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "新华社新闻_新华网",
+        "url": "https://plink.anyfeeder.com/newscn/whxw",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "新闻 - SBS中文",
+        "url": "https://plink.anyfeeder.com/sbs/chinese",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "研究 - 财富中文网 - FORTUNEChina.com",
+        "url": "https://plink.anyfeeder.com/fortunechina/report",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "科技 - 财富中文网 - FORTUNEChina.com",
+        "url": "https://plink.anyfeeder.com/fortunechina/keji",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "财富中文网",
+        "url": "https://plink.anyfeeder.com/fortunechina",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "遠見 - 最新文章",
+        "url": "https://plink.anyfeeder.com/gvm/newest",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "首页头条--人民网",
+        "url": "https://plink.anyfeeder.com/people",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "Aljazeera半岛网 - 新闻",
+        "url": "https://plink.anyfeeder.com/aljazeera/news",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "《联合早报》-中港台-即时",
+        "url": "https://plink.anyfeeder.com/zaobao/realtime/china",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "《联合早报》-国际-即时",
+        "url": "https://plink.anyfeeder.com/zaobao/realtime/world",
+        "categorie": "传统媒体"
+    },
+    {
+        "text": "数字尾巴 - 首页",
+        "url": "https://plink.anyfeeder.com/dgtle",
+        "categorie": "数码设备"
+    },
+    {
+        "text": "超能网",
+        "url": "https://www.expreview.com/rss.php",
+        "categorie": "数码设备"
+    },
+    {
+        "text": "爱范儿",
+        "url": "https://plink.anyfeeder.com/ifanr",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "36氪",
+        "url": "https://plink.anyfeeder.com/36kr",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "IT 之家 - IT 资讯",
+        "url": "https://plink.anyfeeder.com/ithome/it",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "MIT 科技评论 - 本周热榜",
+        "url": "https://plink.anyfeeder.com/mittrchina/hot",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "cnBeta",
+        "url": "https://plink.anyfeeder.com/cnbeta",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "品玩",
+        "url": "https://www.pingwest.com/feed",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "小众软件",
+        "url": "https://www.appinn.com/feed",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "晚晴幽草轩",
+        "url": "https://www.jeffjade.com/atom.xml",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "驱动之家新闻",
+        "url": "https://plink.anyfeeder.com/mydrivers",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "极客公园",
+        "url": "https://www.geekpark.net/rss",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "猎云网",
+        "url": "https://www.lieyunwang.com/newrss/feed.xml",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "虎嗅",
+        "url": "https://plink.anyfeeder.com/huxiu",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "软餐 - 新鲜软件资讯",
+        "url": "https://plink.anyfeeder.com/ruancan",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "钛媒体：引领未来商业与生活新知",
+        "url": "https://www.tmtpost.com/rss.xml",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "阮一峰的网络日志",
+        "url": "https://www.ruanyifeng.com/blog/atom.xml",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "雷峰网",
+        "url": "https://plink.anyfeeder.com/leiphone",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "InfoQ推荐",
+        "url": "https://plink.anyfeeder.com/infoq/recommend",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "Linux 中国◆开源社区",
+        "url": "https://linux.cn/rss.xml",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "混沌周刊",
+        "url": "https://weekly.love/feed",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "潮流周刊",
+        "url": "https://weekly.tw93.fun/rss.xml",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "DecoHack周刊",
+        "url": "https://www.decohack.com/feed",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "酷 壳 – CoolShell",
+        "url": "https://coolshell.cn/feed",
+        "categorie": "科技新闻"
+    },
+    {
+        "text": "热帖 - 雪球",
+        "url": "https://plink.anyfeeder.com/xueqiu/hot",
+        "categorie":"财经"
+    },
+    {
+        "text": "一周口碑电影榜",
+        "url": "https://plink.anyfeeder.com/douban/movie/weekly",
+        "categorie": ""
+    },
+    {
+        "text": "豆瓣热门图书-虚构类",
+        "url": "https://plink.anyfeeder.com/douban/book/rank/fiction",
+        "categorie": ""
+    },
+    {
+        "text": "豆瓣热门图书-非虚构类",
+        "url": "https://plink.anyfeeder.com/douban/book/rank/nonfiction",
+        "categorie": ""
+    },
+    {
+        "text": "数字尾巴 - 鲸图 - 下载日排行",
+        "url": "https://plink.anyfeeder.com/dgtle/whale/rank/download/day",
+        "categorie": ""
+    },
+    {
+        "text": "抽屉新热榜",
+        "url": "https://plink.anyfeeder.com/chouti/hot",
+        "categorie": ""
+    },
+    {
+        "text": "维基百科优良条目供稿",
+        "url": "https://zh.wikipedia.org/w/api.php?action=featuredfeed&feed=good&feedformat=atom",
+        "categorie": ""
     }
-}
+]

@@ -58,7 +58,7 @@ class AddFeedPage extends StatelessWidget {
                   FocusScope.of(context).requestFocus(FocusNode()); // 收起键盘
                   _controller.parseUrlString();
                 },
-                child: Text('add'.tr),
+                child: Text('import'.tr),
               ),
             ],
           ),

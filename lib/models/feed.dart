@@ -40,10 +40,10 @@ class Feed {
   }
 
   /// 根据 url 判断 Feed 是否已存在 同步方法
-  static bool isExistSync(String url) {
-    final List<Feed> feeds =
-        isar.feeds.where().filter().urlEqualTo(url).findAllSync();
-    return feeds.isNotEmpty;
+  static Feed? isExistSync(String url) {
+    final Feed? feed =
+        isar.feeds.where().filter().urlEqualTo(url).findFirstSync();
+    return feed;
   }
 
   /// 查询所有 Feed 并按分类分组

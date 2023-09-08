@@ -2,17 +2,21 @@ import 'package:dio/dio.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/webfeed/domain/atom_feed.dart';
 import 'package:flutter_rss_reader/webfeed/domain/rss_feed.dart';
+import 'package:get/get.dart';
 
 /// 解析订阅源
 /// 参数：订阅源地址
 /// 返回：[Feed] 对象
 /// 注意：同时考虑 RSS 和 Atom 格式
 Future<Feed?> parseFeed(
-  String url, [
+  String url, {
   String? categoryName,
   String? feedName,
-]) async {
-  categoryName ??= '默认分类';
+}) async {
+  if (categoryName.isBlank == true) {
+    categoryName ?? '默认分类';
+  }
+
   try {
     final response = await Dio().get(url);
     final postXmlString = response.data;
@@ -24,7 +28,7 @@ Future<Feed?> parseFeed(
         name: feedName ?? '',
         url: url,
         description: rssFeed.description ?? '',
-        category: categoryName,
+        category: categoryName!,
         fullText: false,
         openType: 0,
       );
@@ -35,7 +39,7 @@ Future<Feed?> parseFeed(
         name: atomFeed.title ?? '',
         url: url,
         description: atomFeed.subtitle ?? '',
-        category: categoryName,
+        category: categoryName!,
         fullText: false,
         openType: 0,
       );

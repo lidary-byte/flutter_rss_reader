@@ -1,7 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/models/built_in_feed_bean.dart';
+import 'package:flutter_rss_reader/models/parse_help_bean.dart';
 import 'package:flutter_rss_reader/pages/built_in_feed/built_in_feed_controller.dart';
+import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/utils/hex_color.dart';
+import 'package:flutter_rss_reader/widgets/list_section.dart';
+import 'package:flutter_rss_reader/widgets/loading_widget.dart';
 import 'package:get/get.dart';
 
 /// 内置订阅源页面
@@ -13,19 +18,25 @@ class BuiltInFeedPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2, // 设置选项卡的数量
+      length: 2,
       child: Scaffold(
         appBar: AppBar(
           title: Text('builtFeed'.tr),
-          bottom: const TabBar(
-            tabs: [
+          bottom: TabBar(
+            controller: _controller.tabController,
+            tabs: const [
               Tab(text: '中文'),
               Tab(text: '英文'),
             ],
           ),
+          actions: [
+            TextButton(
+                onPressed: _controller.parseAll, child: Text('importAll'.tr))
+          ],
         ),
         body: SafeArea(
           child: TabBarView(
+            controller: _controller.tabController,
             children: [
               GetBuilder<BuiltInFeedController>(
                   id: 'data_zh',
@@ -40,7 +51,7 @@ class BuiltInFeedPage extends StatelessWidget {
     );
   }
 
-  ListView _childTabWidget(List<Items> data) => ListView.separated(
+  ListView _childTabWidget(List<BuiltInFeedBean> data) => ListView.separated(
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         padding: const EdgeInsets.all(12),
         itemBuilder: (context, index) {
@@ -58,53 +69,44 @@ class BuiltInFeedPage extends StatelessWidget {
         },
         itemCount: data.length,
       );
-  Widget _builtFeedWidget(Items item) => Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    item.text ?? '',
-                    style: const TextStyle(fontSize: 16),
-                  ),
-                  const SizedBox(height: 4),
-                  Text(
-                    item.url ?? '',
-                    style: TextStyle(fontSize: 12, color: HexColor('#8D8D8D')),
-                  ),
-                  const SizedBox(height: 6),
-                  if (item.categories?.isNotEmpty == true)
-                    Container(
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 0.5),
-                          borderRadius:
-                              const BorderRadius.all(Radius.circular(14))),
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 2),
-                        child: Text(
-                          item.categories?[0] ?? '',
-                          style: const TextStyle(fontSize: 12),
-                        ),
-                      ),
-                    )
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
-            if (item.isExit == true)
-              Text(
-                'alreadyExist'.tr,
-                style: const TextStyle(color: Colors.grey),
-              ),
-            IconButton(
-              icon: const Icon(Icons.navigate_next),
-              onPressed: item.isExit == true ? null : () {},
-            )
-          ],
+
+  Widget _builtFeedWidget(BuiltInFeedBean item) {
+    Widget? trailing;
+    if (item.isExit == true) {
+      trailing = Icon(Icons.check, color: Get.theme.colorScheme.primary);
+    } else if (item.parseStatus == ParseStatus.error) {
+      trailing = const Icon(Icons.close_outlined, color: Colors.red);
+    } else if (item.parseStatus == ParseStatus.success) {
+      trailing = Icon(Icons.check, color: Get.theme.colorScheme.primary);
+    } else if (item.parseStatus == ParseStatus.isExist) {
+      // 已存在暂时的也算添加成功
+      trailing = Icon(Icons.check, color: Get.theme.colorScheme.primary);
+    } else if (item.parseStatus == ParseStatus.loading) {
+      trailing = SizedBox(
+        width: 24,
+        height: 24,
+        child: LoadingWidget(
+          backgroudColor: Colors.transparent,
         ),
       );
+    } else {
+      trailing = null;
+    }
+    return Card(
+        child: SectionChild(
+      title: (item.feed?.name ?? item.text) ?? '',
+      titleStyle: item.parseStatus == ParseStatus.error
+          ? TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.bold,
+              color: HexColor('#8D8D8D'))
+          : null,
+      subTitle: item.feed?.description ?? item.categorie,
+      onTap: item.feed == null
+          ? null
+          : () => Get.toNamed(AppRouter.editFeedPageRouter,
+              arguments: {EditFeedController.parametersFeed: item.feed}),
+      trailing: trailing,
+    ));
+  }
 }

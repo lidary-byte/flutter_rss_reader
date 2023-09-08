@@ -1,68 +1,40 @@
+import 'dart:convert';
+
 import 'package:flutter_rss_reader/models/feed.dart';
+import 'package:flutter_rss_reader/models/parse_help_bean.dart';
 
 class BuiltInFeedBean {
-  Result? result;
-
-  BuiltInFeedBean({this.result});
-
-  BuiltInFeedBean.fromJson(Map<String, dynamic> json) {
-    result = json['result'] != null ? Result.fromJson(json['result']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    if (result != null) {
-      data['result'] = result!.toJson();
-    }
-    return data;
-  }
-}
-
-class Result {
-  List<Items>? items;
-
-  Result({this.items});
-
-  Result.fromJson(Map<String, dynamic> json) {
-    if (json['items'] != null) {
-      items = <Items>[];
-      json['items'].forEach((v) {
-        items!.add(Items.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = {};
-    if (items != null) {
-      data['items'] = items!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Items {
   String? text;
   String? url;
-  List<String>? categories;
+  String? categorie;
   // 该数据源是否已存在
   bool? isExit;
+  ParseStatus? parseStatus;
+  Feed? feed;
 
-  Items({this.text, this.url, this.categories});
+  BuiltInFeedBean({this.text, this.url, this.categorie});
 
-  Items.fromJson(Map<String, dynamic> json) {
+  BuiltInFeedBean.fromJson(Map<String, dynamic> json) {
     text = json['text'];
     url = json['url'];
-    categories = json['categories'].cast<String>();
-    isExit = url == null ? true : Feed.isExistSync(url!);
+    categorie = json['categorie'];
+    feed = Feed.isExistSync(url!);
+    isExit = feed != null;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     data['text'] = text;
     data['url'] = url;
-    data['categories'] = categories;
+    data['categorie'] = categorie;
     data['isExit'] = isExit;
     return data;
   }
+
+  static List<BuiltInFeedBean> fromJsonList(String str) =>
+      List<BuiltInFeedBean>.from(
+          json.decode(str).map((x) => BuiltInFeedBean.fromJson(x)));
+
+  static String toJsonString(List<BuiltInFeedBean> data) =>
+      json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 }
