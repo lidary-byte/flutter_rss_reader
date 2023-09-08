@@ -45,6 +45,7 @@ class ThemeSettingPage extends StatelessWidget {
                     title: 'openDynamicColor'.tr,
                     subTitle: 'dynamicColorFromWallpaper'.tr,
                     trailing: CupertinoSwitch(
+                      activeColor: Get.theme.primaryColor,
                       value: cacheDynamicColor,
                       onChanged: Platform.isAndroid
                           ? _controller.changeDynamicColor

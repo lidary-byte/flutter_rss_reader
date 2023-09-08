@@ -14,7 +14,7 @@ Future<Feed?> parseFeed(
   String? feedName,
 }) async {
   if (categoryName.isBlank == true) {
-    categoryName ?? '默认分类';
+    categoryName = '默认分类';
   }
 
   try {

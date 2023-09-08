@@ -27,7 +27,7 @@ class LanguageSettingPage extends StatelessWidget {
                 id: 'language',
                 builder: (_) => SectionChild(
                       title: languageMap[e] ?? '',
-                      trailing: Radio.adaptive(
+                      trailing: CupertinoRadio(
                         value: e,
                         groupValue: cacheLaunage,
                         onChanged: null,

@@ -9,7 +9,7 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       brightness: Brightness.light,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
-      // primaryColor: Colors.blue,
+      primaryColor: Colors.blue,
       colorScheme: cacheDynamicColor
           ? lightDynamic
           : const ColorScheme.light(
@@ -62,17 +62,18 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       brightness: Brightness.dark,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
+      primaryColor: Colors.blue,
       colorScheme: cacheDynamicColor
           ? darkDynamic
-          : const ColorScheme.light(
+          : const ColorScheme.dark(
               brightness: Brightness.dark, primary: Colors.blue),
-      listTileTheme: const ListTileThemeData().copyWith(
-          titleTextStyle: const TextStyle().copyWith(
-              fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
-          subtitleTextStyle: const TextStyle().copyWith(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: HexColor('#8D8D8D'))),
+      // listTileTheme: const ListTileThemeData().copyWith(
+      //     titleTextStyle: const TextStyle().copyWith(
+      //         fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
+      //     subtitleTextStyle: const TextStyle().copyWith(
+      //         fontSize: 10,
+      //         fontWeight: FontWeight.bold,
+      //         color: HexColor('#8D8D8D'))),
       dividerTheme:
           const DividerThemeData().copyWith(color: HexColor('#8D8D8D')),
       scaffoldBackgroundColor: HexColor('#010101'),
