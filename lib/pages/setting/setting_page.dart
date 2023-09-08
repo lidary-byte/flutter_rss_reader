@@ -84,7 +84,7 @@ class SettingPage extends StatelessWidget {
   Widget _fontWidget() => GetBuilder<GlobalController>(
       builder: (_) => SectionChild(
             icon: Icons.font_download_outlined,
-            iconColor: Colors.blue,
+            iconColor: Colors.purple,
             title: 'globalFont'.tr,
             subTitle: cacheThemeFont.split('.').first == '默认字体'
                 ? 'defaultFont'.tr
@@ -111,7 +111,7 @@ class SettingPage extends StatelessWidget {
       id: 'language',
       builder: (_) => SectionChild(
           icon: Icons.translate_outlined,
-          iconColor: Colors.blue,
+          iconColor: Colors.orange,
           title: 'languageSetting'.tr,
           subTitle: {
                 '': 'systemLanguage'.tr,
