@@ -8,4 +8,4 @@ class ParseHelpBean {
   ParseHelpBean({this.parseStatus, this.categorie, this.url, this.feed});
 }
 
-enum ParseStatus { loading, success, isExist, error }
+enum ParseStatus { loading, error }

@@ -25,15 +25,13 @@ class ThemeSettingPage extends StatelessWidget {
               children: themeMode
                   .map((e) => GetBuilder<GlobalController>(
                       id: 'theme',
-                      builder: (_) => SectionChild(
-                            title: e,
-                            trailing: CupertinoRadio(
-                              value: themeMode.indexOf(e),
-                              groupValue: cacheThemeIndex,
-                              onChanged: null,
-                            ),
-                            onTap: () => _controller
+                      builder: (_) => RadioListTile.adaptive(
+                            activeColor: Get.theme.primaryColor,
+                            title: Text(e),
+                            onChanged: (value) => _controller
                                 .changeThemeIndex(themeMode.indexOf(e)),
+                            value: themeMode.indexOf(e),
+                            groupValue: cacheThemeIndex,
                           )))
                   .toList(),
             ),
@@ -44,7 +42,7 @@ class ThemeSettingPage extends StatelessWidget {
                   SectionChild(
                     title: 'openDynamicColor'.tr,
                     subTitle: 'dynamicColorFromWallpaper'.tr,
-                    trailing: CupertinoSwitch(
+                    trailing: Switch.adaptive(
                       activeColor: Get.theme.primaryColor,
                       value: cacheDynamicColor,
                       onChanged: Platform.isAndroid

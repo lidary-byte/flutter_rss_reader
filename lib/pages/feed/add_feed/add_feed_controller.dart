@@ -1,20 +1,22 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rss_reader/models/feed.dart';
-import 'package:flutter_rss_reader/models/parse_help_bean.dart';
-import 'package:flutter_rss_reader/utils/parse_feed_util.dart';
+import 'package:flutter_rss_reader/models/built_in_feed_bean.dart';
+import 'package:flutter_rss_reader/services/parse_feed_services.dart';
+import 'package:flutter_rss_reader/utils/clip_util.dart';
 import 'package:get/get.dart';
 
 class AddFeedController extends GetxController {
   final TextEditingController _urlController = TextEditingController();
   TextEditingController get urlController => _urlController;
 
-  List<ParseHelpBean>? _parseHelp;
-  List<ParseHelpBean> get parseHelp => _parseHelp ?? [];
+  List<BuiltInFeedBean>? _parseHelp;
+  List<BuiltInFeedBean> get parseHelp => _parseHelp ?? [];
+
+  final _parseService = Get.find<ParseFeedServices>();
 
   ///  从剪贴板获取订阅源地址，光标移到末尾
   void clipBoard() async {
-    final value = (await Clipboard.getData('text/plain'))?.text;
+    final value = await ClipUtil.getClipboardData();
     if (value != null && value.isBlank == false) {
       _urlController.text = value;
       _urlController.selection = TextSelection.fromPosition(
@@ -32,52 +34,19 @@ class AddFeedController extends GetxController {
     RegExp regExp = RegExp(r'https?://[^\s]+');
     _parseHelp = regExp
         .allMatches(url)
-        .map((match) => ParseHelpBean(
-            url: match.group(0)!, parseStatus: ParseStatus.loading))
+        .map((match) => BuiltInFeedBean(url: match.group(0)!))
         .where(
             (element) => element.url != null && element.url?.isBlank == false)
         .toList();
-    update(['list_view']);
-    _parseList();
+    _parseService.parseFeedUrlList(_parseHelp, onRefresh: (data) {
+      _parseHelp = data;
+      update(['list_view']);
+    });
   }
 
-  void _parseList() async {
-    if (_parseHelp?.isEmpty == true) {
-      return;
-    }
-    for (int i = 0; i < _parseHelp!.length; i++) {
-      final item = _parseHelp![i];
-      final url = item.url ?? '';
-      final localFeed = await Feed.isExistToFeed(url);
-      if (localFeed != null) {
-        item.parseStatus = ParseStatus.isExist;
-        item.feed = localFeed;
-        update(['list_view']);
-        continue;
-      }
-      final feed = await parseFeed(url);
-      if (feed == null) {
-        item.parseStatus = ParseStatus.error;
-        update(['list_view']);
-        continue;
-      }
-      item.parseStatus = ParseStatus.success;
-      item.feed = feed;
-      _saveOrUpdate(feed);
-    }
-  }
-
-  void _saveOrUpdate(Feed? feed) async {
-    if (feed == null) {
-      return;
-    }
-
-    // 如果 feed 不存在，添加 feed，否则更新 feed
-    if (await Feed.isExist(feed.url)) {
-      await feed.updatePostsFeedNameAndOpenTypeAndFullText();
-    } else {
-      await feed.insertOrUpdateToDb();
-    }
-    update(['list_view']);
+  void parseBuiltInFeed(BuiltInFeedBean? bean) {
+    _parseService.parseFeedItem(bean, onRefresh: (data) {
+      update(['list_view']);
+    });
   }
 }

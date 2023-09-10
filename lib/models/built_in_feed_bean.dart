@@ -8,7 +8,7 @@ class BuiltInFeedBean {
   String? url;
   String? categorie;
   // 该数据源是否已存在
-  bool? isExit;
+  // bool? isExit;
   ParseStatus? parseStatus;
   Feed? feed;
 
@@ -19,7 +19,7 @@ class BuiltInFeedBean {
     url = json['url'];
     categorie = json['categorie'];
     feed = Feed.isExistSync(url!);
-    isExit = feed != null;
+    // isExit = feed != null;
   }
 
   Map<String, dynamic> toJson() {
@@ -27,7 +27,7 @@ class BuiltInFeedBean {
     data['text'] = text;
     data['url'] = url;
     data['categorie'] = categorie;
-    data['isExit'] = isExit;
+    // data['isExit'] = isExit;
     return data;
   }
 

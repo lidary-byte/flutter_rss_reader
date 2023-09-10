@@ -9,26 +9,19 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
       brightness: Brightness.light,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
-      primaryColor: Colors.blue,
+      primaryColor: Colors.orange,
       colorScheme: cacheDynamicColor
           ? lightDynamic
           : const ColorScheme.light(
-              brightness: Brightness.light, primary: Colors.blue),
-      // colorScheme: cacheDynamicColor ? lightDynamic : lightColorScheme,
-      // listTileTheme: const ListTileThemeData().copyWith(
-      //     enableFeedback: true,
-      //     titleTextStyle: const TextStyle().copyWith(
-      //         fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
-      //     subtitleTextStyle: const TextStyle().copyWith(
-      //         fontSize: 10,
-      //         fontWeight: FontWeight.bold,
-      //         color: HexColor('#8D8D8D'))),
+              brightness: Brightness.light, primary: Colors.orange),
       cardTheme: const CardTheme().copyWith(
         color: Colors.white,
         elevation: 0,
         margin: const EdgeInsets.all(0),
         clipBehavior: Clip.hardEdge,
       ),
+      popupMenuTheme: const PopupMenuThemeData()
+          .copyWith(elevation: 0, color: HexColor('#F5F5F5')),
       dividerTheme:
           const DividerThemeData().copyWith(color: HexColor('#8D8D8D')),
       scaffoldBackgroundColor: HexColor('#F5F5F5'),
@@ -47,7 +40,7 @@ ThemeData lightTheme(BuildContext context, ColorScheme? lightDynamic) {
           // 选中
           activeNavigationBarColor: (cacheDynamicColor && lightDynamic != null)
               ? lightDynamic.primary
-              : Colors.blue,
+              : Colors.orange,
           // 未选中
           notActiveNavigationBarColor:
               (cacheDynamicColor && lightDynamic != null)
@@ -62,18 +55,11 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       brightness: Brightness.dark,
       useMaterial3: true,
       fontFamily: cacheThemeFont,
-      primaryColor: Colors.blue,
+      primaryColor: Colors.orange,
       colorScheme: cacheDynamicColor
           ? darkDynamic
           : const ColorScheme.dark(
-              brightness: Brightness.dark, primary: Colors.blue),
-      // listTileTheme: const ListTileThemeData().copyWith(
-      //     titleTextStyle: const TextStyle().copyWith(
-      //         fontSize: 14, fontWeight: FontWeight.bold, color: Colors.white),
-      //     subtitleTextStyle: const TextStyle().copyWith(
-      //         fontSize: 10,
-      //         fontWeight: FontWeight.bold,
-      //         color: HexColor('#8D8D8D'))),
+              brightness: Brightness.dark, primary: Colors.orange),
       dividerTheme:
           const DividerThemeData().copyWith(color: HexColor('#8D8D8D')),
       scaffoldBackgroundColor: HexColor('#010101'),
@@ -89,6 +75,8 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
       ),
       bottomAppBarTheme:
           const BottomAppBarTheme().copyWith(color: HexColor('#121212')),
+      popupMenuTheme: const PopupMenuThemeData()
+          .copyWith(elevation: 0, color: HexColor('#121212')),
       extensions: [
         CustomBottomNavTheme(
           bottomNavigationBarBackgroundColor:
@@ -98,7 +86,7 @@ ThemeData darkTheme(BuildContext context, ColorScheme? darkDynamic) {
           // 选中
           activeNavigationBarColor: (cacheDynamicColor && darkDynamic != null)
               ? darkDynamic.primary
-              : Colors.blue,
+              : Colors.orange,
           // 未选中
           notActiveNavigationBarColor:
               (cacheDynamicColor && darkDynamic != null)

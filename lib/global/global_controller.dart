@@ -54,9 +54,9 @@ class GlobalController extends GetxController {
     update();
   }
 
-  void changeDynamicColor(bool dynamicColor) async {
-    await prefs.setBool(ComConstant.spKeyDynamicColor, dynamicColor);
-    cacheDynamicColor = dynamicColor;
+  void changeDynamicColor(bool? dynamicColor) async {
+    await prefs.setBool(ComConstant.spKeyDynamicColor, dynamicColor ?? false);
+    cacheDynamicColor = dynamicColor ?? false;
     update();
   }
 

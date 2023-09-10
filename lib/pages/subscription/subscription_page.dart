@@ -16,8 +16,32 @@ class SubscriptionPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('aRead'.tr),
         actions: [
-          IconButton(
-              onPressed: _controller.toAddFeedPage, icon: const Icon(Icons.add))
+          PopupMenuButton(
+            position: PopupMenuPosition.under,
+            itemBuilder: (context) => [
+              // 内置订阅源
+              PopupMenuItem(
+                onTap: () => Get.toNamed(AppRouter.builtInFeedPageRouter),
+                child: Row(
+                  children: [
+                    const Icon(Icons.inbox),
+                    const SizedBox(width: 8),
+                    Text('builtFeed'.tr)
+                  ],
+                ),
+              ),
+              PopupMenuItem(
+                onTap: _controller.toAddFeedPage,
+                child: Row(
+                  children: [
+                    const Icon(Icons.add),
+                    const SizedBox(width: 8),
+                    Text('addFeed'.tr)
+                  ],
+                ),
+              ),
+            ],
+          )
         ],
       ),
       body: SafeArea(

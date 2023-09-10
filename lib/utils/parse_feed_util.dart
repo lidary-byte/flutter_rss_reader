@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/webfeed/domain/atom_feed.dart';
 import 'package:flutter_rss_reader/webfeed/domain/rss_feed.dart';
@@ -13,7 +14,7 @@ Future<Feed?> parseFeed(
   String? categoryName,
   String? feedName,
 }) async {
-  if (categoryName.isBlank == true) {
+  if (categoryName == null || categoryName.isBlank == true) {
     categoryName = '默认分类';
   }
 
@@ -28,23 +29,25 @@ Future<Feed?> parseFeed(
         name: feedName ?? '',
         url: url,
         description: rssFeed.description ?? '',
-        category: categoryName!,
+        category: categoryName,
         fullText: false,
         openType: 0,
       );
     } catch (e) {
+      debugPrint('rss解析异常:$e');
       /* 使用 Atom 格式解析 */
       final AtomFeed atomFeed = AtomFeed.parse(postXmlString);
       return Feed(
         name: atomFeed.title ?? '',
         url: url,
         description: atomFeed.subtitle ?? '',
-        category: categoryName!,
+        category: categoryName,
         fullText: false,
         openType: 0,
       );
     }
   } catch (e) {
+    debugPrint('rss解析异常:$e');
     return null;
   }
 }

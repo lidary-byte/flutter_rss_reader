@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/utils/hex_color.dart';
@@ -118,14 +120,19 @@ class SectionChild extends StatelessWidget {
                 titleWidget == null
                     ? Text(title ?? '',
                         style: titleStyle ??
-                            const TextStyle(
-                                fontSize: 14, fontWeight: FontWeight.bold))
+                            TextStyle(
+                                fontSize: 14,
+                                fontWeight: Platform.isIOS
+                                    ? FontWeight.normal
+                                    : FontWeight.bold))
                     : titleWidget!,
                 if (subTitle != null)
                   Text(subTitle!,
                       style: TextStyle(
                           fontSize: 10,
-                          fontWeight: FontWeight.bold,
+                          fontWeight: Platform.isIOS
+                              ? FontWeight.normal
+                              : FontWeight.bold,
                           color: HexColor('#8D8D8D')))
               ],
             )),

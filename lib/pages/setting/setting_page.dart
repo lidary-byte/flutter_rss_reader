@@ -111,7 +111,7 @@ class SettingPage extends StatelessWidget {
       id: 'language',
       builder: (_) => SectionChild(
           icon: Icons.translate_outlined,
-          iconColor: Colors.orange,
+          iconColor: Colors.blue,
           title: 'languageSetting'.tr,
           subTitle: {
                 '': 'systemLanguage'.tr,

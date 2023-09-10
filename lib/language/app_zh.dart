@@ -110,5 +110,6 @@ const zh = {
   'addSuccess': '添加成功',
   'subscribed': '已订阅',
   'parseing': '解析中',
-  'importAll': '全部导入'
+  'importAll': '全部导入',
+  'copySuccess': '复制成功'
 };

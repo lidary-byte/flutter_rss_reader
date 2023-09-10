@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/models/parse_help_bean.dart';
 import 'package:flutter_rss_reader/pages/feed/add_feed/add_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/utils/hex_color.dart';
+import 'package:flutter_rss_reader/widgets/button.dart';
+import 'package:flutter_rss_reader/widgets/feed_parse_status_widget.dart';
 import 'package:flutter_rss_reader/widgets/list_section.dart';
-import 'package:flutter_rss_reader/widgets/loading_widget.dart';
 import 'package:get/get.dart';
 
 class AddFeedPage extends StatelessWidget {
@@ -30,38 +30,44 @@ class AddFeedPage extends StatelessWidget {
             child: TextField(
               maxLines: null,
               keyboardType: TextInputType.multiline,
-              autofocus: true,
+              // autofocus: true,
               minLines: 5,
               controller: _controller.urlController,
+
               decoration: InputDecoration(
                   constraints: const BoxConstraints(maxHeight: 200),
                   enabledBorder: OutlineInputBorder(
                       borderSide:
                           BorderSide(color: HexColor('#8D8D8D'), width: 1)),
-                  focusedBorder: const OutlineInputBorder(),
+                  focusedBorder: OutlineInputBorder(
+                      borderSide:
+                          BorderSide(color: Get.theme.primaryColor, width: 1)),
                   contentPadding:
                       const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
                   hintText: 'enterFeedUrl'.tr,
                   hintMaxLines: 10),
             ),
           ),
+          const SizedBox(height: 24),
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              TextButton(
-                onPressed: _controller.clipBoard,
-                child: Text('paste'.tr),
+              Button(
+                onTap: _controller.clipBoard,
+                text: 'paste'.tr,
               ),
               const SizedBox(width: 24),
-              TextButton(
-                onPressed: () {
+              Button(
+                onTap: () {
                   FocusScope.of(context).requestFocus(FocusNode()); // 收起键盘
                   _controller.parseUrlString();
                 },
-                child: Text('import'.tr),
+                text: 'import'.tr,
               ),
+              const SizedBox(width: 24),
             ],
           ),
+          const SizedBox(height: 24),
           Expanded(
               child: GetBuilder<AddFeedController>(
                   id: 'list_view',
@@ -72,26 +78,6 @@ class AddFeedPage extends StatelessWidget {
                         itemBuilder: (context, index) {
                           final item = _controller.parseHelp[index];
 
-                          Widget trailing;
-                          if (item.parseStatus == ParseStatus.error) {
-                            trailing = const Icon(Icons.close_outlined,
-                                color: Colors.red);
-                          } else if (item.parseStatus == ParseStatus.success) {
-                            trailing = Icon(Icons.check,
-                                color: Get.theme.colorScheme.primary);
-                          } else if (item.parseStatus == ParseStatus.isExist) {
-                            // 已存在暂时的也算添加成功
-                            trailing = Icon(Icons.check,
-                                color: Get.theme.colorScheme.primary);
-                          } else {
-                            trailing = SizedBox(
-                              width: 24,
-                              height: 24,
-                              child: LoadingWidget(
-                                backgroudColor: Colors.transparent,
-                              ),
-                            );
-                          }
                           return Card(
                               child: SectionChild(
                             title: (item.feed?.name ?? item.url) ?? '',
@@ -110,7 +96,12 @@ class AddFeedPage extends StatelessWidget {
                                           EditFeedController.parametersFeed:
                                               item.feed
                                         }),
-                            trailing: trailing,
+                            trailing: FeedParseStatusWidget(
+                              item: item,
+                              onImport: () =>
+                                  _controller.parseBuiltInFeed(item),
+                              onError: () => _controller.parseBuiltInFeed(item),
+                            ),
                           ));
                         },
                         itemCount: _controller.parseHelp.length,

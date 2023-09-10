@@ -5,8 +5,8 @@ import 'package:flutter_rss_reader/models/parse_help_bean.dart';
 import 'package:flutter_rss_reader/pages/built_in_feed/built_in_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/utils/hex_color.dart';
+import 'package:flutter_rss_reader/widgets/feed_parse_status_widget.dart';
 import 'package:flutter_rss_reader/widgets/list_section.dart';
-import 'package:flutter_rss_reader/widgets/loading_widget.dart';
 import 'package:get/get.dart';
 
 /// 内置订阅源页面
@@ -24,9 +24,17 @@ class BuiltInFeedPage extends StatelessWidget {
           title: Text('builtFeed'.tr),
           bottom: TabBar(
             controller: _controller.tabController,
-            tabs: const [
-              Tab(text: '中文'),
-              Tab(text: '英文'),
+            tabs: [
+              GetBuilder<BuiltInFeedController>(
+                id: 'tab_zh',
+                builder: (controller) =>
+                    Tab(text: '中文(${_controller.feedZhBean.length})'),
+              ),
+              GetBuilder<BuiltInFeedController>(
+                id: 'tab_en',
+                builder: (controller) =>
+                    Tab(text: '英文(${_controller.feedEnBean.length})'),
+              ),
             ],
           ),
           actions: [
@@ -58,7 +66,7 @@ class BuiltInFeedPage extends StatelessWidget {
           final item = data[index];
           return Card(
               child: InkWell(
-                  onTap: item.isExit == true
+                  onTap: item.feed == null
                       ? null
                       : () {
                           // _controller.parse(
@@ -71,42 +79,24 @@ class BuiltInFeedPage extends StatelessWidget {
       );
 
   Widget _builtFeedWidget(BuiltInFeedBean item) {
-    Widget? trailing;
-    if (item.isExit == true) {
-      trailing = Icon(Icons.check, color: Get.theme.colorScheme.primary);
-    } else if (item.parseStatus == ParseStatus.error) {
-      trailing = const Icon(Icons.close_outlined, color: Colors.red);
-    } else if (item.parseStatus == ParseStatus.success) {
-      trailing = Icon(Icons.check, color: Get.theme.colorScheme.primary);
-    } else if (item.parseStatus == ParseStatus.isExist) {
-      // 已存在暂时的也算添加成功
-      trailing = Icon(Icons.check, color: Get.theme.colorScheme.primary);
-    } else if (item.parseStatus == ParseStatus.loading) {
-      trailing = SizedBox(
-        width: 24,
-        height: 24,
-        child: LoadingWidget(
-          backgroudColor: Colors.transparent,
-        ),
-      );
-    } else {
-      trailing = null;
-    }
     return Card(
         child: SectionChild(
-      title: (item.feed?.name ?? item.text) ?? '',
-      titleStyle: item.parseStatus == ParseStatus.error
-          ? TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.bold,
-              color: HexColor('#8D8D8D'))
-          : null,
-      subTitle: item.feed?.description ?? item.categorie,
-      onTap: item.feed == null
-          ? null
-          : () => Get.toNamed(AppRouter.editFeedPageRouter,
-              arguments: {EditFeedController.parametersFeed: item.feed}),
-      trailing: trailing,
-    ));
+            title: (item.feed?.name ?? item.text) ?? '',
+            titleStyle: item.parseStatus == ParseStatus.error
+                ? TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.bold,
+                    color: HexColor('#8D8D8D'))
+                : null,
+            subTitle: item.feed?.description ?? item.categorie,
+            onTap: item.feed == null
+                ? null
+                : () => Get.toNamed(AppRouter.editFeedPageRouter,
+                    arguments: {EditFeedController.parametersFeed: item.feed}),
+            trailing: FeedParseStatusWidget(
+              item: item,
+              onImport: () => _controller.parseItem(item),
+              onError: () => _controller.parseItem(item),
+            )));
   }
 }
