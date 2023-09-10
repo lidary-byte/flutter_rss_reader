@@ -2,6 +2,7 @@ import 'dart:core';
 
 import 'package:xml/xml.dart';
 
+import '../util/iterable.dart';
 import 'dublin_core/dublin_core.dart';
 import 'itunes/itunes.dart';
 import 'rss_category.dart';
@@ -9,7 +10,6 @@ import 'rss_cloud.dart';
 import 'rss_image.dart';
 import 'rss_item.dart';
 import 'syndication/syndication.dart';
-import '../util/iterable.dart';
 
 class RssFeed {
   final String? title;

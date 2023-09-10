@@ -52,7 +52,6 @@ class FeedPageController extends BaseGetxController {
 
   void refreshPost() async {
     if (_feed != null) {
-      //初始化数据库
       updateLoadingStatus(updateIds: ['post_list']);
       bool parseFeed = await parsePosts(feed!, cancelToken: _cancelToken);
 
