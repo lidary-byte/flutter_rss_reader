@@ -1,16 +1,14 @@
 import 'dart:convert';
 
-import 'package:flutter_rss_reader/models/feed.dart';
-import 'package:flutter_rss_reader/models/parse_help_bean.dart';
+import 'package:flutter_rss_reader/bean/feed_bean.dart';
 
 class BuiltInFeedBean {
   String? text;
   String? url;
   String? categorie;
-  // 该数据源是否已存在
-  // bool? isExit;
+
   ParseStatus? parseStatus;
-  Feed? feed;
+  FeedBean? feed;
 
   BuiltInFeedBean({this.text, this.url, this.categorie});
 
@@ -18,7 +16,7 @@ class BuiltInFeedBean {
     text = json['text'];
     url = json['url'];
     categorie = json['categorie'];
-    feed = Feed.isExistSync(url!);
+    feed = FeedBean.isExistSync(url!);
     // isExit = feed != null;
   }
 
@@ -38,3 +36,5 @@ class BuiltInFeedBean {
   static String toJsonString(List<BuiltInFeedBean> data) =>
       json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 }
+
+enum ParseStatus { loading, error }

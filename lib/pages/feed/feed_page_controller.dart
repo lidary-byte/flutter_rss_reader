@@ -1,25 +1,23 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
+import 'package:flutter_rss_reader/bean/feed_bean.dart';
+import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/models/feed.dart';
-import 'package:flutter_rss_reader/models/post.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/open_url_util.dart';
-import 'package:flutter_rss_reader/utils/parse_post_util.dart';
-import 'package:flutter_rss_reader/widgets/toast.dart';
+import 'package:flutter_rss_reader/utils/web_feed_parse_util.dart';
 import 'package:get/get.dart';
 
 class FeedPageController extends BaseGetxController {
   final CancelToken _cancelToken = CancelToken();
 
-  Feed? _feed;
-  Feed? get feed => _feed;
+  FeedBean? _feed;
+  FeedBean? get feed => _feed;
 
-  final List<Post> _postList = [];
-  // List<Post> get postList => _postList;
+  final List<RssItemBean> _rssItems = [];
 
   ///  只显示未读
   bool _onlyUnread = false;
@@ -32,14 +30,15 @@ class FeedPageController extends BaseGetxController {
   String? get fontDir => _fontDir;
 
   ///  监听数据是否被更改
-  Stream<void>? _postSteream;
+  Stream<void>? _rssItemsSteream;
   @override
   void onInit() {
     _feed = Get.arguments[parametersFeed];
+
     super.onInit();
     _initFontDir();
-    _postSteream = isar.posts.watchLazy();
-    _postSteream?.listen((_) {
+    _rssItemsSteream = isar.rssItemBeans.watchLazy();
+    _rssItemsSteream?.listen((_) {
       getPostListToSql();
     });
   }
@@ -51,42 +50,32 @@ class FeedPageController extends BaseGetxController {
   }
 
   void refreshPost() async {
-    if (_feed != null) {
-      updateLoadingStatus(updateIds: ['post_list']);
-      bool parseFeed = await parsePosts(feed!, cancelToken: _cancelToken);
-
-      /// 如果加载失败则去load本地数据
-      if (!parseFeed) {
-        toast(parseFeed ? 'updateSuccess'.tr : 'updateFailed'.tr);
-        getPostListToSql();
-        return;
-      }
-    }
     getPostListToSql();
+    if (_feed != null) {
+      // 网络请求刷新
+      await refreshFeedItem(feed!, cancelToken: _cancelToken);
+    }
   }
 
   void getPostListToSql({List<String> refreshIds = const ['post_list']}) async {
     if (_onlyUnread) {
-      _addPostListData(
-          (await feed?.getPostByFeeds())
-              ?.where((element) => !element.read)
-              .toList(),
+      _addPostListData((await feed?.rssItemsByFeedsWithUnRead()),
           refreshIds: refreshIds);
     } else if (_onlyFavorite) {
       _addPostListData(
-          (await feed?.getPostByFeeds())
+          (await feed?.rssItemsByFeedsWithFavorite())
               ?.where((element) => element.favorite)
               .toList(),
           refreshIds: refreshIds);
     } else {
-      _addPostListData(await feed?.getPostByFeeds(), refreshIds: refreshIds);
+      _addPostListData(await feed?.rssItemsByFeeds(), refreshIds: refreshIds);
     }
   }
 
-  void _addPostListData(List<Post>? list,
+  void _addPostListData(List<RssItemBean>? list,
       {List<String> refreshIds = const ['post_list']}) {
-    _postList.clear();
-    _postList.addAll(list ?? []);
+    _rssItems.clear();
+    _rssItems.addAll(list ?? []);
     updateSuccessStatus(list, updateIds: refreshIds);
   }
 
@@ -105,7 +94,7 @@ class FeedPageController extends BaseGetxController {
 
   /// 全部已读
   void markPostsAsRead() async {
-    await Post.markAllRead(_postList);
+    await RssItemBean.markAllRead(_rssItems);
   }
 
   void deleteFeed() {
@@ -132,19 +121,17 @@ class FeedPageController extends BaseGetxController {
   }
 
   void openPost(int index) {
-    final post = _postList[index];
-    if (post.openType == 1 || post.openType == 2) {
-      openUrl(post.link, thisApp: post.openType == 1);
+    final rssItem = _rssItems[index];
+    if (rssItem.openType == 1 || rssItem.openType == 2) {
+      openUrl(url: rssItem.link, thisApp: rssItem.openType == 1);
     } else {
       Get.toNamed(AppRouter.readPageRouter, arguments: {
         ReadController.parametersFontDir: _fontDir,
-        ReadController.parametersPost: post
+        ReadController.parametersPost: rssItem
       });
     }
     // 标记文章为已读
-    if (!post.read) {
-      post.markAsRead();
-    }
+    rssItem.changeReadStatus(true);
   }
 
   void _initFontDir() async {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/models/built_in_feed_bean.dart';
+import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:get/get.dart';
 

@@ -84,7 +84,7 @@ class ReadPage extends StatelessWidget {
         shouldOverrideUrlLoading: (controller, navigationAction) async {
           final url = navigationAction.request.url.toString();
           if (url.startsWith('http://') || url.startsWith('https://')) {
-            openUrl(url);
+            openUrl(url: url);
             return NavigationActionPolicy.CANCEL;
           }
           return NavigationActionPolicy.ALLOW;
@@ -98,24 +98,24 @@ class ReadPage extends StatelessWidget {
         popupMenuWidget(
             title: 'openInNewTab'.tr,
             icon: Icons.tab_outlined,
-            onTap: () => openUrl(_controller.post.link, thisApp: true)),
+            onTap: () => openUrl(url: _controller.post.link, thisApp: true)),
         popupMenuWidget(
             title: 'openInBrowser'.tr,
             icon: Icons.open_in_browser_outlined,
-            onTap: () => openUrl(_controller.post.link, thisApp: false)),
+            onTap: () => openUrl(url: _controller.post.link, thisApp: false)),
         const PopupMenuDivider(),
         popupMenuWidget(
             title: 'share'.tr,
             icon: Icons.share_outlined,
             onTap: () => Share.share(
-                  _controller.post.link,
+                  _controller.post.link!,
                   subject: _controller.post.title,
                 )),
         popupMenuWidget(
             title: 'copyLink'.tr,
             icon: Icons.copy_outlined,
             onTap: () =>
-                Clipboard.setData(ClipboardData(text: _controller.post.link))),
+                Clipboard.setData(ClipboardData(text: _controller.post.link!))),
       ];
 
   Widget _bottomBar() => GetBuilder<ReadController>(
@@ -170,9 +170,7 @@ class ReadPage extends StatelessWidget {
                         GetBuilder<ReadController>(
                             id: 'html_cache',
                             builder: (_) => IconButton(
-                                onPressed: _controller.post.fullTextCache
-                                    ? null
-                                    : _controller.getHtml,
+                                onPressed: _controller.getHtml,
                                 icon: Icon(Icons.article_outlined,
                                     color: Get.theme.primaryColor))),
                       ],

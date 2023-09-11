@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/models/built_in_feed_bean.dart';
-import 'package:flutter_rss_reader/models/parse_help_bean.dart';
+import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/pages/built_in_feed/built_in_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/utils/hex_color.dart';

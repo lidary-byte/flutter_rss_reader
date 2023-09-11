@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/models/feed.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page_controller.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_controller.dart';
 import 'package:get/get.dart';
@@ -46,7 +46,7 @@ class SubscriptionPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: GetBuilder<SubscriptionController>(
-            builder: (_) => _controller.feedListGroupByCategory.isEmpty
+            builder: (_) => _controller.feedListGroup.isEmpty
                 ? _emptyWidget()
                 : _contentWidget()),
       ),
@@ -58,40 +58,19 @@ class SubscriptionPage extends StatelessWidget {
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         padding: const EdgeInsets.all(12),
         itemBuilder: (context, index) {
-          // /* 计算全部未读文章数 */
-          // int allUnreadCount = 0;
-          // for (int count in _controller.unRead.values) {
-          //   allUnreadCount += count;
-          // }
-          /* 计算分组未读文章数 */
-          Map<String, int> unreadCountByCategory = {};
-          for (String category in _controller.feedListGroupByCategory.keys) {
-            int count = 0;
-            for (Feed feed
-                in _controller.feedListGroupByCategory[category] ?? []) {
-              if (_controller.unRead[feed.id] != null) {
-                count += _controller.unRead[feed.id]!;
-              }
-            }
-            unreadCountByCategory[category] = count;
-          }
-
-          final dataKey =
-              _controller.feedListGroupByCategory.keys.toList()[index];
           return Card(
             child: ExpansionTile(
-              title: Text(dataKey),
+              title: Text(_controller.feedListGroup[index].category ?? ''),
               shape: Border.all(color: Colors.transparent),
-              children: _childernWidgets(
-                  _controller.feedListGroupByCategory[dataKey],
-                  unreadCountByCategory[dataKey]),
+              children:
+                  _childernWidgets(_controller.feedListGroup[index].feeds),
             ),
           );
         },
-        itemCount: _controller.feedListGroupByCategory.length);
+        itemCount: _controller.feedListGroup.length);
   }
 
-  List<Widget> _childernWidgets(List<Feed>? feeds, int? unReadCount) {
+  List<Widget> _childernWidgets(List<FeedBean>? feeds) {
     if (feeds == null || feeds.isEmpty == true) {
       return [];
     }
@@ -108,7 +87,7 @@ class SubscriptionPage extends StatelessWidget {
               maxLines: 1,
               overflow: TextOverflow.ellipsis,
             ),
-            trailing: Text(unReadCount.toString()),
+            trailing: Text(feed.unReadCount.toString()),
             onTap: () => Get.toNamed(AppRouter.feedPageRouter,
                 arguments: {FeedPageController.parametersFeed: feed}),
           ),

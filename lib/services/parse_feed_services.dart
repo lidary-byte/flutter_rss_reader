@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_rss_reader/bean/feed_bean.dart';
+import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/models/built_in_feed_bean.dart';
-import 'package:flutter_rss_reader/models/feed.dart';
-import 'package:flutter_rss_reader/models/parse_help_bean.dart';
-import 'package:flutter_rss_reader/models/post.dart';
-import 'package:flutter_rss_reader/utils/parse_feed_util.dart';
+import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
+import 'package:flutter_rss_reader/utils/web_feed_parse_util.dart';
+// import 'package:flutter_rss_reader/utils/parse_feed_util.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -21,7 +21,7 @@ class ParseFeedServices extends GetxService {
     //初始化本地数据库
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open(
-      [FeedSchema, PostSchema],
+      [FeedBeanSchema, RssItemBeanSchema],
       directory: dir.path,
     );
 
@@ -131,31 +131,33 @@ class ParseFeedServices extends GetxService {
     }
   }
 
-  void _saveOrUpdateList(Feed? feed, List<BuiltInFeedBean>? items,
+  void _saveOrUpdateList(FeedBean? feed, List<BuiltInFeedBean>? items,
       {RefreshCallback? onRefresh}) async {
     if (feed == null) {
       return;
     }
     // 如果 feed 不存在，添加 feed，否则更新 feed
-    if (await Feed.isExist(feed.url)) {
-      await feed.updatePostsFeedNameAndOpenTypeAndFullText();
-    } else {
-      await feed.insertOrUpdateToDb();
-    }
+    // if (await FeedBean.isExist(feed.url)) {
+    //   await feed.updatePostsFeedNameAndOpenTypeAndFullText();
+    // } else {
+    //   await feed.insertOrUpdateToDb();
+    // }
+    feed.insert();
     onRefresh?.call(items);
   }
 
-  void _saveOrUpdate(Feed? feed, BuiltInFeedBean? items,
+  void _saveOrUpdate(FeedBean? feed, BuiltInFeedBean? items,
       {RefreshItemCallback? onRefresh}) async {
     if (feed == null) {
       return;
     }
     // 如果 feed 不存在，添加 feed，否则更新 feed
-    if (await Feed.isExist(feed.url)) {
-      await feed.updatePostsFeedNameAndOpenTypeAndFullText();
-    } else {
-      await feed.insertOrUpdateToDb();
-    }
+    // if (await Feed.isExist(feed.url)) {
+    //   await feed.updatePostsFeedNameAndOpenTypeAndFullText();
+    // } else {
+    //   await feed.insertOrUpdateToDb();
+    // }
+    feed.insert();
     onRefresh?.call(items);
   }
 }

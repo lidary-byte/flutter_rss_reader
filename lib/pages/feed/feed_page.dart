@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/models/post.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page_controller.dart';
 import 'package:flutter_rss_reader/widgets/post_container.dart';
@@ -30,7 +30,7 @@ class FeedPage extends StatelessWidget {
         onRefresh: () async => _controller.refreshPost(),
         child: GetBuilder<FeedPageController>(
             id: 'post_list',
-            builder: (_) => StatusPage<List<Post>>(
+            builder: (_) => StatusPage<List<RssItemBean>>(
                   contentWidget: (data) {
                     return ListView.separated(
                       itemCount: data.length,
@@ -39,7 +39,7 @@ class FeedPage extends StatelessWidget {
                         return Card(
                           child: InkWell(
                             onTap: () => _controller.openPost(index),
-                            child: PostContainer(post: data[index]),
+                            child: PostContainer(rssItem: data[index]),
                           ),
                         );
                       },

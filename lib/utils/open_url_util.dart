@@ -6,7 +6,10 @@ import 'package:url_launcher/url_launcher.dart';
 
 /// 使用 [InAppBrowser] 打开一个 url
 /// [thisApp] 是否在当前应用内打开
-void openUrl(String url, {bool thisApp = true}) {
+void openUrl({String? url, bool thisApp = true}) {
+  if (url == null) {
+    return;
+  }
   if (thisApp) {
     Get.toNamed(AppRouter.webViewPageRouter,
         arguments: {WebViewController.parametersUrl: url});

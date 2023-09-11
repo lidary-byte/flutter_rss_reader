@@ -1,10 +1,11 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
+import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/models/post.dart';
 import 'package:get/get.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html_main_element/html_main_element.dart';
@@ -17,7 +18,7 @@ class ReadController extends BaseGetxController {
 
   InAppWebViewController? _webViewController;
 
-  Post post = Get.arguments[parametersPost];
+  RssItemBean post = Get.arguments[parametersPost];
   String fontDir = Get.arguments[parametersFontDir];
 
   int fontSize = prefs.getInt('fontSize') ?? 18;
@@ -35,10 +36,12 @@ class ReadController extends BaseGetxController {
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
   void _initData() async {
-    if (post.fullText && !post.fullTextCache && post.openType == 0) {
+    debugPrint(
+        '--------------${post.fullText} --- ${post.cacheContent} ---- ${post.openType}');
+    if (post.fullText && post.cacheContent == null && post.openType == 0) {
       getHtml();
     } else {
-      _contentHtml = post.content;
+      _contentHtml = post.description;
       updateSuccessStatus(contentHtml, updateIds: ['content', 'html_cache']);
       _changeStyle = false;
       if (!post.read) {
@@ -51,14 +54,13 @@ class ReadController extends BaseGetxController {
   void getHtml() async {
     updateLoadingStatus(updateIds: ['content']);
     final response =
-        await ApiProvider().dio.get(post.link, cancelToken: _cancelToken);
+        await ApiProvider().dio.get(post.link!, cancelToken: _cancelToken);
     final document = html_parser.parse(response.data);
     final bestElemReadability =
         readabilityMainElement(document.documentElement!);
-    post.content = bestElemReadability.outerHtml;
-    post.fullTextCache = true;
+    post.cacheContent = bestElemReadability.outerHtml;
 
-    _contentHtml = post.content;
+    _contentHtml = post.cacheContent;
     updateSuccessStatus(contentHtml, updateIds: ['content', 'html_cache']);
     _changeStyle = false;
     if (!post.read) {
@@ -205,7 +207,7 @@ $customCss
   }
 
   void changeReadStatus() {
-    post.changeReadStatus();
+    post.changeReadStatus(!post.read);
     update(['read_status']);
   }
 
