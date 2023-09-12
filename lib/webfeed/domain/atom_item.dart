@@ -1,3 +1,4 @@
+import 'package:html/parser.dart';
 import 'package:xml/xml.dart';
 
 import '../domain/atom_category.dart';
@@ -23,6 +24,10 @@ class AtomItem {
   final String? summary;
   final String? rights;
   final Media? media;
+  String? get cover => parse(content ?? '')
+      .getElementsByTagName('img')
+      .firstOrNull
+      ?.attributes['src'];
 
   AtomItem({
     this.id,

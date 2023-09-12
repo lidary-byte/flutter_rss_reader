@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
@@ -23,7 +24,8 @@ Future<FeedBean?> parseFeed(
   try {
     final response = await ApiProvider().dio.get(url, cancelToken: cancelToken);
     final postXmlString = response.data;
-
+    // 根据域名获取icon
+    final iconUrl = await webIcon(url);
     try {
       /* 使用 RSS 格式解析 */
       final RssFeed rssFeed = RssFeed.parse(postXmlString);
@@ -40,6 +42,7 @@ Future<FeedBean?> parseFeed(
           name: feedName ?? '',
           description: rssFeed.description ?? '',
           category: categoryName,
+          iconUrl: iconUrl,
           unReadCount: rssFeed.items?.length ?? 0,
           url: url);
       final id = await feed.insert();
@@ -64,6 +67,7 @@ Future<FeedBean?> parseFeed(
           name: feedName ?? '',
           description: atomFeed.subtitle ?? '',
           category: categoryName,
+          iconUrl: iconUrl,
           unReadCount: atomFeed.items?.length ?? 0,
           url: url);
       final id = await feed.insert();
@@ -88,7 +92,6 @@ Future<FeedBean?> refreshFeedItem(
         .dio
         .get(feedBean.url ?? '', cancelToken: cancelToken);
     final postXmlString = response.data;
-
     try {
       /* 使用 RSS 格式解析 */
       final RssFeed rssFeed = RssFeed.parse(postXmlString);
@@ -109,35 +112,35 @@ Future<FeedBean?> refreshFeedItem(
 
 List<RssItemBean> buildRssItem(
     int feedId, String feedName, List<RssItem>? item) {
-  return item
-          ?.map((e) => RssItemBean(
-              feedId: feedId,
-              feedName: feedName,
-              title: e.title,
-              link: e.link,
-              description: e.description,
-              pubDate: e.pubDate,
-              author: e.author,
-              media: e.media)
-            ..insert())
-          .toList() ??
+  return item?.map((e) {
+        return RssItemBean(
+            feedId: feedId,
+            feedName: feedName,
+            title: e.title,
+            link: e.link,
+            description: e.description,
+            pubDate: e.pubDate,
+            author: e.author ?? e.dc?.creator,
+            cover: e.content?.images.firstOrNull ?? e.cover)
+          ..insert();
+      }).toList() ??
       [];
 }
 
 List<RssItemBean> buildAtomItem(
     int feedId, String feedName, List<AtomItem>? item) {
-  return item
-          ?.map((e) => RssItemBean(
-              feedId: feedId,
-              feedName: feedName,
-              title: e.title,
-              link: e.links?.firstOrNull?.href,
-              description: e.content,
-              pubDate: e.updated,
-              author: e.authors?.firstOrNull?.name,
-              media: e.media)
-            ..insert())
-          .toList() ??
+  return item?.map((e) {
+        return RssItemBean(
+            feedId: feedId,
+            feedName: feedName,
+            title: e.title,
+            link: e.links?.firstOrNull?.href,
+            description: e.content,
+            pubDate: e.updated,
+            author: e.authors?.firstOrNull?.name,
+            cover: e.cover)
+          ..insert();
+      }).toList() ??
       [];
 }
 
@@ -152,4 +155,11 @@ bool isBlock(String postTitle) {
     }
   }
   return blockStatue;
+}
+
+/// 根据[url]获取网站icon
+Future<String?> webIcon(String url) async {
+  Uri uri = Uri.parse(url);
+  var iconUrl = await FaviconFinder.getBest('${uri.scheme}://${uri.host}');
+  return iconUrl?.url;
 }

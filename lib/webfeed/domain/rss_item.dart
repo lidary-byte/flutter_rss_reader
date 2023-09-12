@@ -1,3 +1,4 @@
+import 'package:html/parser.dart';
 import 'package:xml/xml.dart';
 
 import '../domain/dublin_core/dublin_core.dart';
@@ -26,23 +27,26 @@ class RssItem {
   final RssEnclosure? enclosure;
   final DublinCore? dc;
   final Itunes? itunes;
+  String? get cover => parse(description ?? '')
+      .getElementsByTagName('img')
+      .firstOrNull
+      ?.attributes['src'];
 
-  RssItem({
-    this.title,
-    this.description,
-    this.link,
-    this.categories,
-    this.guid,
-    this.pubDate,
-    this.author,
-    this.comments,
-    this.source,
-    this.content,
-    this.media,
-    this.enclosure,
-    this.dc,
-    this.itunes,
-  });
+  RssItem(
+      {this.title,
+      this.description,
+      this.link,
+      this.categories,
+      this.guid,
+      this.pubDate,
+      this.author,
+      this.comments,
+      this.source,
+      this.content,
+      this.media,
+      this.enclosure,
+      this.dc,
+      this.itunes});
 
   factory RssItem.parse(XmlElement element) {
     return RssItem(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
+import 'package:flutter_rss_reader/utils/web_feed_desc_util.dart';
+import 'package:get/get.dart';
 
 // 定义用于展示 Post 的 Widget
 class PostContainer extends StatelessWidget {
@@ -14,9 +16,25 @@ class PostContainer extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
+          Image.network(rssItem.cover ?? ''),
           Text(
             rssItem.title ?? '',
-            style: const TextStyle(fontSize: 18),
+            style: TextStyle(
+                fontSize: 14,
+                fontWeight: FontWeight.bold,
+                color: rssItem.read
+                    ? Colors.grey
+                    : Get.theme.appBarTheme.foregroundColor),
+          ),
+          Text(
+            WebFeedDescUtil.stripHtmlIfNeeded(rssItem.description ?? ''),
+            style: TextStyle(
+                fontSize: 12,
+                color: rssItem.read
+                    ? Colors.grey
+                    : Get.theme.appBarTheme.foregroundColor),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 3,
           ),
           const SizedBox(height: 4),
           Wrap(
@@ -27,7 +45,7 @@ class PostContainer extends StatelessWidget {
                 Icon(
                   Icons.circle,
                   size: 15,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  color: Theme.of(context).primaryColor,
                 ),
               if (rssItem.favorite)
                 Icon(
@@ -36,15 +54,23 @@ class PostContainer extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
               Text(
-                rssItem.feedName,
+                rssItem.author ?? '',
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12),
+                style: TextStyle(
+                    fontSize: 12,
+                    color: rssItem.read
+                        ? Colors.grey
+                        : Get.theme.appBarTheme.foregroundColor),
               ),
               Text(
                 //post.pubDate.substring(0, 16),
                 '${rssItem.pubDate}',
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(fontSize: 12),
+                style: TextStyle(
+                    fontSize: 12,
+                    color: rssItem.read
+                        ? Colors.grey
+                        : Get.theme.appBarTheme.foregroundColor),
               )
             ],
           )

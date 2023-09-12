@@ -1,6 +1,5 @@
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/webfeed/domain/media/media.dart';
 import 'package:isar/isar.dart';
 
 part 'rss_item_bean.g.dart';
@@ -15,8 +14,7 @@ class RssItemBean {
   String? description;
   DateTime? pubDate; // 发布时间
   String? author; // 作者
-  @Ignore()
-  Media? media;
+  String? cover; //文章封面
   String? cacheContent; //原文content 进行数据缓存
   bool read = false; // 是否已读
   bool favorite = false; // 是否已收藏
@@ -31,7 +29,7 @@ class RssItemBean {
       this.description,
       this.pubDate,
       this.author,
-      this.media});
+      this.cover});
 
   /// 插入数据库
   /// 如果存在则取消
@@ -73,8 +71,12 @@ class RssItemBean {
     }
     this.read = read;
     await updateToDb();
-    final unReadCount =
-        await isar.rssItemBeans.filter().readEqualTo(false).count();
+
+    final unReadCount = await isar.rssItemBeans
+        .filter()
+        .readEqualTo(false)
+        .feedIdEqualTo(feedId)
+        .count();
     final feed = await isar.feedBeans.filter().idEqualTo(feedId).findFirst();
     await feed?.updateUnReadCount(unReadCount);
   }

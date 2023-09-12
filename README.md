@@ -6,3 +6,8 @@ A new Flutter project.
 ```
 flutter build apk --split-per-abi
 ```
+#
+isar命令
+```
+flutter pub run build_runner build
+```

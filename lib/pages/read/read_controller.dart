@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
@@ -36,8 +35,6 @@ class ReadController extends BaseGetxController {
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
   void _initData() async {
-    debugPrint(
-        '--------------${post.fullText} --- ${post.cacheContent} ---- ${post.openType}');
     if (post.fullText && post.cacheContent == null && post.openType == 0) {
       getHtml();
     } else {

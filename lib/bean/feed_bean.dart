@@ -1,4 +1,5 @@
 import 'package:collection/collection.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/feed_category_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/global.dart';
@@ -14,7 +15,7 @@ class FeedBean {
   String? description;
   String? url;
   String? category;
-
+  String? iconUrl;
   @Ignore()
   List<RssItemBean>? item;
 
@@ -27,6 +28,7 @@ class FeedBean {
       {required this.name,
       this.url,
       this.description,
+      this.iconUrl,
       this.category,
       this.unReadCount,
       this.item});
@@ -107,14 +109,15 @@ class FeedBean {
     /* 删除订阅源 */
     await isar.writeTxn(() async {
       await isar.feedBeans.delete(id);
+      /* 删除该订阅源的所有文章 */
+      await isar.rssItemBeans.filter().feedIdEqualTo(id).deleteAll();
     });
-    /* 删除该订阅源的所有文章 */
-    await isar.rssItemBeans.filter().feedIdEqualTo(id).deleteAll();
   }
 
   ///  更新未读数量
   Future updateUnReadCount(int unReadCount) async {
     this.unReadCount = unReadCount;
+    debugPrint('--------------$unReadCount');
     await isar.writeTxn(() => isar.feedBeans.put(this));
   }
 }

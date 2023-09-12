@@ -32,23 +32,28 @@ const FeedBeanSchema = CollectionSchema(
       name: r'fullText',
       type: IsarType.bool,
     ),
-    r'name': PropertySchema(
+    r'iconUrl': PropertySchema(
       id: 3,
+      name: r'iconUrl',
+      type: IsarType.string,
+    ),
+    r'name': PropertySchema(
+      id: 4,
       name: r'name',
       type: IsarType.string,
     ),
     r'openType': PropertySchema(
-      id: 4,
+      id: 5,
       name: r'openType',
       type: IsarType.long,
     ),
     r'unReadCount': PropertySchema(
-      id: 5,
+      id: 6,
       name: r'unReadCount',
       type: IsarType.long,
     ),
     r'url': PropertySchema(
-      id: 6,
+      id: 7,
       name: r'url',
       type: IsarType.string,
     )
@@ -85,6 +90,12 @@ int _feedBeanEstimateSize(
       bytesCount += 3 + value.length * 3;
     }
   }
+  {
+    final value = object.iconUrl;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
   bytesCount += 3 + object.name.length * 3;
   {
     final value = object.url;
@@ -104,10 +115,11 @@ void _feedBeanSerialize(
   writer.writeString(offsets[0], object.category);
   writer.writeString(offsets[1], object.description);
   writer.writeBool(offsets[2], object.fullText);
-  writer.writeString(offsets[3], object.name);
-  writer.writeLong(offsets[4], object.openType);
-  writer.writeLong(offsets[5], object.unReadCount);
-  writer.writeString(offsets[6], object.url);
+  writer.writeString(offsets[3], object.iconUrl);
+  writer.writeString(offsets[4], object.name);
+  writer.writeLong(offsets[5], object.openType);
+  writer.writeLong(offsets[6], object.unReadCount);
+  writer.writeString(offsets[7], object.url);
 }
 
 FeedBean _feedBeanDeserialize(
@@ -119,13 +131,14 @@ FeedBean _feedBeanDeserialize(
   final object = FeedBean(
     category: reader.readStringOrNull(offsets[0]),
     description: reader.readStringOrNull(offsets[1]),
-    name: reader.readString(offsets[3]),
-    unReadCount: reader.readLongOrNull(offsets[5]),
-    url: reader.readStringOrNull(offsets[6]),
+    iconUrl: reader.readStringOrNull(offsets[3]),
+    name: reader.readString(offsets[4]),
+    unReadCount: reader.readLongOrNull(offsets[6]),
+    url: reader.readStringOrNull(offsets[7]),
   );
   object.fullText = reader.readBool(offsets[2]);
   object.id = id;
-  object.openType = reader.readLong(offsets[4]);
+  object.openType = reader.readLong(offsets[5]);
   return object;
 }
 
@@ -143,12 +156,14 @@ P _feedBeanDeserializeProp<P>(
     case 2:
       return (reader.readBool(offset)) as P;
     case 3:
-      return (reader.readString(offset)) as P;
+      return (reader.readStringOrNull(offset)) as P;
     case 4:
-      return (reader.readLong(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 5:
-      return (reader.readLongOrNull(offset)) as P;
+      return (reader.readLong(offset)) as P;
     case 6:
+      return (reader.readLongOrNull(offset)) as P;
+    case 7:
       return (reader.readStringOrNull(offset)) as P;
     default:
       throw IsarError('Unknown property with id $propertyId');
@@ -545,6 +560,152 @@ extension FeedBeanQueryFilter
       return query.addFilterCondition(FilterCondition.equalTo(
         property: r'fullText',
         value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'iconUrl',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'iconUrl',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'iconUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'iconUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'iconUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'iconUrl',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'iconUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'iconUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlContains(
+      String value,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'iconUrl',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlMatches(
+      String pattern,
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'iconUrl',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'iconUrl',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterFilterCondition> iconUrlIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'iconUrl',
+        value: '',
       ));
     });
   }
@@ -1045,6 +1206,18 @@ extension FeedBeanQuerySortBy on QueryBuilder<FeedBean, FeedBean, QSortBy> {
     });
   }
 
+  QueryBuilder<FeedBean, FeedBean, QAfterSortBy> sortByIconUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'iconUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterSortBy> sortByIconUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'iconUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedBean, FeedBean, QAfterSortBy> sortByName() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'name', Sort.asc);
@@ -1132,6 +1305,18 @@ extension FeedBeanQuerySortThenBy
     });
   }
 
+  QueryBuilder<FeedBean, FeedBean, QAfterSortBy> thenByIconUrl() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'iconUrl', Sort.asc);
+    });
+  }
+
+  QueryBuilder<FeedBean, FeedBean, QAfterSortBy> thenByIconUrlDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'iconUrl', Sort.desc);
+    });
+  }
+
   QueryBuilder<FeedBean, FeedBean, QAfterSortBy> thenById() {
     return QueryBuilder.apply(this, (query) {
       return query.addSortBy(r'id', Sort.asc);
@@ -1215,6 +1400,13 @@ extension FeedBeanQueryWhereDistinct
     });
   }
 
+  QueryBuilder<FeedBean, FeedBean, QDistinct> distinctByIconUrl(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'iconUrl', caseSensitive: caseSensitive);
+    });
+  }
+
   QueryBuilder<FeedBean, FeedBean, QDistinct> distinctByName(
       {bool caseSensitive = true}) {
     return QueryBuilder.apply(this, (query) {
@@ -1265,6 +1457,12 @@ extension FeedBeanQueryProperty
   QueryBuilder<FeedBean, bool, QQueryOperations> fullTextProperty() {
     return QueryBuilder.apply(this, (query) {
       return query.addPropertyName(r'fullText');
+    });
+  }
+
+  QueryBuilder<FeedBean, String?, QQueryOperations> iconUrlProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'iconUrl');
     });
   }
 

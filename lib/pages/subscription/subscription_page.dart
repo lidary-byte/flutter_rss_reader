@@ -78,6 +78,7 @@ class SubscriptionPage extends StatelessWidget {
         .map(
           (feed) => ListTile(
             dense: true,
+            leading: Image.network(feed.iconUrl ?? ''),
             contentPadding: const EdgeInsets.only(
               left: 40,
               right: 28,
