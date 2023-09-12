@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
@@ -77,8 +78,23 @@ class SubscriptionPage extends StatelessWidget {
     return feeds
         .map(
           (feed) => ListTile(
-            dense: true,
-            leading: Image.network(feed.iconUrl ?? ''),
+            leading: feed.iconUrl == null
+                ? null
+                : CachedNetworkImage(
+                    width: 20,
+                    height: 20,
+                    imageUrl: feed.iconUrl!,
+                    imageBuilder: (context, imageProvider) => Container(
+                      decoration: BoxDecoration(
+                        borderRadius:
+                            const BorderRadius.all(Radius.circular(10)),
+                        image: DecorationImage(
+                          image: imageProvider,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                  ),
             contentPadding: const EdgeInsets.only(
               left: 40,
               right: 28,

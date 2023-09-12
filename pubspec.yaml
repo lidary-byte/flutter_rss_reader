@@ -57,6 +57,7 @@ dependencies:
   isar_flutter_libs: ^3.1.0+1
   fps_monitor: ^2.0.0
   favicon: ^1.1.1
+  cached_network_image: ^3.2.3
  
 
 dev_dependencies:
