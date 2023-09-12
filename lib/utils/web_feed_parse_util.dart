@@ -24,8 +24,6 @@ Future<FeedBean?> parseFeed(
   try {
     final response = await ApiProvider().dio.get(url, cancelToken: cancelToken);
     final postXmlString = response.data;
-    // 根据域名获取icon
-    final iconUrl = await webIcon(url);
     try {
       /* 使用 RSS 格式解析 */
       final RssFeed rssFeed = RssFeed.parse(postXmlString);
@@ -38,6 +36,8 @@ Future<FeedBean?> parseFeed(
         categoryName = rssFeed.categories?.firstOrNull?.value ?? '默认分类';
       }
 
+      // 根据url获取icon
+      final iconUrl = await webIcon(rssFeed.link ?? '');
       final feed = FeedBean(
           name: feedName ?? '',
           description: rssFeed.description ?? '',
@@ -62,7 +62,8 @@ Future<FeedBean?> parseFeed(
       if (categoryName == null || categoryName.isBlank == true) {
         categoryName = atomFeed.categories?.firstOrNull?.label ?? '默认分类';
       }
-
+      // 根据url获取icon
+      final iconUrl = await webIcon(atomFeed.links?.firstOrNull?.href ?? '');
       final feed = FeedBean(
           name: feedName ?? '',
           description: atomFeed.subtitle ?? '',
