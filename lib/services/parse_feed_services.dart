@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -116,5 +117,42 @@ class ParseFeedServices extends GetxService {
     }
     feed.insert();
     onRefresh?.call(items);
+  }
+
+  Future<void> parseFeedsList(List<ParseFeed> map,
+      {ParseResultCallback? resultCallback}) async {
+    final batchSize = map.length ~/ 10;
+    final totalBatches = (map.length / batchSize).ceil();
+
+    for (int batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
+      final start = batchIndex * batchSize;
+      final end = (batchIndex + 1) * batchSize;
+      final batchFeeds = map.sublist(start, end);
+
+      final receivePort = ReceivePort();
+      final List<Isolate> isolates = [];
+
+      for (var feed in batchFeeds) {
+        final isolate = await Isolate.spawn(isoParseFeed, feed);
+        isolates.add(isolate);
+      }
+
+      final completer = Completer<void>();
+      var completedCount = 0;
+
+      receivePort.listen((message) {
+        if (message == batchFeeds.length) {
+          completedCount++;
+          if (completedCount == batchFeeds.length) {
+            completer.complete();
+            receivePort.close();
+            for (Isolate isolate in isolates) {
+              isolate.kill();
+            }
+          }
+        }
+      });
+      await completer.future;
+    }
   }
 }
