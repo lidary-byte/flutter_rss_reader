@@ -45,17 +45,17 @@ class RssItemBean {
 
   void isoInsert() async {
     final dir = await getApplicationDocumentsDirectory();
-
-    final isar = await Isar.open(
-      [FeedBeanSchema, RssItemBeanSchema],
-      directory: dir.path,
-      name: 'parse feed',
-    );
+    final isolateIsar = Isar.getInstance('main isar') ??
+        await Isar.open(
+          [FeedBeanSchema, RssItemBeanSchema],
+          directory: dir.path,
+          name: 'main isar',
+        );
     final rssItem =
-        await isar.rssItemBeans.filter().linkEqualTo(link).findFirst();
+        await isolateIsar.rssItemBeans.filter().linkEqualTo(link).findFirst();
 
     if (rssItem == null) {
-      await isar.writeTxn(() => isar.rssItemBeans.put(this));
+      await isolateIsar.writeTxn(() => isolateIsar.rssItemBeans.put(this));
     }
   }
 

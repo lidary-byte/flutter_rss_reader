@@ -1,6 +1,9 @@
+import 'dart:isolate';
+
 import 'package:dio/dio.dart';
 import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
@@ -21,6 +24,8 @@ import 'package:get/get.dart';
 /// }
 @pragma('vm:entry-point')
 Future<ParseFeedResult> isoParseFeed(ParseFeed parseFeed) async {
+  BackgroundIsolateBinaryMessenger.ensureInitialized(
+      parseFeed.rootIsolateToken!);
   // final CancelToken? cancelToken = params['cancelToken'];
   String? categoryName = parseFeed.categoryName;
   String? feedName = '';

@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:isolate';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -23,17 +22,18 @@ typedef ParseResultCallback = void Function(ParseFeedResult result);
 
 class ParseFeedServices extends GetxService {
   /// feed解析的Iso
-  final IsolateManager<ParseFeedResult, ParseFeed> isolateManager =
-      IsolateManager.create(isoParseFeed,
-          concurrent: 5, workerName: 'parse feed');
+  IsolateManager<ParseFeedResult, ParseFeed>? isolateManager;
 
   Future<ParseFeedServices> init() async {
+    isolateManager = IsolateManager.create(isoParseFeed,
+        concurrent: 5, workerName: 'parse feed');
     // isolateManager.stream.listen((result) => );
 
     //初始化本地数据库
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open(
       [FeedBeanSchema, RssItemBeanSchema],
+      name: 'main isar',
       directory: dir.path,
     );
 
@@ -98,12 +98,16 @@ class ParseFeedServices extends GetxService {
   /// [map]key为url value为categorie
   void parseFeeds(List<ParseFeed> map,
       {ParseResultCallback? resultCallback}) async {
+    ///获取 Token
+    RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
+
     final parseMap =
         map.where((element) => FeedBean.isExistSync(element.url ?? '') == null);
 
     for (var itemMap in parseMap) {
-      final result =
-          await isolateManager.compute(itemMap, callback: (value) => true);
+      final result = await isolateManager!.compute(
+          itemMap..rootIsolateToken = rootIsolateToken,
+          callback: (value) => true);
       debugPrint(
           '--------------解析url:${result.url} ----- 解析:${result.feedBean == null ? '失败' : '成功'}');
       resultCallback?.call(result);
@@ -117,42 +121,5 @@ class ParseFeedServices extends GetxService {
     }
     feed.insert();
     onRefresh?.call(items);
-  }
-
-  Future<void> parseFeedsList(List<ParseFeed> map,
-      {ParseResultCallback? resultCallback}) async {
-    final batchSize = map.length ~/ 10;
-    final totalBatches = (map.length / batchSize).ceil();
-
-    for (int batchIndex = 0; batchIndex < totalBatches; batchIndex++) {
-      final start = batchIndex * batchSize;
-      final end = (batchIndex + 1) * batchSize;
-      final batchFeeds = map.sublist(start, end);
-
-      final receivePort = ReceivePort();
-      final List<Isolate> isolates = [];
-
-      for (var feed in batchFeeds) {
-        final isolate = await Isolate.spawn(isoParseFeed, [feed,receivePort.sendPort]);
-        isolates.add(isolate);
-      }
-
-      final completer = Completer<void>();
-      var completedCount = 0;
-
-      receivePort.listen((message) {
-        if (message == batchFeeds.length) {
-          completedCount++;
-          if (completedCount == batchFeeds.length) {
-            completer.complete();
-            receivePort.close();
-            for (Isolate isolate in isolates) {
-              isolate.kill();
-            }
-          }
-        }
-      });
-      await completer.future;
-    }
   }
 }
