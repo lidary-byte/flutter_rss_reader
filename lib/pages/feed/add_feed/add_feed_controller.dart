@@ -37,10 +37,10 @@ class AddFeedController extends GetxController {
         .where(
             (element) => element.url != null && element.url?.isBlank == false)
         .toList();
-    _parseService.parseFeedUrlList(_parseHelp, onRefresh: (data) {
-      _parseHelp = data;
-      update(['list_view']);
-    });
+    // _parseService.parseFeedUrlList(_parseHelp, onRefresh: (data) {
+    //   _parseHelp = data;
+    //   update(['list_view']);
+    // });
   }
 
   void parseBuiltInFeed(BuiltInFeedBean? bean) {

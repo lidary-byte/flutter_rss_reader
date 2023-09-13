@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page_controller.dart';
-import 'package:flutter_rss_reader/pages/subscription/dialog_add_feed.dart';
+import 'package:flutter_rss_reader/pages/subscription/add_feed_dialog.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_controller.dart';
 import 'package:get/get.dart';
 
@@ -19,38 +19,16 @@ class SubscriptionPage extends StatelessWidget {
         title: Text('aRead'.tr),
         actions: [
           IconButton(
-              onPressed: () => Get.bottomSheet(DialogAddFeed(),
-                  backgroundColor: Colors.white,
-                  shape: const RoundedRectangleBorder(
-                      borderRadius:
-                          BorderRadius.vertical(top: Radius.circular(10)))),
+              onPressed: () => Get.bottomSheet(AddFeedDialog(),
+                      backgroundColor: Get.theme.appBarTheme.backgroundColor,
+                      shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(10))))
+                  .then((value) => _controller.dismissBottomSheet()),
               icon: const Icon(Icons.add_outlined)),
-          PopupMenuButton(
-            position: PopupMenuPosition.under,
-            itemBuilder: (context) => [
-              // 内置订阅源
-              PopupMenuItem(
-                onTap: () => Get.toNamed(AppRouter.builtInFeedPageRouter),
-                child: Row(
-                  children: [
-                    const Icon(Icons.inbox),
-                    const SizedBox(width: 8),
-                    Text('builtFeed'.tr)
-                  ],
-                ),
-              ),
-              PopupMenuItem(
-                onTap: _controller.toAddFeedPage,
-                child: Row(
-                  children: [
-                    const Icon(Icons.add),
-                    const SizedBox(width: 8),
-                    Text('addFeed'.tr)
-                  ],
-                ),
-              ),
-            ],
-          )
+          TextButton(
+              onPressed: () => Get.toNamed(AppRouter.builtInFeedPageRouter),
+              child: Text('builtFeed'.tr)),
         ],
       ),
       body: SafeArea(

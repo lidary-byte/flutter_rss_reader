@@ -10,7 +10,8 @@ class BuiltInFeedBean {
   ParseStatus? parseStatus;
   FeedBean? feed;
 
-  BuiltInFeedBean({this.text, this.url, this.categorie});
+  BuiltInFeedBean({this.text, this.url, this.categorie})
+      : feed = FeedBean.isExistSync(url!);
 
   BuiltInFeedBean.fromJson(Map<String, dynamic> json) {
     text = json['text'];

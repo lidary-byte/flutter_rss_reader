@@ -35,13 +35,6 @@ class BuiltInFeedController extends GetxController
     _loadJson();
   }
 
-  void parseAll() async {
-    final type = _tabController?.index == 0 ? 'zh' : 'en';
-    _parseFeedservice?.parseLocalRss(type, onRefresh: (parseBean) {
-      update(['data_$type']);
-    });
-  }
-
   void parseItem(BuiltInFeedBean? bean) async {
     final type = _tabController?.index == 0 ? 'zh' : 'en';
     _parseFeedservice?.parseFeedItem(bean, onRefresh: (parseBean) {

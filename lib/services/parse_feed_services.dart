@@ -1,12 +1,11 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/utils/web_feed_parse_util.dart';
-// import 'package:flutter_rss_reader/utils/parse_feed_util.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
 import 'package:path_provider/path_provider.dart';
@@ -53,21 +52,12 @@ class ParseFeedServices extends GetxService {
     }
   }
 
-  void parseLocalRss(String type, {RefreshCallback? onRefresh}) {
-    if (type == 'zh') {
-      parseFeedUrlList(_feedZhBean, onRefresh: onRefresh);
-    } else if (type == 'en') {
-      parseFeedUrlList(_feedEnBean, onRefresh: onRefresh);
-    }
-  }
-
   /// 解析单个的feed
   void parseFeedItem(BuiltInFeedBean? item,
       {RefreshItemCallback? onRefresh}) async {
-    if (item == null || item.url == null || item.feed != null) {
+    if (item == null || item.url == null) {
       return;
     }
-
     // 将不存在的或者加载异常的状态改为加载中
     item.parseStatus = ParseStatus.loading;
     onRefresh?.call(item);
@@ -83,7 +73,7 @@ class ParseFeedServices extends GetxService {
       onRefresh?.call(item);
       return;
     }
-
+    item.parseStatus = null;
     item.feed = feed;
     _saveOrUpdate(
       feed,
@@ -92,71 +82,11 @@ class ParseFeedServices extends GetxService {
     );
   }
 
-  /// 解析一个Feed List
-  void parseFeedUrlList(List<BuiltInFeedBean>? items,
-      {RefreshCallback? onRefresh}) async {
-    if (items == null || items.isEmpty == true) {
-      return;
-    }
-
-    // 将不存在的或者加载异常的状态改为加载中
-    for (var element in items) {
-      if (element.feed == null) {
-        element.parseStatus = ParseStatus.loading;
-      }
-    }
-
-    onRefresh?.call(items);
-    for (var item in items) {
-      final url = item.url ?? '';
-      if (item.feed != null) {
-        // 数据已存在
-        item.parseStatus = null;
-        onRefresh?.call(items);
-        continue;
-      }
-      final feed = await parseFeed(url, categoryName: item.categorie);
-      if (feed == null) {
-        item.parseStatus = ParseStatus.error;
-        onRefresh?.call(items);
-        continue;
-      }
-
-      item.feed = feed;
-      _saveOrUpdateList(
-        feed,
-        items,
-        onRefresh: onRefresh,
-      );
-    }
-  }
-
-  void _saveOrUpdateList(FeedBean? feed, List<BuiltInFeedBean>? items,
-      {RefreshCallback? onRefresh}) async {
-    if (feed == null) {
-      return;
-    }
-    // 如果 feed 不存在，添加 feed，否则更新 feed
-    // if (await FeedBean.isExist(feed.url)) {
-    //   await feed.updatePostsFeedNameAndOpenTypeAndFullText();
-    // } else {
-    //   await feed.insertOrUpdateToDb();
-    // }
-    feed.insert();
-    onRefresh?.call(items);
-  }
-
   void _saveOrUpdate(FeedBean? feed, BuiltInFeedBean? items,
       {RefreshItemCallback? onRefresh}) async {
     if (feed == null) {
       return;
     }
-    // 如果 feed 不存在，添加 feed，否则更新 feed
-    // if (await Feed.isExist(feed.url)) {
-    //   await feed.updatePostsFeedNameAndOpenTypeAndFullText();
-    // } else {
-    //   await feed.insertOrUpdateToDb();
-    // }
     feed.insert();
     onRefresh?.call(items);
   }
