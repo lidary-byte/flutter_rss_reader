@@ -133,7 +133,7 @@ class ParseFeedServices extends GetxService {
       final List<Isolate> isolates = [];
 
       for (var feed in batchFeeds) {
-        final isolate = await Isolate.spawn(isoParseFeed, feed);
+        final isolate = await Isolate.spawn(isoParseFeed, [feed,receivePort.sendPort]);
         isolates.add(isolate);
       }
 
