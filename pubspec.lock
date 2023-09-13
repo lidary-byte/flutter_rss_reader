@@ -504,6 +504,22 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "3.1.0+1"
+  isolate_contactor:
+    dependency: transitive
+    description:
+      name: isolate_contactor
+      sha256: "5d18bd8bbd4944edd643c48794477ab90cf1706b6b855bab402125b9aecb1322"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "4.0.0"
+  isolate_manager:
+    dependency: "direct main"
+    description:
+      name: isolate_manager
+      sha256: "4caf64b88e281bade1fe7a70600a46cd6245084da4a769490ad1cc1eb286d40d"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "4.1.1"
   js:
     dependency: transitive
     description:

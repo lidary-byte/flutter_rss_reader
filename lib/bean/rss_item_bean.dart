@@ -1,6 +1,7 @@
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'rss_item_bean.g.dart';
 
@@ -34,6 +35,22 @@ class RssItemBean {
   /// 插入数据库
   /// 如果存在则取消
   void insert() async {
+    final rssItem =
+        await isar.rssItemBeans.filter().linkEqualTo(link).findFirst();
+
+    if (rssItem == null) {
+      await isar.writeTxn(() => isar.rssItemBeans.put(this));
+    }
+  }
+
+  void isoInsert() async {
+    final dir = await getApplicationDocumentsDirectory();
+
+    final isar = await Isar.open(
+      [FeedBeanSchema, RssItemBeanSchema],
+      directory: dir.path,
+      name: 'parse feed',
+    );
     final rssItem =
         await isar.rssItemBeans.filter().linkEqualTo(link).findFirst();
 

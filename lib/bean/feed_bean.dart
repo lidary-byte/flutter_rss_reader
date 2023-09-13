@@ -4,6 +4,7 @@ import 'package:flutter_rss_reader/bean/feed_category_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:isar/isar.dart';
+import 'package:path_provider/path_provider.dart';
 
 part 'feed_bean.g.dart';
 
@@ -36,6 +37,26 @@ class FeedBean {
   /// 插入数据库
   /// 如果存在则取消
   Future<int?> insert() async {
+    final feed = await isar.feedBeans.filter().urlEqualTo(url).findFirst();
+
+    if (feed == null) {
+      return await isar.writeTxn(() => isar.feedBeans.put(this));
+    }
+    return null;
+  }
+
+  /// 插入数据库
+  /// 如果存在则取消
+  Future<int?> isoInsert() async {
+    // 我们没必要在此指定路径，因为它已经被创建好了
+    final dir = await getApplicationDocumentsDirectory();
+
+    final isar = await Isar.open(
+      [FeedBeanSchema, RssItemBeanSchema],
+      directory: dir.path,
+      name: 'parse feed',
+    );
+
     final feed = await isar.feedBeans.filter().urlEqualTo(url).findFirst();
 
     if (feed == null) {

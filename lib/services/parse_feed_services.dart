@@ -1,13 +1,16 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/global.dart';
+import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/utils/web_feed_parse_util.dart';
 import 'package:get/get.dart';
 import 'package:isar/isar.dart';
+import 'package:isolate_manager/isolate_manager.dart';
 import 'package:path_provider/path_provider.dart';
 
 // 自定义回调函数，接收List参数
@@ -15,8 +18,17 @@ typedef RefreshCallback = void Function(List<BuiltInFeedBean>?);
 // 自定义回调函数
 typedef RefreshItemCallback = void Function(BuiltInFeedBean?);
 
+typedef ParseResultCallback = void Function(ParseFeedResult result);
+
 class ParseFeedServices extends GetxService {
+  /// feed解析的Iso
+  final IsolateManager<ParseFeedResult, ParseFeed> isolateManager =
+      IsolateManager.create(isoParseFeed,
+          concurrent: 5, workerName: 'parse feed');
+
   Future<ParseFeedServices> init() async {
+    // isolateManager.stream.listen((result) => );
+
     //初始化本地数据库
     final dir = await getApplicationDocumentsDirectory();
     isar = await Isar.open(
@@ -52,12 +64,11 @@ class ParseFeedServices extends GetxService {
     }
   }
 
-  /// 解析单个的feed
+  /// 解析rss数组
+
   void parseFeedItem(BuiltInFeedBean? item,
       {RefreshItemCallback? onRefresh}) async {
-    if (item == null || item.url == null) {
-      return;
-    }
+    if (item == null) return;
     // 将不存在的或者加载异常的状态改为加载中
     item.parseStatus = ParseStatus.loading;
     onRefresh?.call(item);
@@ -80,6 +91,22 @@ class ParseFeedServices extends GetxService {
       item,
       onRefresh: onRefresh,
     );
+  }
+
+  /// 解析rss 数组
+  /// [map]key为url value为categorie
+  void parseFeeds(List<ParseFeed> map,
+      {ParseResultCallback? resultCallback}) async {
+    final parseMap =
+        map.where((element) => FeedBean.isExistSync(element.url ?? '') == null);
+
+    for (var itemMap in parseMap) {
+      final result =
+          await isolateManager.compute(itemMap, callback: (value) => true);
+      debugPrint(
+          '--------------解析url:${result.url} ----- 解析:${result.feedBean == null ? '失败' : '成功'}');
+      resultCallback?.call(result);
+    }
   }
 
   void _saveOrUpdate(FeedBean? feed, BuiltInFeedBean? items,

@@ -18,6 +18,8 @@ GlobalKey<NavigatorState> globalKey = GlobalKey();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  // BackgroundIsolateBinaryMessenger.ensureInitialized(
+  //     RootIsolateToken.instance!);
   GestureBinding.instance.resamplingEnabled = true;
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(

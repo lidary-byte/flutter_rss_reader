@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
+import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:get/get.dart';
 
@@ -38,6 +39,24 @@ class BuiltInFeedController extends GetxController
   void parseItem(BuiltInFeedBean? bean) async {
     final type = _tabController?.index == 0 ? 'zh' : 'en';
     _parseFeedservice?.parseFeedItem(bean, onRefresh: (parseBean) {
+      update(['data_$type']);
+    });
+  }
+
+  void parseAll() async {
+    final type = _tabController?.index == 0 ? 'zh' : 'en';
+    final data = _tabController?.index == 0 ? _feedZhBean : _feedEnBean;
+    final parseData = data
+        .where((element) => element.url != null && element.feed == null)
+        .map((e) {
+      e.parseStatus = ParseStatus.loading;
+      return ParseFeed(url: e.url, categoryName: e.categorie);
+    }).toList();
+    update(['data_$type']);
+    _parseFeedservice?.parseFeeds(parseData, resultCallback: (result) {
+      data.firstWhere((element) => element.url == result.url)
+        ..feed = result.feedBean
+        ..parseStatus = result.feedBean == null ? ParseStatus.error : null;
       update(['data_$type']);
     });
   }

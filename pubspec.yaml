@@ -58,6 +58,7 @@ dependencies:
   fps_monitor: ^2.0.0
   favicon: ^1.1.1
   cached_network_image: ^3.2.3
+  isolate_manager: ^4.1.1
  
 
 dev_dependencies:

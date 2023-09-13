@@ -36,10 +36,10 @@ class BuiltInFeedPage extends StatelessWidget {
               ),
             ],
           ),
-          // actions: [
-          //   TextButton(
-          //       onPressed: _controller.parseAll, child: Text('importAll'.tr))
-          // ],
+          actions: [
+            TextButton(
+                onPressed: _controller.parseAll, child: Text('importAll'.tr))
+          ],
         ),
         body: SafeArea(
           child: TabBarView(
