@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page_controller.dart';
+import 'package:flutter_rss_reader/pages/subscription/dialog_add_feed.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_controller.dart';
 import 'package:get/get.dart';
 
@@ -17,6 +18,13 @@ class SubscriptionPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('aRead'.tr),
         actions: [
+          IconButton(
+              onPressed: () => Get.bottomSheet(DialogAddFeed(),
+                  backgroundColor: Colors.white,
+                  shape: const RoundedRectangleBorder(
+                      borderRadius:
+                          BorderRadius.vertical(top: Radius.circular(10)))),
+              icon: const Icon(Icons.add_outlined)),
           PopupMenuButton(
             position: PopupMenuPosition.under,
             itemBuilder: (context) => [
