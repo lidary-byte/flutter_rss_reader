@@ -127,6 +127,7 @@ Future<FeedBean?> refreshFeedItem(
 List<RssItemBean> buildRssItem(
     int feedId, String feedName, List<RssItem>? item) {
   return item?.map((e) {
+        debugPrint('----------------rss item:${e.content?.value}');
         return RssItemBean(
             feedId: feedId,
             feedName: feedName,
@@ -144,6 +145,7 @@ List<RssItemBean> buildRssItem(
 List<RssItemBean> buildAtomItem(
     int feedId, String feedName, List<AtomItem>? item) {
   return item?.map((e) {
+        debugPrint('----------------atom item:${e.content}');
         return RssItemBean(
             feedId: feedId,
             feedName: feedName,
