@@ -289,6 +289,14 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "1.6.6"
+  easy_image_viewer:
+    dependency: "direct main"
+    description:
+      name: easy_image_viewer
+      sha256: "8d11a4630e9beb7aacf043c98da2dd4b3bc3b47aa4073d2016ba696376161272"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "1.2.1"
   fake_async:
     dependency: transitive
     description:
@@ -824,6 +832,14 @@ packages:
       url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
     source: hosted
     version: "5.4.0"
+  photo_view:
+    dependency: "direct main"
+    description:
+      name: photo_view
+      sha256: "8036802a00bae2a78fc197af8a158e3e2f7b500561ed23b4c458107685e645bb"
+      url: "https://mirrors.tuna.tsinghua.edu.cn/dart-pub/"
+    source: hosted
+    version: "0.14.0"
   platform:
     dependency: transitive
     description:

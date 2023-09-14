@@ -79,6 +79,7 @@ class ReadController extends BaseGetxController {
     Get.toNamed(AppRouter.readSettingPage)?.then((value) {
       if (_changeStyle) {
         _createCss();
+        update(['content', 'html_cache']);
         _webViewController?.injectCSSCode(source: _css);
       }
     });
@@ -117,7 +118,7 @@ body {
 }
 h1 {
   font-size: 1.5em;
-  font-weight: 700;
+  font-weight: 700; 
 }
 h2 {
   font-size: 1.25em;
