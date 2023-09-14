@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
+import 'package:flutter_rss_reader/database/database_feed.dart';
+import 'package:flutter_rss_reader/database/database_helper.dart';
+import 'package:flutter_rss_reader/database/database_rss_item.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/open_url_util.dart';
@@ -32,12 +34,12 @@ class FeedPageController extends BaseGetxController {
   ///  监听数据是否被更改
   Stream<void>? _rssItemsSteream;
   @override
-  void onInit() {
+  void onInit() async {
     _feed = Get.arguments[parametersFeed];
 
     super.onInit();
     _initFontDir();
-    _rssItemsSteream = isar.rssItemBeans.watchLazy();
+    _rssItemsSteream = (await isarInstance).rssItemBeans.watchLazy();
     _rssItemsSteream?.listen((_) {
       getPostListToSql();
     });
@@ -94,7 +96,7 @@ class FeedPageController extends BaseGetxController {
 
   /// 全部已读
   void markPostsAsRead() async {
-    await RssItemBean.markAllRead(_rssItems);
+    await DatabaseRssItem.markAllRead(_rssItems);
   }
 
   void deleteFeed() {

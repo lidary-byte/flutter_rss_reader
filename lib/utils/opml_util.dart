@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_category_bean.dart';
+import 'package:flutter_rss_reader/database/database_feed.dart';
+import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/utils/web_feed_parse_util.dart';
 import 'package:opml/opml.dart';
 
@@ -22,12 +24,15 @@ Future<int> parseOpml(FilePickerResult result) async {
         await Future.wait(
           category.children!.map(
             (opmlOutline) async {
-              if (FeedBean.isExistSync(opmlOutline.xmlUrl!) == null) {
-                FeedBean? feed = await parseFeed(opmlOutline.xmlUrl!,
-                    categoryName: categoryName, feedName: opmlOutline.title!);
-                if (feed != null) {
-                  await feed.insert();
-                } else {
+              if (await DatabaseFeed.isExist(opmlOutline.xmlUrl!) == null) {
+                FeedBean? feed = (await isoParseFeed(ParseFeed(
+                        url: opmlOutline.xmlUrl,
+                        categoryName: categoryName,
+                        feedName: opmlOutline.title!)))
+                    .feedBean;
+                if (feed == null) {
+                  // await feed.insert();
+                  // } else {
                   failCount++;
                 }
               }
@@ -43,11 +48,11 @@ Future<int> parseOpml(FilePickerResult result) async {
 /// 导出 OPML 文件
 Future<String> exportOpmlBase() async {
   final List<FeedCategoryBean> feedMap =
-      await FeedBean.groupByCategoryFeedList();
+      await DatabaseFeed.groupByCategoryFeedList();
   final head = OpmlHeadBuilder().title('Feeds From MeRead').build();
 
   final body = <OpmlOutline>[];
-  feedMap.forEach((element) {
+  for (var element in feedMap) {
     var c = OpmlOutlineBuilder()
         .title(element.category ?? '')
         .text(element.category ?? '');
@@ -59,7 +64,7 @@ Future<String> exportOpmlBase() async {
           .xmlUrl(feed.url ?? '')
           .build());
     });
-  });
+  }
 
   final opml = OpmlDocument(
     head: head,

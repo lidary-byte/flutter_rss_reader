@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
+import 'package:flutter_rss_reader/database/database_feed.dart';
 
 class BuiltInFeedBean {
   String? text;
@@ -10,15 +11,15 @@ class BuiltInFeedBean {
   ParseStatus? parseStatus;
   FeedBean? feed;
 
-  BuiltInFeedBean({this.text, this.url, this.categorie})
-      : feed = FeedBean.isExistSync(url!);
+  BuiltInFeedBean({this.text, this.url, this.categorie, this.parseStatus}) {
+    DatabaseFeed.isExist(url!).then((value) => feed = value);
+  }
 
   BuiltInFeedBean.fromJson(Map<String, dynamic> json) {
     text = json['text'];
     url = json['url'];
     categorie = json['categorie'];
-    feed = FeedBean.isExistSync(url!);
-    // isExit = feed != null;
+    DatabaseFeed.isExist(url!).then((value) => feed = value);
   }
 
   Map<String, dynamic> toJson() {
@@ -26,7 +27,6 @@ class BuiltInFeedBean {
     data['text'] = text;
     data['url'] = url;
     data['categorie'] = categorie;
-    // data['isExit'] = isExit;
     return data;
   }
 

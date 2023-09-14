@@ -44,8 +44,8 @@ class AddFeedController extends GetxController {
   }
 
   void parseBuiltInFeed(BuiltInFeedBean? bean) {
-    _parseService.parseFeedItem(bean, onRefresh: (data) {
-      update(['list_view']);
-    });
+    // _parseService.parseFeedItem(bean, onRefresh: (data) {
+    //   update(['list_view']);
+    // });
   }
 }

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_category_bean.dart';
+import 'package:flutter_rss_reader/database/database_feed.dart';
+import 'package:flutter_rss_reader/database/database_helper.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/global/global.dart';
+import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:flutter_rss_reader/utils/clip_util.dart';
 import 'package:get/get.dart';
@@ -18,11 +20,11 @@ class SubscriptionController extends GetxController {
 
   final _parseService = Get.find<ParseFeedServices>();
   @override
-  void onInit() {
+  void onInit() async {
     super.onInit();
 
     /// 对数据源进行监听 有变化时刷新
-    isar.feedBeans.watchLazy().listen((_) {
+    (await isarInstance).feedBeans.watchLazy().listen((_) {
       getFeedList();
     });
   }
@@ -39,7 +41,7 @@ class SubscriptionController extends GetxController {
   }
 
   void getFeedList() async {
-    _feedListGroup = await FeedBean.groupByCategoryFeedList();
+    _feedListGroup = await DatabaseFeed.groupByCategoryFeedList();
     update();
   }
 
@@ -60,9 +62,12 @@ class SubscriptionController extends GetxController {
     if (url.isEmpty) {
       return;
     }
-    _parseFeed = BuiltInFeedBean(url: url);
-    _parseService.parseFeedItem(parseFeed, onRefresh: (data) {
-      _parseFeed = data;
+    _parseFeed = BuiltInFeedBean(url: url, parseStatus: ParseStatus.loading);
+    update(['parse_result']);
+    _parseService.parseFeeds([ParseFeed(url: url)], resultCallback: (data) {
+      _parseFeed
+        ?..feed = data.feedBean
+        ..parseStatus = data.feedBean == null ? ParseStatus.error : null;
       update(['parse_result']);
       if (parseFeed?.feed != null) {
         _urlController.clear();

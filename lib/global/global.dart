@@ -5,10 +5,8 @@ import 'package:flutter_rss_reader/global/com_constant.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:flutter_rss_reader/utils/font_manager.dart';
 import 'package:get/get.dart';
-import 'package:isar/isar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-late Isar isar;
 late SharedPreferences prefs;
 late String applicationVersion = 'v0.5.0';
 

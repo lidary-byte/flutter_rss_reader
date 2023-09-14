@@ -1,7 +1,4 @@
-import 'package:flutter_rss_reader/bean/feed_bean.dart';
-import 'package:flutter_rss_reader/global/global.dart';
 import 'package:isar/isar.dart';
-import 'package:path_provider/path_provider.dart';
 
 part 'rss_item_bean.g.dart';
 
@@ -31,83 +28,4 @@ class RssItemBean {
       this.pubDate,
       this.author,
       this.cover});
-
-  /// 插入数据库
-  /// 如果存在则取消
-  void insert() async {
-    final rssItem =
-        await isar.rssItemBeans.filter().linkEqualTo(link).findFirst();
-
-    if (rssItem == null) {
-      await isar.writeTxn(() => isar.rssItemBeans.put(this));
-    }
-  }
-
-  void isoInsert() async {
-    final dir = await getApplicationDocumentsDirectory();
-    final isolateIsar = Isar.getInstance('main isar') ??
-        await Isar.open(
-          [FeedBeanSchema, RssItemBeanSchema],
-          directory: dir.path,
-          name: 'main isar',
-        );
-    final rssItem =
-        await isolateIsar.rssItemBeans.filter().linkEqualTo(link).findFirst();
-
-    if (rssItem == null) {
-      await isolateIsar.writeTxn(() => isolateIsar.rssItemBeans.put(this));
-    }
-  }
-
-  /// 查询所有 Post，按照发布时间倒序
-  static Future<List<RssItemBean>> getAll() async {
-    return await isar.rssItemBeans.where().sortByPubDateDesc().findAll();
-  }
-
-  /// 根据 List<Feed> 查询所有 Post，按照发布时间倒序
-  // static Future<List<RssItemBean>> getAllByFeeds(List<FeedBean> feeds) async {
-  //   final List<int> feedIds = [];
-  //   for (var feed in feeds) {
-  //     feedIds.add(feed.id!);
-  //   }
-  //   final posts = await getAll();
-  //   return posts.where((post) => feedIds.contains(post.feedId)).toList();
-  // }
-
-  /// 更新已经存在的item
-  Future<void> updateToDb() async {
-    await isar.writeTxn(() async {
-      await isar.rssItemBeans.put(this);
-    });
-  }
-
-  /// 更改阅读状态
-  void changeReadStatus(bool read) async {
-    if (this.read == read) {
-      return;
-    }
-    this.read = read;
-    await updateToDb();
-
-    final unReadCount = await isar.rssItemBeans
-        .filter()
-        .readEqualTo(false)
-        .feedIdEqualTo(feedId)
-        .count();
-    final feed = await isar.feedBeans.filter().idEqualTo(feedId).findFirst();
-    await feed?.updateUnReadCount(unReadCount);
-  }
-
-  /// 标记所有未读 item 为已读
-  static Future<void> markAllRead(List<RssItemBean> rssItems) async {
-    for (RssItemBean rssItem in rssItems) {
-      rssItem.changeReadStatus(true);
-    }
-  }
-
-  /// 改变收藏状态
-  void changeFavorite() async {
-    favorite = !favorite;
-    await updateToDb();
-  }
 }

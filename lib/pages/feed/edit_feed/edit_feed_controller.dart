@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
+import 'package:flutter_rss_reader/database/database_feed.dart';
 import 'package:get/get.dart';
 
 class EditFeedController extends GetxController {

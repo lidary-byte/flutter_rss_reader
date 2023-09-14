@@ -3,6 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
+import 'package:flutter_rss_reader/database/database_rss_item.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:get/get.dart';
