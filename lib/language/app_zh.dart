@@ -111,5 +111,6 @@ const zh = {
   'subscribed': '已订阅',
   'parseing': '解析中',
   'importAll': '全部导入',
-  'copySuccess': '复制成功'
+  'copySuccess': '复制成功',
+  "pageStyle": "页面样式",
 };
