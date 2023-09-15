@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
