@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_rss_reader/database/database_helper.dart';
 import 'package:flutter_rss_reader/global/com_constant.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:flutter_rss_reader/utils/font_manager.dart';
@@ -27,6 +28,7 @@ Future<void> init() async {
   cacheThemeFont = prefs.getString(ComConstant.spKeyThemeFont) ?? '默认字体';
   cacheDynamicColor = prefs.getBool(ComConstant.spKeyDynamicColor) ?? false;
 
+  await initIsar();
   // 初始化services
   await Get.putAsync(() => ParseFeedServices().init());
 }

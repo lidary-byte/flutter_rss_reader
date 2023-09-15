@@ -1,13 +1,15 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_inappwebview/flutter_inappwebview.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
-import 'package:flutter_rss_reader/theme/custom_bottom_nav_theme.dart';
 import 'package:flutter_rss_reader/utils/open_url_util.dart';
 import 'package:flutter_rss_reader/widgets/popup_menu_widget.dart';
 import 'package:flutter_rss_reader/widgets/status_page.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
+import 'package:html/dom.dart' as dom;
+import 'package:photo_view/photo_view.dart';
 import 'package:share_plus/share_plus.dart';
 
 class ReadPage extends StatelessWidget {
@@ -18,198 +20,226 @@ class ReadPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(_controller.post.feedName),
+        title: Text(_controller.rssItem.feedName),
         actions: [
-          PopupMenuButton(
-            position: PopupMenuPosition.under,
-            itemBuilder: (BuildContext context) => _popupMenu(),
+          GetBuilder<ReadController>(
+            id: 'popup',
+            builder: (_) {
+              return PopupMenuButton(
+                position: PopupMenuPosition.under,
+                itemBuilder: (BuildContext context) => _popupMenu(),
+              );
+            },
           ),
         ],
       ),
       body: SafeArea(
-        child: Stack(
-          children: [
-            Positioned(
-              child: GetBuilder<ReadController>(
-                  id: 'content',
-                  builder: (_) => StatusPage<String>(
-                      contentWidget: (data) => _buildBody(),
-                      status: _controller.pageStatusBean)),
-            ),
-            Positioned(bottom: 20, left: 14, right: 14, child: _bottomBar()),
-          ],
+        child: Positioned(
+          child: GetBuilder<ReadController>(
+              id: 'content',
+              builder: (_) => StatusPage<String>(
+                  contentWidget: (data) => _buildBody(context),
+                  status: _controller.pageStatusBean)),
         ),
       ),
     );
   }
 
-  Widget _buildBody() {
-    return Listener(
-      onPointerDown: (event) =>
-          _controller.setMoveXY(event.position.dx, event.position.dy),
-      onPointerMove: (event) =>
-          _controller.moveXY(event.position.dx, event.position.dy),
-      onPointerUp: (event) =>
-          _controller.reSetMoveXY(event.position.dx, event.position.dy),
-      child: InAppWebView(
-        initialData: InAppWebViewInitialData(
-          data: '''
-    <!DOCTYPE html>
-    <html>
-    <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <style>
-    ${_controller.css}
-    </style>
-    </head>
-    <body>
+  Widget _buildBody(BuildContext context) {
+    return GetBuilder<ReadController>(
+      id: 'html_widget',
+      builder: (_) {
+        return HtmlWidget(
+          '''
+   <div class='aread_html_content'>
     ${_controller.titleStr}
     ${_controller.contentHtml}
-    </body>
-    </html>
+    </div>
     ''',
-          baseUrl: Uri.directory(_controller.fontDir),
-        ),
-        initialOptions: InAppWebViewGroupOptions(
-          android: AndroidInAppWebViewOptions(
-            useHybridComposition: true,
+          buildAsync: true,
+          rebuildTriggers: RebuildTriggers([
+            _controller.textAlign,
+            _controller.fontSize,
+            _controller.lineHeight,
+            _controller.pagePadding,
+          ]),
+          renderMode: RenderMode.listView,
+          onTapImage: (imageMetadata) async {
+            final imageUrl = imageMetadata.sources.firstOrNull?.url;
+            await _showImageDialog(imageUrl);
+          },
+          textStyle: TextStyle(
+            fontFamily: cacheThemeFont,
+            fontSize: _controller.fontSize.toDouble(),
+            color: Get.theme.textTheme.bodyLarge!.color!,
           ),
-          crossPlatform: InAppWebViewOptions(
-            transparentBackground: true,
-            useShouldOverrideUrlLoading: true,
-          ),
-        ),
-        /* 点击链接时使用内置标签页打开 */
-        shouldOverrideUrlLoading: (controller, navigationAction) async {
-          final url = navigationAction.request.url.toString();
-          if (url.startsWith('http://') || url.startsWith('https://')) {
+          customStylesBuilder: (element) => buildStyle(context, element),
+          onTapUrl: (url) {
             openUrl(url: url);
-            return NavigationActionPolicy.CANCEL;
-          }
-          return NavigationActionPolicy.ALLOW;
-        },
-        onWebViewCreated: _controller.setWebViewController,
-      ),
+            return true;
+          },
+        );
+      },
     );
   }
 
   List<PopupMenuEntry> _popupMenu() => <PopupMenuEntry>[
+        // 获取全文
+        popupMenuWidget(
+            title: 'fullText'.tr,
+            icon: Icons.article_outlined,
+            onTap: _controller.getHtml),
+        // 新标签页中打开
         popupMenuWidget(
             title: 'openInNewTab'.tr,
             icon: Icons.tab_outlined,
-            onTap: () => openUrl(url: _controller.post.link, thisApp: true)),
+            onTap: () => openUrl(url: _controller.rssItem.link, thisApp: true)),
+        // 系统浏览器打开
         popupMenuWidget(
             title: 'openInBrowser'.tr,
             icon: Icons.open_in_browser_outlined,
-            onTap: () => openUrl(url: _controller.post.link, thisApp: false)),
+            onTap: () =>
+                openUrl(url: _controller.rssItem.link, thisApp: false)),
+        const PopupMenuDivider(),
+
+        // 标记为未读
+        popupMenuWidget(
+            title: 'markAsUnread'.tr,
+            icon: _controller.rssItem.read
+                ? Icons.radio_button_unchecked
+                : Icons.radio_button_checked,
+            onTap: _controller.changeReadStatus),
+
+        // 收藏
+        popupMenuWidget(
+            title: 'collectPost'.tr,
+            icon: _controller.rssItem.favorite
+                ? Icons.bookmark
+                : Icons.bookmark_border_outlined,
+            onTap: _controller.changeFavoriteStatus),
+        const PopupMenuDivider(),
+        // 页面样式
+        popupMenuWidget(
+            title: 'pageStyle'.tr,
+            icon: Icons.line_style_outlined,
+            onTap: () => _controller.changeStylePage()),
         const PopupMenuDivider(),
         popupMenuWidget(
             title: 'share'.tr,
             icon: Icons.share_outlined,
             onTap: () => Share.share(
-                  _controller.post.link!,
-                  subject: _controller.post.title,
+                  _controller.rssItem.link!,
+                  subject: _controller.rssItem.title,
                 )),
         popupMenuWidget(
             title: 'copyLink'.tr,
             icon: Icons.copy_outlined,
-            onTap: () =>
-                Clipboard.setData(ClipboardData(text: _controller.post.link!))),
+            onTap: () => Clipboard.setData(
+                ClipboardData(text: _controller.rssItem.link!))),
       ];
 
-  Widget _bottomBar() => GetBuilder<ReadController>(
-      id: 'bottom',
-      builder: (_) => AnimatedSwitcher(
-            duration: const Duration(milliseconds: 200),
-            transitionBuilder: (child, animation) => SlideTransition(
-              position: Tween<Offset>(
-                begin: const Offset(0.0, 1.0),
-                end: const Offset(0.0, 0.0),
-              ).animate(animation),
-              child: child,
-            ),
-            child: _controller.isBottomOpen
-                ? Container(
-                    decoration: BoxDecoration(
-                      color: Get.theme
-                          .extension<CustomBottomNavTheme>()!
-                          .bottomNavigationBarBackgroundColor, // 背景颜色
-                      borderRadius: BorderRadius.circular(10.0), // 圆角半径
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: [
-                        IconButton(
-                            onPressed: () =>
-                                Get.toNamed(AppRouter.readSettingPage),
-                            icon: Icon(
-                              Icons.font_download_outlined,
-                              color: Get.theme.primaryColor,
-                            )),
-                        // 标记未读
-                        GetBuilder<ReadController>(
-                            id: 'read_status',
-                            builder: (_) => IconButton(
-                                onPressed: _controller.changeReadStatus,
-                                icon: Icon(
-                                    _controller.post.read
-                                        ? Icons.radio_button_unchecked
-                                        : Icons.radio_button_checked,
-                                    color: Get.theme.primaryColor))),
-                        //收藏文章
-                        GetBuilder<ReadController>(
-                            id: 'favorite',
-                            builder: (_) => IconButton(
-                                onPressed: _controller.changeFavoriteStatus,
-                                icon: Icon(
-                                    _controller.post.favorite
-                                        ? Icons.bookmark
-                                        : Icons.bookmark_border_outlined,
-                                    color: Get.theme.primaryColor))),
-                        GetBuilder<ReadController>(
-                            id: 'html_cache',
-                            builder: (_) => IconButton(
-                                onPressed: _controller.getHtml,
-                                icon: Icon(Icons.article_outlined,
-                                    color: Get.theme.primaryColor))),
-                      ],
-                    ),
-                  )
-                : null,
-          ));
+  Future _showImageDialog(String? url) async {
+    if (url != null && url.isEmpty == false) {
+      await Get.dialog(
+          Stack(
+            children: [
+              PhotoView(
+                onTapDown: (context, details, controllerValue) => Get.back(),
+                imageProvider: CachedNetworkImageProvider(url),
+              ),
+              Positioned(
+                  right: 10,
+                  top: 50,
+                  child: IconButton(
+                    onPressed: () => Get.back(),
+                    icon: const Icon(Icons.close_outlined),
+                    color: Colors.white,
+                  )),
+            ],
+          ),
+          useSafeArea: false);
+    }
+  }
 
-  // Widget _bottomStyleWidget() {
-  //   return Container(
-  //       height: 200,
-  //       child: ListView(
-  //         padding: const EdgeInsets.all(6.0),
-  //         children: [
-  //           FontSizeWidget(),
-  //           // ListTile(
-  //           //   iconColor: Get.theme.colorScheme.onPrimary,
-  //           //   title: Text('fontSize'.tr),
-  //           //   subtitle: Text(
-  //           //     {
-  //           //           14: 'minimum'.tr,
-  //           //           16: 'small'.tr,
-  //           //           18: 'medium'.tr,
-  //           //           20: 'large'.tr,
-  //           //           22: 'maximum'.tr,
-  //           //         }[_controller.fontSize] ??
-  //           //         'medium'.tr,
-  //           //   ),
-  //           // )),
-  //           Row(
-  //             children: [
-  //               Text('字体大小'),
-  //               Text('行高'),
-  //               Text('页面边距'),
-  //               Text('文本对齐'),
-  //               Text('自定义css'),
-  //             ],
-  //           )
-  //         ],
-  //       ));
-  // }
+  Map<String, String>? buildStyle(BuildContext context, dom.Element element) {
+    if (element.className == 'aread_html_content') {
+      return {
+        'line-height': '${_controller.lineHeight}',
+        'background-color':
+            '#${Get.theme.scaffoldBackgroundColor.value.toRadixString(16).substring(2)}',
+        'width': 'auto',
+        'height': 'auto',
+        'margin': '0',
+        'word-wrap': 'break-word',
+        'padding': '12px ${_controller.pagePadding}px !important',
+        'text-align': _controller.textAlign
+      };
+    }
+    switch (element.localName) {
+      case 'h1':
+        return {'font-size': '1.5em', 'font-weight': '700'};
+      case 'h2':
+        return {'font-size': '1.25em', 'font-weight': '700'};
+      case 'h3':
+      case 'h4':
+      case 'h5':
+      case 'h6':
+        return {'font-size': '1.0em', 'font-weight': '700'};
+      case 'img':
+      case 'figure':
+      case 'video':
+      case 'iframe':
+        return {
+          'max-width': '100% !important',
+          'height': 'auto',
+          'margin': '0 auto',
+          'display': 'block',
+        };
+
+      case 'a':
+        return {
+          'color':
+              '#${Get.theme.colorScheme.primary.value.toRadixString(16).substring(2)}',
+          'text-decoration': 'none',
+          'border-bottom':
+              '1px solid #${Get.theme.colorScheme.primary.value.toRadixString(16).substring(2)}',
+          'padding-bottom': '1px',
+          'word-break': 'break-all'
+        };
+
+      case 'blockquote':
+        return {
+          'margin': '0',
+          'padding': '0 0 0 16px',
+          'border-left': '4px solid #9e9e9e'
+        };
+      case 'pre':
+        return {'white-space': 'pre-wrap', 'word-break': 'break-all'};
+
+      case 'table':
+        return {
+          'width': '100% !important',
+          'table-layout': 'fixed',
+          'border':
+              '1px solid #${Get.theme.textTheme.bodyLarge!.color!.value.toRadixString(16).substring(2)}',
+          'border-collapse': 'collapse',
+          'padding': '0 8px'
+        };
+      case 'td':
+        return {
+          'padding': '0 8px',
+          'border':
+              '1px solid #${Get.theme.textTheme.bodyLarge!.color!.value.toRadixString(16).substring(2)}',
+          'border-collapse': 'collapse'
+        };
+      case 'th':
+        return {
+          'border':
+              '1px solid #${Get.theme.textTheme.bodyLarge!.color!.value.toRadixString(16).substring(2)}',
+          'border-collapse': 'collapse'
+        };
+      default:
+    }
+    return null;
+  }
 }
