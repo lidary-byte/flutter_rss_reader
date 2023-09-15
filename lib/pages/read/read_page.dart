@@ -34,13 +34,11 @@ class ReadPage extends StatelessWidget {
         ],
       ),
       body: SafeArea(
-        child: Positioned(
-          child: GetBuilder<ReadController>(
-              id: 'content',
-              builder: (_) => StatusPage<String>(
-                  contentWidget: (data) => _buildBody(context),
-                  status: _controller.pageStatusBean)),
-        ),
+        child: GetBuilder<ReadController>(
+            id: 'content',
+            builder: (_) => StatusPage<String>(
+                contentWidget: (data) => _buildBody(context),
+                status: _controller.pageStatusBean)),
       ),
     );
   }
@@ -51,12 +49,11 @@ class ReadPage extends StatelessWidget {
       builder: (_) {
         return HtmlWidget(
           '''
-   <div class='aread_html_content'>
+ <div class='aread_html_content'>
     ${_controller.titleStr}
     ${_controller.contentHtml}
     </div>
     ''',
-          buildAsync: true,
           rebuildTriggers: RebuildTriggers([
             _controller.textAlign,
             _controller.fontSize,
