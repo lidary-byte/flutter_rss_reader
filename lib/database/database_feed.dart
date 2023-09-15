@@ -88,11 +88,20 @@ extension DatabaseFeed on FeedBean {
   /// 更新 Feed 下的内容
   Future<void> updateToDb() async {
     final isar = await isarInstance;
+    await isar.writeTxn(() => isar.feedBeans.put(this));
+  }
+
+  /// 更新 Feed 及下面rssItem的内容
+  Future<void> updateAndChildToDb() async {
+    final isar = await isarInstance;
     final List<RssItemBean> items =
         await isar.rssItemBeans.filter().feedIdEqualTo(id).findAll();
     for (var element in items) {
-      element.feedName = name;
-      element.updateToDb();
+      element
+        ..feedName = name
+        ..fullText = fullText
+        ..openType = openType
+        ..updateToDb();
     }
     await isar.writeTxn(() => isar.feedBeans.put(this));
   }

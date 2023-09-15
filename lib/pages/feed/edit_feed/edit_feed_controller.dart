@@ -13,6 +13,7 @@ class EditFeedController extends GetxController {
   TextEditingController get nameController => _nameController;
   final TextEditingController _categoryController = TextEditingController();
   TextEditingController get categoryController => _categoryController;
+
   final List<String> openTypeList = [
     'openInApp'.tr,
     'openInBuiltInTab'.tr,
@@ -31,17 +32,17 @@ class EditFeedController extends GetxController {
     feed
       ?..name = _nameController.text
       ..category = _categoryController.text
-      ..updateToDb();
-    Get.back(result: true);
+      ..updateAndChildToDb();
+    Get.back(result: feed);
   }
 
   void readFillText(bool value) {
-    feed?.fullText = value;
+    _feed?.fullText = value;
     update(['switch_filltext']);
   }
 
   void openType(int? value) {
-    feed?.openType = value ?? 0;
+    _feed?.openType = value ?? 0;
     update(['radio_open_type']);
   }
 

@@ -1,4 +1,5 @@
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
@@ -13,7 +14,6 @@ class ReadController extends BaseGetxController {
   final CancelToken _cancelToken = CancelToken();
 
   RssItemBean rssItem = Get.arguments[parametersPost];
-  String fontDir = Get.arguments[parametersFontDir];
 
   int fontSize = prefs.getInt('fontSize') ?? 18;
   double lineHeight = prefs.getDouble('lineheight') ?? 1.5;
@@ -28,19 +28,37 @@ class ReadController extends BaseGetxController {
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
   void _initData() async {
-    if (rssItem.fullText &&
-        rssItem.cacheContent == null &&
-        rssItem.openType == 0) {
-      getHtml();
+    debugPrint('--------------${rssItem.fullText}');
+    if (rssItem.fullText) {
+      if (rssItem.cacheContent == null ||
+          rssItem.cacheContent?.isEmpty == true) {
+        getHtml();
+      } else {
+        _contentHtml = rssItem.cacheContent;
+        updateSuccessStatus(contentHtml, updateIds: ['content', 'html_widget']);
+      }
     } else {
       _contentHtml = rssItem.description;
       updateSuccessStatus(contentHtml, updateIds: ['content', 'html_widget']);
-      _changeStyle = false;
-      if (!rssItem.read) {
-        rssItem.read = true;
-      }
-      rssItem.updateToDb();
     }
+    // if (rssItem.fullText &&
+    //     rssItem.cacheContent == null &&
+    //     rssItem.openType == 0) {
+    //   getHtml();
+    // } else {
+    //   _contentHtml = rssItem.description;
+    //   updateSuccessStatus(contentHtml, updateIds: ['content', 'html_widget']);
+    //   _changeStyle = false;
+    //   if (!rssItem.read) {
+    //     rssItem.read = true;
+    //   }
+    //   rssItem.updateToDb();
+    // }
+    _changeStyle = false;
+    if (!rssItem.read) {
+      rssItem.read = true;
+    }
+    rssItem.updateToDb();
   }
 
   void getHtml() async {
@@ -56,11 +74,6 @@ class ReadController extends BaseGetxController {
 
     _contentHtml = rssItem.cacheContent;
     updateSuccessStatus(contentHtml, updateIds: ['content', 'html_widget']);
-    _changeStyle = false;
-    if (!rssItem.read) {
-      rssItem.read = true;
-    }
-    rssItem.updateToDb();
   }
 
   @override
@@ -148,5 +161,4 @@ class ReadController extends BaseGetxController {
   }
 
   static const String parametersPost = 'post';
-  static const String parametersFontDir = 'font_dir';
 }

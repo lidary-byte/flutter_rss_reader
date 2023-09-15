@@ -7,6 +7,7 @@ import 'package:flutter_rss_reader/database/database_feed.dart';
 import 'package:flutter_rss_reader/database/database_helper.dart';
 import 'package:flutter_rss_reader/database/database_rss_item.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';
 import 'package:flutter_rss_reader/utils/open_url_util.dart';
@@ -127,13 +128,17 @@ class FeedPageController extends BaseGetxController {
     if (rssItem.openType == 1 || rssItem.openType == 2) {
       openUrl(url: rssItem.link, thisApp: rssItem.openType == 1);
     } else {
-      Get.toNamed(AppRouter.readPageRouter, arguments: {
-        ReadController.parametersFontDir: _fontDir,
-        ReadController.parametersPost: rssItem
-      });
+      Get.toNamed(AppRouter.readPageRouter,
+          arguments: {ReadController.parametersPost: rssItem});
     }
     // 标记文章为已读
     rssItem.changeReadStatus(true);
+  }
+
+  void editFeed() {
+    Get.toNamed(AppRouter.editFeedPageRouter,
+            arguments: {EditFeedController.parametersFeed: _feed})
+        ?.then((value) => _feed = value);
   }
 
   void _initFontDir() async {

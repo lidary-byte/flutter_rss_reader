@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
-import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/item_rss_widget.dart';
 import 'package:flutter_rss_reader/widgets/status_page.dart';
@@ -90,8 +88,7 @@ class FeedPage extends StatelessWidget {
 
         /// 编辑订阅源
         PopupMenuItem(
-          onTap: () => Get.toNamed(AppRouter.editFeedPageRouter,
-              arguments: {EditFeedController.parametersFeed: _controller.feed}),
+          onTap: _controller.editFeed,
           child: Text('editFeed'.tr),
         ),
 
