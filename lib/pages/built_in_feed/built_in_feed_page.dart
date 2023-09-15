@@ -32,7 +32,7 @@ class BuiltInFeedPage extends StatelessWidget {
               GetBuilder<BuiltInFeedController>(
                 id: 'tab_en',
                 builder: (controller) =>
-                    Tab(text: '英文(${_controller.feedEnBean.length})'),
+                    Tab(text: 'English(${_controller.feedEnBean.length})'),
               ),
             ],
           ),

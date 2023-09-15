@@ -23,7 +23,7 @@ class SettingController extends GetxController {
       final int failCount = await parseOpml(result);
       toast(failCount == 0
           ? 'importSuccess'.tr
-          : 'importFailedForFeeds(failCount)'.trArgs(['$failCount']));
+          : 'importFailedForFeeds'.trArgs(['$failCount']));
     }
   }
 

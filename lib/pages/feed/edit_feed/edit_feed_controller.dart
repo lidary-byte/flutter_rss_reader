@@ -16,8 +16,8 @@ class EditFeedController extends GetxController {
 
   final List<String> openTypeList = [
     'openInApp'.tr,
-    'openInBuiltInTab'.tr,
-    'openInSystemBrowser'.tr,
+    'openInNewTab'.tr,
+    'openInBrowser'.tr,
   ];
   @override
   void onInit() {

@@ -55,29 +55,24 @@ class SettingPage extends StatelessWidget {
                 onTap: _controller.exportOPML,
               ),
             ],
+          ),
+          ListSectionGroup(
+            titleText: 'feedback'.tr,
+            children: [
+              SectionChild(
+                icon: Icons.send_outlined,
+                iconColor: Colors.blue,
+                title: 'contactAuthor'.tr,
+                subTitle: 'lidary@163.com',
+                onTap: () async {
+                  await launchUrl(
+                      Uri(scheme: 'mailto', path: 'lidary@163.com'));
+                },
+              ),
+            ],
           )
         ],
-      )
-
-          //       // ListTileGroupTitle(title: 'others'.tr),
-          //       // ListTile(
-          //       //   leading: const Icon(Icons.update_outlined),
-          //       //   iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-          //       //   title: Text('checkForUpdates'.tr),
-          //       //   subtitle: Text('getLatestVersion'.tr),
-          //       //   onTap: checkUpdate,
-          //       // ),
-          //       // ListTile(
-          //       //   leading: const Icon(Icons.android_outlined),
-          //       //   iconColor: Theme.of(context).textTheme.bodyLarge!.color,
-          //       //   title: Text('about'.tr),
-          //       //   subtitle: Text('contactAndOpenSource'.tr),
-          //       //   onTap: () => Get.to(const AboutPage()),
-          //       // ),
-          //     ]))
-          //   ],
-
-          ),
+      )),
     );
   }
 
