@@ -3,7 +3,7 @@ import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/feed/feed_page_controller.dart';
-import 'package:flutter_rss_reader/widgets/post_container.dart';
+import 'package:flutter_rss_reader/pages/feed/item_rss_widget.dart';
 import 'package:flutter_rss_reader/widgets/status_page.dart';
 import 'package:get/get.dart';
 
@@ -39,7 +39,7 @@ class FeedPage extends StatelessWidget {
                         return Card(
                           child: InkWell(
                             onTap: () => _controller.openPost(index),
-                            child: PostContainer(rssItem: data[index]),
+                            child: ItemRssWidget(rssItem: data[index]),
                           ),
                         );
                       },

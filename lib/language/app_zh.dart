@@ -113,4 +113,8 @@ const zh = {
   'importAll': '全部导入',
   'copySuccess': '复制成功',
   "pageStyle": "页面样式",
+  'justNow': '刚刚',
+  'daysAgo': '%s天前',
+  'hoursAgo': '%s小时前',
+  'minuteAgo': '%s分钟前',
 };
