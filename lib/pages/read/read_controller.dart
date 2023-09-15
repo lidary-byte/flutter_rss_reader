@@ -28,7 +28,6 @@ class ReadController extends BaseGetxController {
   String? get contentHtml => _contentHtml;
   // 根据 url 获取 html 内容
   void _initData() async {
-    debugPrint('--------------${rssItem.fullText}');
     if (rssItem.fullText) {
       if (rssItem.cacheContent == null ||
           rssItem.cacheContent?.isEmpty == true) {
@@ -41,19 +40,7 @@ class ReadController extends BaseGetxController {
       _contentHtml = rssItem.description;
       updateSuccessStatus(contentHtml, updateIds: ['content', 'html_widget']);
     }
-    // if (rssItem.fullText &&
-    //     rssItem.cacheContent == null &&
-    //     rssItem.openType == 0) {
-    //   getHtml();
-    // } else {
-    //   _contentHtml = rssItem.description;
-    //   updateSuccessStatus(contentHtml, updateIds: ['content', 'html_widget']);
-    //   _changeStyle = false;
-    //   if (!rssItem.read) {
-    //     rssItem.read = true;
-    //   }
-    //   rssItem.updateToDb();
-    // }
+
     _changeStyle = false;
     if (!rssItem.read) {
       rssItem.read = true;

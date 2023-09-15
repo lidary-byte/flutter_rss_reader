@@ -45,20 +45,22 @@ class ItemRssWidget extends StatelessWidget {
                 const SizedBox(height: 4),
                 Row(
                   children: [
-                    if (!rssItem.read)
+                    if (!rssItem.read) ...<Widget>[
                       Icon(
                         Icons.circle,
                         size: 15,
                         color: Theme.of(context).primaryColor,
                       ),
-                    const SizedBox(width: 6),
-                    if (rssItem.favorite)
+                      const SizedBox(width: 6),
+                    ],
+                    if (rssItem.favorite) ...<Widget>[
                       Icon(
                         Icons.bookmark,
                         size: 16,
                         color: Theme.of(context).primaryColor,
                       ),
-                    const SizedBox(width: 6),
+                      const SizedBox(width: 6),
+                    ],
                     Expanded(
                         child: Text(
                       rssItem.author ?? '',
