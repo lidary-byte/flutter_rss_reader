@@ -1,6 +1,6 @@
 variables:
   PGYER_API_KEY: "7a489216096752e7cd3d0d99562f0525"
-output: dist/
+output: install_package/
 releases:
   - name: aread
     jobs:
