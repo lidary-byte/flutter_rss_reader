@@ -17,7 +17,9 @@ releases:
           target: apk
           build_args:
             profile: true
-            target-platform: android-arm64 #,android-arm
+            split-per-abi:
+            # target-platform: android-arm64,android-arm,android-x64,android-x86
+          publish_to: pgyer
       - name: ios-ipa
         package:
           platform: ios
