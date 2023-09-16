@@ -1,3 +1,6 @@
+# 正式包输出目录
+install_package/
+
 # Miscellaneous
 *.class
 *.log
