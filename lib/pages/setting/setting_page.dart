@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
@@ -115,81 +114,4 @@ class SettingPage extends StatelessWidget {
               }[cacheLaunage] ??
               'systemLanguage'.tr,
           onTap: () => Get.toNamed(AppRouter.languageSettingPageRouter)));
-
-  // 检查更新
-  Future<void> checkUpdate() async {
-    ScaffoldMessenger.of(Get.context!).showSnackBar(
-      SnackBar(
-        content: Text('checkingForUpdates'.tr),
-        behavior: SnackBarBehavior.floating,
-        duration: const Duration(seconds: 2),
-        action: SnackBarAction(
-          label: 'ok'.tr,
-          onPressed: () {},
-        ),
-      ),
-    );
-    try {
-      // 通过访问 https://github.com/gvenusleo/aRead/releases/latest 获取最新版本号
-      final Dio dio = Dio();
-      final response = await dio.get(
-        'https://github.com/gvenusleo/aRead/releases/latest',
-      );
-      // 获取网页 title
-      final String title =
-          response.data.split('<title>')[1].split('</title>')[0];
-      final String latestVersion = title.split(' ')[1];
-      if (latestVersion == applicationVersion) {
-        ScaffoldMessenger.of(Get.context!).showSnackBar(
-          SnackBar(
-            content: Text('alreadyLatestVersion'.tr),
-            behavior: SnackBarBehavior.floating,
-            duration: const Duration(seconds: 2),
-            action: SnackBarAction(
-              label: 'ok'.tr,
-              onPressed: () {},
-            ),
-          ),
-        );
-      } else {
-        showDialog(
-          context: Get.context!,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('newVersionAvailable'.tr),
-              content: Text('downloadNow'.tr),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: Text('cancel'.tr),
-                ),
-                TextButton(
-                  onPressed: () async {
-                    await launchUrl(
-                      Uri.parse(
-                          'https://github.com/gvenusleo/aRead/releases/latest'),
-                      mode: LaunchMode.externalApplication,
-                    );
-                  },
-                  child: Text('download'.tr),
-                ),
-              ],
-            );
-          },
-        );
-      }
-    } catch (e) {
-      ScaffoldMessenger.of(Get.context!).showSnackBar(
-        SnackBar(
-          content: Text('failedToCheckForUpdates'.tr),
-          behavior: SnackBarBehavior.floating,
-          duration: const Duration(seconds: 2),
-          action: SnackBarAction(
-            label: 'failedToCheckForUpdates'.tr,
-            onPressed: () {},
-          ),
-        ),
-      );
-    }
-  }
 }

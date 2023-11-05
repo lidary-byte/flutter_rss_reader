@@ -1,12 +1,15 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:flutter/services.dart';
 import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
+import 'package:flutter_rss_reader/database/database_feed.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/utils/web_feed_parse_util.dart';
 import 'package:get/get.dart';
 import 'package:isolate_manager/isolate_manager.dart';
+import 'package:opml/opml.dart';
 
 typedef ParseResultCallback = void Function(ParseFeedResult result);
 
@@ -54,16 +57,30 @@ class ParseFeedServices extends GetxService {
     ///获取 Token
     RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
 
-    // final parseMap = await Future.forEach(
-    //     map,
-    //     (element) async =>
-    //         (await DatabaseFeed.isExist(element.url ?? '')) == null);
-
     for (var itemMap in map) {
       final result = await isolateManager!.compute(
           itemMap..rootIsolateToken = rootIsolateToken,
           callback: (value) => true);
       resultCallback?.call(result);
+    }
+  }
+
+  void parseFeed(String path) async {
+    final File opmlFile = File(path);
+    final String opmlString = await opmlFile.readAsString();
+    final opml = OpmlDocument.parse(opmlString);
+    for (var category in opml.body) {
+      final String? categoryName = category.title;
+      category.children?.forEach((opmlOutline) async {
+        if (await DatabaseFeed.isExist(opmlOutline.xmlUrl!) == null) {
+          (await isoParseFeed(ParseFeed(
+                  url: opmlOutline.xmlUrl,
+                  categoryName: categoryName,
+                  feedName: opmlOutline.title,
+                  rootIsolateToken: RootIsolateToken.instance!)))
+              .feedBean;
+        }
+      });
     }
   }
 }

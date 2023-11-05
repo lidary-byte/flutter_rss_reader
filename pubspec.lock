@@ -333,10 +333,10 @@ packages:
     dependency: "direct main"
     description:
       name: file_picker
-      sha256: be325344c1f3070354a1d84a231a1ba75ea85d413774ec4bdf444c023342e030
+      sha256: "903dd4ba13eae7cef64acc480e91bf54c3ddd23b5b90b639c170f3911e489620"
       url: "https://pub.dev"
     source: hosted
-    version: "5.5.0"
+    version: "6.0.0"
   fixnum:
     dependency: transitive
     description:
@@ -904,6 +904,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.27.7"
+  share_extend:
+    dependency: "direct main"
+    description:
+      name: share_extend
+      sha256: "98c26f04abae42b0d2080102a42a2653a867a4bec862be1e921cb0cf7cc00916"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.0.0"
   share_plus:
     dependency: "direct main"
     description:
@@ -976,6 +984,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.3.1"
+  shared_storage:
+    dependency: "direct main"
+    description:
+      name: shared_storage
+      sha256: "7c65a9d64f0f5521256be974cfd74010af12196657cec9f9fb7b03b2f11bcaf6"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.8.0"
   shelf:
     dependency: transitive
     description:
