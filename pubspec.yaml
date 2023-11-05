@@ -61,8 +61,7 @@ dependencies:
   isolate_manager: ^4.1.1
   flutter_widget_from_html: ^0.10.5+3
   photo_view: ^0.14.0
-  easy_image_viewer: ^1.2.1
-  share_extend: "^2.0.0"
+  easy_image_viewer: ^1.2.1 
   shared_storage: ^0.8.0
  
 
