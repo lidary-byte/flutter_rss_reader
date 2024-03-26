@@ -45,7 +45,7 @@ android {
         applicationId "com.lidary.reader.flutter_rss_reader"
         // You can update the following values to match your application needs.
         // For more information, see: https://docs.flutter.dev/deployment/android#reviewing-the-gradle-build-configuration.
-        minSdkVersion flutter.minSdkVersion
+        minSdkVersion 21//flutter.minSdkVersion
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -53,10 +53,10 @@ android {
 
 signingConfigs {
     release {
-        storeFile file('../lidary-android.jks') // 替换为您的签名密钥文件路径
-        storePassword '123456'       // 替换为您的签名密钥密码
-        keyAlias 'key0'                    // 替换为您的密钥别名
-        keyPassword '123456'              // 替换为您的密钥密码
+        storeFile file('../lidary-android.jks')
+        storePassword '123456'       
+        keyAlias 'key0'                    
+        keyPassword '123456'               
     }
 }
 
