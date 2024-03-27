@@ -21,38 +21,14 @@ class BuiltInFeedPage extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text('builtFeed'.tr),
-          bottom: TabBar(
-            controller: _controller.tabController,
-            tabs: [
-              GetBuilder<BuiltInFeedController>(
-                id: 'tab_zh',
-                builder: (controller) =>
-                    Tab(text: '中文(${_controller.feedZhBean.length})'),
-              ),
-              GetBuilder<BuiltInFeedController>(
-                id: 'tab_en',
-                builder: (controller) =>
-                    Tab(text: 'English(${_controller.feedEnBean.length})'),
-              ),
-            ],
-          ),
           actions: [
             TextButton(
                 onPressed: _controller.parseAll, child: Text('importAll'.tr))
           ],
         ),
         body: SafeArea(
-          child: TabBarView(
-            controller: _controller.tabController,
-            children: [
-              GetBuilder<BuiltInFeedController>(
-                  id: 'data_zh',
-                  builder: (_) => _childTabWidget(_controller.feedZhBean)),
-              GetBuilder<BuiltInFeedController>(
-                  id: 'data_en',
-                  builder: (_) => _childTabWidget(_controller.feedEnBean))
-            ],
-          ),
+          child: GetBuilder<BuiltInFeedController>(
+              builder: (_) => _childTabWidget(_controller.feedBean)),
         ),
       ),
     );

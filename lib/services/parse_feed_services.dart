@@ -25,28 +25,21 @@ class ParseFeedServices extends GetxService {
     /// 存储当前数据库版本
     prefs.setInt('db_version', 1);
 
-    _loadLocalRss('zh');
-    _loadLocalRss('en');
+    _loadLocalRss();
     return this;
   }
 
-  List<BuiltInFeedBean> _feedZhBean = [];
-  List<BuiltInFeedBean> get feedZhBean => _feedZhBean;
-  List<BuiltInFeedBean> _feedEnBean = [];
-  List<BuiltInFeedBean> get feedEnBean => _feedEnBean;
+  List<BuiltInFeedBean> _feedBean = [];
+  List<BuiltInFeedBean> get feedBean => _feedBean;
 
   /// 加载本地rss
-  /// [type]: zh ,en
-  Future<bool> _loadLocalRss(String type) async {
-    final jsonString = await rootBundle.loadString(
-        type == 'zh' ? 'assets/featured_zh.json' : 'assets/featured_en.json');
-
-    if (type == 'zh') {
-      _feedZhBean = BuiltInFeedBean.fromJsonList(jsonString);
+  Future<bool> _loadLocalRss() async {
+    try {
+      final jsonString = await rootBundle.loadString('assets/featured.json');
+      _feedBean = BuiltInFeedBean.fromJsonList(jsonString);
       return true;
-    } else {
-      _feedEnBean = BuiltInFeedBean.fromJsonList(jsonString);
-      return true;
+    } catch (e) {
+      return false;
     }
   }
 
