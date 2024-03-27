@@ -1,9 +1,9 @@
-![flutter_rss_reader](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/logo1.jpg)
+![flutter_rss_reader](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/logo1.png)
 
 # flutter_rss_reader
 
 基于flutter的rss阅读器
-
+<img src="https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/%E9%A6%96%E9%A1%B5.png" alt="描述" width="800" height="1200">
 # 截图
 ![首页](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/%E9%A6%96%E9%A1%B5.png)
 ![设置](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/%E8%AE%BE%E7%BD%AE.png)
