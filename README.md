@@ -3,12 +3,9 @@
 # flutter_rss_reader
 
 基于flutter的rss阅读器 
-# 截图
-![首页](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/screen.jpg)
-![设置](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/%E8%AE%BE%E7%BD%AE.png)
-![内置源](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/%E5%86%85%E7%BD%AE%E6%BA%90.png)
-![Feed流](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/feed%E6%B5%81.png)
-![阅读页面](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/Frame%206.png)
+
+![截图](https://github.com/lidary-byte/flutter_rss_reader/blob/main/ARead%20res/screen.jpg)
+ 
 
 
 # 打包命令
