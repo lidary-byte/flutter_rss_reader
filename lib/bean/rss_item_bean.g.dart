@@ -70,7 +70,7 @@ const RssItemBeanSchema = CollectionSchema(
     r'pubDate': PropertySchema(
       id: 10,
       name: r'pubDate',
-      type: IsarType.dateTime,
+      type: IsarType.string,
     ),
     r'read': PropertySchema(
       id: 11,
@@ -159,7 +159,7 @@ void _rssItemBeanSerialize(
   writer.writeBool(offsets[7], object.fullText);
   writer.writeString(offsets[8], object.link);
   writer.writeLong(offsets[9], object.openType);
-  writer.writeDateTime(offsets[10], object.pubDate);
+  writer.writeString(offsets[10], object.pubDate);
   writer.writeBool(offsets[11], object.read);
   writer.writeString(offsets[12], object.title);
 }
@@ -177,7 +177,8 @@ RssItemBean _rssItemBeanDeserialize(
     feedId: reader.readLong(offsets[5]),
     feedName: reader.readString(offsets[6]),
     link: reader.readStringOrNull(offsets[8]),
-    pubDate: reader.readDateTimeOrNull(offsets[10]),
+    pubDate: reader.readStringOrNull(
+        offsets[10]), //reader.readDateTimeOrNull(offsets[10]),
     title: reader.readStringOrNull(offsets[12]),
   );
   object.cacheContent = reader.readStringOrNull(offsets[1]);
@@ -217,7 +218,7 @@ P _rssItemBeanDeserializeProp<P>(
     case 9:
       return (reader.readLong(offset)) as P;
     case 10:
-      return (reader.readDateTimeOrNull(offset)) as P;
+      return (reader.readString(offset)) as P;
     case 11:
       return (reader.readBool(offset)) as P;
     case 12:

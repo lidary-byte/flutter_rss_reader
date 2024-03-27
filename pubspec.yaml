@@ -36,7 +36,7 @@ dependencies:
   cupertino_icons: ^1.0.5
   collection: ^1.17.2
   logger: ^2.2.0
-  
+
   flutter_inappwebview: ^5.7.2+3 # 创建 WebView
   path: ^1.8.3
   shared_preferences: ^2.2.0 # 本地存储
@@ -65,6 +65,7 @@ dependencies:
   easy_image_viewer: ^1.2.1 
   shared_storage: ^0.8.0
   dart_rss: ^3.0.2
+  intl: ^0.19.0
  
 
 dev_dependencies:

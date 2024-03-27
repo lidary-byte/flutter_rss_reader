@@ -1,15 +1,19 @@
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
-extension DiffTimeUtil on DateTime? {
+extension StringTimeUtil on String? {
   String calculateTimeDifference() {
     if (this == null) {
       return '';
     }
+    // 解析给定格式的日期时间字符串
+    DateTime dateTime = DateFormat('EEE, d MMM yyyy HH:mm:ss Z').parse(this!);
+    // 格式化日期时间
+    String formattedDateTime = DateFormat('yyyy-MM-dd').format(dateTime);
     final now = DateTime.now();
-    final difference = now.difference(this!);
+    final difference = now.difference(DateTime.parse(formattedDateTime));
     if (difference.inDays > 6) {
-      return DateFormat('yyyy-MM-dd').format(this!); // 超过6天显示具体日期
+      return formattedDateTime; // 超过6天显示具体日期
     } else if (difference.inDays > 0) {
       return 'daysAgo'.trArgs(['${difference.inDays}']);
     } else if (difference.inHours > 0) {

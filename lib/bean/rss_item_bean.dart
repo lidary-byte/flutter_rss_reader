@@ -10,7 +10,7 @@ class RssItemBean {
   String? title;
   String? link;
   String? description;
-  DateTime? pubDate; // 发布时间
+  String? pubDate; // 发布时间
   String? author; // 作者
   String? cover; //文章封面
   String? cacheContent; //原文content 进行数据缓存
