@@ -63,7 +63,7 @@ class BuiltInFeedPage extends StatelessWidget {
                     fontWeight: FontWeight.bold,
                     color: HexColor('#8D8D8D'))
                 : null,
-            subTitle: item.feed?.description ?? item.categorie,
+            subTitle: item.feed?.description,
             onTap: item.feed == null
                 ? null
                 : () => Get.toNamed(AppRouter.editFeedPageRouter,

@@ -1,3 +1,4 @@
+import 'package:dart_rss/dart_rss.dart';
 import 'package:dio/dio.dart';
 import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
@@ -9,11 +10,6 @@ import 'package:flutter_rss_reader/database/database_feed.dart';
 import 'package:flutter_rss_reader/database/database_rss_item.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
-import 'package:flutter_rss_reader/webfeed/domain/atom_feed.dart';
-import 'package:flutter_rss_reader/webfeed/domain/atom_item.dart';
-import 'package:flutter_rss_reader/webfeed/domain/rss_feed.dart';
-import 'package:flutter_rss_reader/webfeed/domain/rss_item.dart';
-import 'package:get/get.dart';
 
 /// return的为url:Feed
 /// [params] = {
@@ -27,71 +23,58 @@ Future<ParseFeedResult> isoParseFeed(ParseFeed parseFeed) async {
   BackgroundIsolateBinaryMessenger.ensureInitialized(
       parseFeed.rootIsolateToken!);
   // final CancelToken? cancelToken = params['cancelToken'];
-  String? categoryName = parseFeed.categoryName;
-  String? feedName = parseFeed.feedName;
+  // String? feedName = parseFeed.feedName;
   // 判断该url是否已经存在
   final existFeed = await DatabaseFeed.isExist(parseFeed.url ?? '');
   if (existFeed != null) {
     return ParseFeedResult(url: parseFeed.url, feedBean: existFeed);
   }
   try {
-    final response = await Dio().get(parseFeed.url ?? '');
+    final response = await Dio(BaseOptions(sendTimeout: Duration.zero))
+        .get(parseFeed.url ?? '');
     final postXmlString = response.data;
+    logger.d('-------------postXml:$postXmlString');
+
     try {
       /* 使用 RSS 格式解析 */
       final RssFeed rssFeed = RssFeed.parse(postXmlString);
 
-      if (feedName == null || feedName.isBlank == true) {
-        feedName = rssFeed.title;
-      }
-
-      if (categoryName == null || categoryName.isBlank == true) {
-        categoryName = rssFeed.categories?.firstOrNull?.value ?? '默认分类';
-      }
-
       // 根据url获取icon
       final iconUrl = await webIcon(rssFeed.link ?? '');
       final feed = FeedBean(
-          name: feedName ?? '',
+          name: rssFeed.title ?? '',
           description: rssFeed.description ?? '',
-          category: categoryName,
           iconUrl: iconUrl,
-          unReadCount: rssFeed.items?.length ?? 0,
+          category: rssFeed.categories.firstOrNull?.value ?? '默认分类',
+          unReadCount: rssFeed.items.length,
           url: parseFeed.url);
       final id = await feed.insert();
-      if (id != null) {
-        feed.item = buildRssItem(id, feedName ?? '', rssFeed.items);
-      }
-
-      return ParseFeedResult(url: parseFeed.url, feedBean: feed);
+      return ParseFeedResult(
+          url: parseFeed.url,
+          feedBean: feed
+            ..item = buildRssItem(id, rssFeed.title ?? '', rssFeed.items));
     } catch (e) {
-      debugPrint('rss解析异常 1:$e');
+      logger.d('rss解析异常 1:$e');
       /* 使用 Atom 格式解析 */
       final AtomFeed atomFeed = AtomFeed.parse(postXmlString);
-
-      if (feedName == null || feedName.isBlank == true) {
-        feedName = atomFeed.title;
-      }
-      if (categoryName == null || categoryName.isBlank == true) {
-        categoryName = atomFeed.categories?.firstOrNull?.label ?? '默认分类';
-      }
       // 根据url获取icon
-      final iconUrl = await webIcon(atomFeed.links?.firstOrNull?.href ?? '');
+      final iconUrl = await webIcon(atomFeed.links.firstOrNull?.href ?? '');
       final feed = FeedBean(
-          name: feedName ?? '',
+          name: atomFeed.title ?? '',
           description: atomFeed.subtitle ?? '',
-          category: categoryName,
+          category: atomFeed.categories.firstOrNull?.label ?? '默认分类',
           iconUrl: iconUrl,
-          unReadCount: atomFeed.items?.length ?? 0,
+          unReadCount: atomFeed.items.length,
           url: parseFeed.url);
-      final id = await feed.isoInsert();
-      if (id != null) {
-        feed.item = buildAtomItem(id, feedName ?? '', atomFeed.items);
-      }
-      return ParseFeedResult(url: parseFeed.url, feedBean: feed);
+
+      final id = await feed.insert();
+      return ParseFeedResult(
+          url: parseFeed.url,
+          feedBean: feed
+            ..item = buildAtomItem(id, atomFeed.title ?? '', atomFeed.items));
     }
   } catch (e) {
-    debugPrint('rss解析异常 2:$e');
+    logger.d('rss解析异常 2:$e');
     return ParseFeedResult(url: parseFeed.url, feedBean: null);
   }
 }
@@ -125,7 +108,10 @@ Future<FeedBean?> refreshFeedItem(
 }
 
 List<RssItemBean> buildRssItem(
-    int feedId, String feedName, List<RssItem>? item) {
+    int? feedId, String feedName, List<RssItem>? item) {
+  if (feedId == null) {
+    return [];
+  }
   return item?.map((e) {
         return RssItemBean(
             feedId: feedId,
@@ -135,26 +121,27 @@ List<RssItemBean> buildRssItem(
             description: e.description,
             pubDate: e.pubDate,
             author: e.author ?? e.dc?.creator,
-            cover: e.content?.images.firstOrNull ?? e.cover)
+            cover: e.content?.images.firstOrNull)
           ..insert();
       }).toList() ??
       [];
 }
 
 List<RssItemBean> buildAtomItem(
-    int feedId, String feedName, List<AtomItem>? item) {
+    int? feedId, String feedName, List<AtomItem>? item) {
+  if (feedId == null) {
+    return [];
+  }
   return item?.map((e) {
-        debugPrint('----------------atom item:${e.content}');
         return RssItemBean(
-            feedId: feedId,
-            feedName: feedName,
-            title: e.title,
-            link: e.links?.firstOrNull?.href,
-            description: e.content,
-            pubDate: e.updated,
-            author: e.authors?.firstOrNull?.name,
-            cover: e.cover)
-          ..insert();
+          feedId: feedId,
+          feedName: feedName,
+          title: e.title,
+          link: e.links.firstOrNull?.href,
+          description: e.content,
+          pubDate: e.updated,
+          author: e.authors.firstOrNull?.name,
+        )..insert();
       }).toList() ??
       [];
 }

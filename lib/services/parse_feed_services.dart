@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/database/database_feed.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
@@ -25,22 +24,7 @@ class ParseFeedServices extends GetxService {
     /// 存储当前数据库版本
     prefs.setInt('db_version', 1);
 
-    _loadLocalRss();
     return this;
-  }
-
-  List<BuiltInFeedBean> _feedBean = [];
-  List<BuiltInFeedBean> get feedBean => _feedBean;
-
-  /// 加载本地rss
-  Future<bool> _loadLocalRss() async {
-    try {
-      final jsonString = await rootBundle.loadString('assets/featured.json');
-      _feedBean = BuiltInFeedBean.fromJsonList(jsonString);
-      return true;
-    } catch (e) {
-      return false;
-    }
   }
 
   /// 解析rss 数组
@@ -63,13 +47,10 @@ class ParseFeedServices extends GetxService {
     final String opmlString = await opmlFile.readAsString();
     final opml = OpmlDocument.parse(opmlString);
     for (var category in opml.body) {
-      final String? categoryName = category.title;
       category.children?.forEach((opmlOutline) async {
         if (await DatabaseFeed.isExist(opmlOutline.xmlUrl!) == null) {
           (await isoParseFeed(ParseFeed(
                   url: opmlOutline.xmlUrl,
-                  categoryName: categoryName,
-                  feedName: opmlOutline.title,
                   rootIsolateToken: RootIsolateToken.instance!)))
               .feedBean;
         }

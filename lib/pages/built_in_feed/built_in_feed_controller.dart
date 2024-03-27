@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
@@ -10,24 +11,29 @@ class BuiltInFeedController extends GetxController
   List<BuiltInFeedBean> _feedBean = [];
   List<BuiltInFeedBean> get feedBean => _feedBean;
 
-  void _loadJson() async {
-    _feedBean = _parseFeedservice?.feedBean ?? [];
-    update();
-  }
-
   @override
   void onReady() async {
     super.onReady();
+    _loadLocalRss();
     _parseFeedservice = Get.find<ParseFeedServices>();
-    _loadJson();
+  }
+
+  /// 加载本地rss
+  void _loadLocalRss() async {
+    try {
+      final jsonString = await rootBundle.loadString('assets/featured.json');
+      _feedBean = BuiltInFeedBean.fromJsonList(jsonString);
+      update();
+    } catch (e) {
+      e.printError();
+    }
   }
 
   void parseItem(BuiltInFeedBean? bean) async {
     bean?.parseStatus = ParseStatus.loading;
     update();
-    _parseFeedservice
-        ?.parseFeeds([ParseFeed(url: bean?.url, categoryName: bean?.categorie)],
-            resultCallback: (result) {
+    _parseFeedservice?.parseFeeds([ParseFeed(url: bean?.url)],
+        resultCallback: (result) {
       bean
         ?..feed = result.feedBean
         ..parseStatus = result.feedBean == null ? ParseStatus.error : null;
@@ -40,7 +46,7 @@ class BuiltInFeedController extends GetxController
         .where((element) => element.url != null && element.feed == null)
         .map((e) {
       e.parseStatus = ParseStatus.loading;
-      return ParseFeed(url: e.url, categoryName: e.categorie);
+      return ParseFeed(url: e.url);
     }).toList();
     update();
     _parseFeedservice?.parseFeeds(parseData, resultCallback: (result) {

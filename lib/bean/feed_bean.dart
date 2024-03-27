@@ -23,7 +23,7 @@ class FeedBean {
   FeedBean(
       {required this.name,
       this.url,
-      this.description,
+      this.description = '默认分类',
       this.iconUrl,
       this.category,
       this.unReadCount,
