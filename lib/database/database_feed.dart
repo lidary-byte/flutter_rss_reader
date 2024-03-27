@@ -19,17 +19,6 @@ extension DatabaseFeed on FeedBean {
     return null;
   }
 
-  /// 插入数据库
-  /// 如果存在则取消
-  Future<int?> isoInsert() async {
-    final isar = await isarInstance;
-    final feed = await isar.feedBeans.filter().urlEqualTo(url).findFirst();
-    if (feed == null) {
-      return await isar.writeTxn(() => isar.feedBeans.put(this));
-    }
-    return null;
-  }
-
   /// 查询所有 item 按照发布时间倒序
   static Future<List<RssItemBean>> rssItems() async {
     final isar = await isarInstance;
