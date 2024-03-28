@@ -63,12 +63,13 @@ class SubscriptionController extends GetxController {
       return;
     }
     _parseFeed = BuiltInFeedBean(url: url, parseStatus: ParseStatus.loading);
-    update(['parse_result']);
+
+    update();
     _parseService.parseFeeds([ParseFeed(url: url)], resultCallback: (data) {
       _parseFeed
         ?..feed = data.feedBean
         ..parseStatus = data.feedBean == null ? ParseStatus.error : null;
-      update(['parse_result']);
+      update();
       if (parseFeed?.feed != null) {
         _urlController.clear();
       }

@@ -48,33 +48,31 @@ class AddFeedDialog extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           if (_controller.parseFeed != null)
-            GetBuilder<SubscriptionController>(
-                id: 'parse_result',
-                builder: (_) {
-                  final item = _controller.parseFeed!;
-                  return Card(
-                      child: SectionChild(
-                    title: (item.feed?.name ?? item.url) ?? '',
-                    titleStyle: item.feed == null
-                        ? TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.bold,
-                            color: HexColor('#8D8D8D'))
-                        : null,
-                    subTitle: item.feed?.description,
-                    onTap: item.feed == null
-                        ? null
-                        : () => Get.toNamed(AppRouter.editFeedPageRouter,
-                                arguments: {
-                                  EditFeedController.parametersFeed: item.feed
-                                }),
-                    trailing: FeedParseStatusWidget(
-                      item: item,
-                      onImport: _controller.parseUrlString,
-                      onError: _controller.parseUrlString,
-                    ),
-                  ));
-                })
+            GetBuilder<SubscriptionController>(builder: (_) {
+              final item = _controller.parseFeed!;
+              return Card(
+                  child: SectionChild(
+                title: (item.feed?.name ?? item.url) ?? '',
+                titleStyle: item.feed == null
+                    ? TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                        color: HexColor('#8D8D8D'))
+                    : null,
+                subTitle: item.feed?.description,
+                onTap: item.feed == null
+                    ? null
+                    : () => Get.toNamed(AppRouter.editFeedPageRouter,
+                            arguments: {
+                              EditFeedController.parametersFeed: item.feed
+                            }),
+                trailing: FeedParseStatusWidget(
+                  item: item,
+                  onImport: _controller.parseUrlString,
+                  onError: _controller.parseUrlString,
+                ),
+              ));
+            })
         ],
       ),
     );
