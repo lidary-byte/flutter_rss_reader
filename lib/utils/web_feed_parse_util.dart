@@ -33,7 +33,6 @@ Future<ParseFeedResult> isoParseFeed(ParseFeed parseFeed) async {
     final response = await Dio(BaseOptions(sendTimeout: Duration.zero))
         .get(parseFeed.url ?? '');
     final postXmlString = response.data;
-    logger.d('-------------postXml:$postXmlString');
 
     try {
       /* 使用 RSS 格式解析 */
