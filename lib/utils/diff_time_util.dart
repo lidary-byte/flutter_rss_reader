@@ -6,8 +6,10 @@ extension StringTimeUtil on String? {
     if (this == null) {
       return '';
     }
+
     // 解析给定格式的日期时间字符串
-    DateTime dateTime = DateFormat('EEE, d MMM yyyy HH:mm:ss Z').parse(this!);
+    DateTime dateTime = DateTime.parse(this!);
+
     // 格式化日期时间
     String formattedDateTime = DateFormat('yyyy-MM-dd').format(dateTime);
     final now = DateTime.now();
