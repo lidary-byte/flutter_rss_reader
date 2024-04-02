@@ -7,7 +7,7 @@ flutter build appbundle
 # 自动打包
 ## 安卓包
 ``` 
-flutter_distributor release --name aread --jobs android-aab
+flutter_distributor release --name aread --jobs android-apk
 ```
 ## iOS包
 ```
