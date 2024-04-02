@@ -8,7 +8,10 @@ extension StringTimeUtil on String? {
     }
 
     // 解析给定格式的日期时间字符串
-    DateTime dateTime = DateTime.parse(this!);
+    DateTime? dateTime = _parse();
+    if (null == dateTime) {
+      return this!;
+    }
 
     // 格式化日期时间
     String formattedDateTime = DateFormat('yyyy-MM-dd').format(dateTime);
@@ -26,4 +29,22 @@ extension StringTimeUtil on String? {
       return 'justNow'.tr;
     }
   }
+
+  DateTime? _parse() {
+    try {
+      return DateTime.parse(this!);
+    } catch (_) {
+      for (final pattern in _formats) {
+        try {
+          return DateFormat(pattern).parse(this!);
+        } catch (_) {}
+      }
+    }
+    return null;
+  }
 }
+
+const List<String> _formats = [
+  "EEE, d MMM yyyy HH:mm:ss Z",
+  "yyyy-MM-dd'T'HH:mm:ss'Z'",
+];
