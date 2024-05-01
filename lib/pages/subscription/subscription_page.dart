@@ -15,46 +15,53 @@ class SubscriptionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('aRead'.tr),
-        actions: [
-          IconButton(
-              onPressed: () => Get.bottomSheet(AddFeedDialog(),
-                      backgroundColor: Get.theme.appBarTheme.backgroundColor,
-                      shape: const RoundedRectangleBorder(
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(10))))
-                  .then((value) => _controller.dismissBottomSheet()),
-              icon: const Icon(Icons.add_outlined)),
-          TextButton(
-              onPressed: () => Get.toNamed(AppRouter.builtInFeedPageRouter),
-              child: Text('builtFeed'.tr)),
-        ],
-      ),
       body: SafeArea(
-        child: GetBuilder<SubscriptionController>(
-            builder: (_) => _controller.feedListGroup.isEmpty
-                ? _emptyWidget()
-                : _contentWidget()),
-      ),
+          top: false,
+          child: GetBuilder<SubscriptionController>(
+            builder: (_) => CustomScrollView(
+              slivers: [
+                SliverAppBar.medium(
+                  title: const Text('ARead'),
+                  actions: [
+                    IconButton(
+                        onPressed: () => Get.bottomSheet(
+                              AddFeedDialog(),
+                              // shape: const RoundedRectangleBorder(
+                              //     borderRadius: BorderRadius.vertical(
+                              //         top: Radius.circular(10)))
+                            ).then((value) => _controller.dismissBottomSheet()),
+                        icon: const Icon(Icons.add_outlined)),
+                    IconButton(
+                        onPressed: () =>
+                            Get.toNamed(AppRouter.builtInFeedPageRouter),
+                        icon: const Icon(Icons.feed)),
+                  ],
+                ),
+                _controller.feedListGroup.isEmpty
+                    ? _emptyWidget().sliverBox
+                    : _contentWidget()
+              ],
+            ),
+          )),
     );
   }
 
   Widget _contentWidget() {
-    return ListView.separated(
-        separatorBuilder: (context, index) => const SizedBox(height: 12),
+    return SliverPadding(
         padding: const EdgeInsets.all(12),
-        itemBuilder: (context, index) {
-          return Card(
-            child: ExpansionTile(
-              title: Text(_controller.feedListGroup[index].category ?? ''),
-              shape: Border.all(color: Colors.transparent),
-              children:
-                  _childernWidgets(_controller.feedListGroup[index].feeds),
-            ),
-          );
-        },
-        itemCount: _controller.feedListGroup.length);
+        sliver: SliverList.separated(
+            separatorBuilder: (context, index) => const SizedBox(height: 12),
+            itemBuilder: (context, index) {
+              return Card(
+                child: ExpansionTile(
+                  title: Text(_controller.feedListGroup[index].category ?? ''),
+                  shape: Border.all(color: Colors.transparent),
+                  children:
+                      _childernWidgets(_controller.feedListGroup[index].feeds),
+                ),
+              );
+            },
+            itemCount: _controller.feedListGroup.length));
   }
 
   List<Widget> _childernWidgets(List<FeedBean>? feeds) {
@@ -99,10 +106,13 @@ class SubscriptionPage extends StatelessWidget {
   }
 
   Widget _emptyWidget() {
-    return Center(
-        child: Text(
-      'feedEmpty'.tr,
-      style: const TextStyle(fontSize: 22),
-    ));
+    return const Padding(
+      padding: EdgeInsets.only(top: 200),
+      child: Center(
+          child: Text(
+        '你还没有订阅源',
+        style: TextStyle(fontSize: 22),
+      )),
+    );
   }
 }

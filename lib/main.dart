@@ -8,7 +8,7 @@ import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/global/global_controller.dart';
 import 'package:flutter_rss_reader/language/message.dart';
-import 'package:flutter_rss_reader/theme/theme.dart';
+import 'package:flutter_rss_reader/theme/color_schemes.g.dart';
 import 'package:get/get.dart';
 
 ///声明NavigatorState的GlobalKey
@@ -54,14 +54,18 @@ class MyApp extends StatelessWidget {
                   // 防止Local 找不到
                   fallbackLocale: const Locale('en'),
                   translations: Message(),
-                  theme: lightTheme(
-                    context,
-                    lightDynamic,
-                  ),
-                  darkTheme: darkTheme(
-                    context,
-                    darkDynamic,
-                  ),
+                  // theme: lightTheme(
+                  //   context,
+                  //   lightDynamic,
+                  // ),
+                  // darkTheme: darkTheme(
+                  //   context,
+                  //   darkDynamic,
+                  // ),
+                  theme: ThemeData(
+                      useMaterial3: true, colorScheme: lightColorScheme),
+                  darkTheme: ThemeData(
+                      useMaterial3: true, colorScheme: darkColorScheme),
                   themeMode: themeMode[cacheThemeIndex],
                   initialRoute: AppRouter.homePageRouter,
                   getPages: AppRouter.routerPages,

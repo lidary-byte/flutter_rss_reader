@@ -14,65 +14,81 @@ class SettingPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('settings'.tr),
-        elevation: 0,
-      ),
-      body: SafeArea(
-          child: ListView(
-        children: [
-          ListSectionGroup(
-            titleText: 'personalization'.tr,
-            children: [
-              _themeWidget(),
-              _languageWidget(),
-              _fontWidget(),
-            ],
-          ),
-          ListSectionGroup(
-            titleText: 'dataManagement'.tr,
-            children: [
-              SectionChild(
-                icon: Icons.app_blocking_outlined,
-                iconColor: Colors.red,
-                title: 'blockRules'.tr,
-                subTitle: 'setPostBlockRule'.tr,
-                onTap: () => Get.toNamed(AppRouter.blockSettingPage),
-              ),
-              SectionChild(
-                icon: Icons.file_download_outlined,
-                iconColor: Colors.green,
-                title: 'importOPML'.tr,
-                subTitle: 'importFeedsFromOPML'.tr,
-                onTap: _controller.importOPML,
-              ),
-              SectionChild(
-                icon: Icons.file_upload_outlined,
-                iconColor: Colors.greenAccent,
-                title: 'exportOPML'.tr,
-                subTitle: 'exportFeedsToOPML'.tr,
-                onTap: _controller.exportOPML,
-              ),
-            ],
-          ),
-          ListSectionGroup(
-            titleText: 'feedback'.tr,
-            children: [
-              SectionChild(
-                icon: Icons.send_outlined,
-                iconColor: Colors.blue,
-                title: 'contactAuthor'.tr,
-                subTitle: 'lidary@163.com',
-                onTap: () async {
-                  await launchUrl(
-                      Uri(scheme: 'mailto', path: 'lidary@163.com'));
-                },
-              ),
-            ],
-          )
-        ],
-      )),
-    );
+        body: SafeArea(
+            top: false,
+            child: CustomScrollView(
+              slivers: [
+                const SliverAppBar.medium(
+                  title: Text('设置'),
+                ),
+                SliverList.list(
+                  children: [
+                    ListTile(
+                      title: const Text('个性化'),
+                      subtitle: Card(
+                        child: Column(
+                          children: [
+                            _themeWidget(),
+                            _languageWidget(),
+                            _fontWidget(),
+                          ],
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text('数据管理'),
+                      subtitle: Card(
+                        child: Column(
+                          children: [
+                            SectionChild(
+                              icon: Icons.app_blocking_outlined,
+                              iconColor: Colors.red,
+                              title: 'blockRules'.tr,
+                              subTitle: 'setPostBlockRule'.tr,
+                              onTap: () =>
+                                  Get.toNamed(AppRouter.blockSettingPage),
+                            ),
+                            SectionChild(
+                              icon: Icons.file_download_outlined,
+                              iconColor: Colors.green,
+                              title: 'importOPML'.tr,
+                              subTitle: 'importFeedsFromOPML'.tr,
+                              onTap: _controller.importOPML,
+                            ),
+                            SectionChild(
+                              icon: Icons.file_upload_outlined,
+                              iconColor: Colors.greenAccent,
+                              title: 'exportOPML'.tr,
+                              subTitle: 'exportFeedsToOPML'.tr,
+                              onTap: _controller.exportOPML,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    ListTile(
+                      title: const Text('意见反馈'),
+                      subtitle: Card(
+                        child: Column(
+                          children: [
+                            SectionChild(
+                              icon: Icons.send_outlined,
+                              iconColor: Colors.blue,
+                              title: 'contactAuthor'.tr,
+                              subTitle: 'lidary@163.com',
+                              onTap: () async {
+                                await launchUrl(Uri(
+                                    scheme: 'mailto', path: 'lidary@163.com'));
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                )
+              ],
+            )));
   }
 
   Widget _fontWidget() => GetBuilder<GlobalController>(
