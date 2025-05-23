@@ -1,10 +1,10 @@
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 
-part 'rss_item_bean.g.dart';
+// part 'rss_item_bean.g.dart';
 
-@Collection()
+// @Collection()
 class RssItemBean {
-  Id id = Isar.autoIncrement;
+  // Id id = Isar.autoIncrement;
   int feedId; // 订阅源 ID
   String feedName;
   String? title;
@@ -19,13 +19,14 @@ class RssItemBean {
   bool fullText = false; // 是否全文
   int openType = 0; // 打开方式：0阅读器 1内置标签页 2系统浏览器
 
-  RssItemBean(
-      {required this.feedId,
-      required this.feedName,
-      this.title,
-      this.link,
-      this.description,
-      this.pubDate,
-      this.author,
-      this.cover});
+  RssItemBean({
+    required this.feedId,
+    required this.feedName,
+    this.title,
+    this.link,
+    this.description,
+    this.pubDate,
+    this.author,
+    this.cover,
+  });
 }

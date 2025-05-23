@@ -40,7 +40,7 @@ class FeedPageController extends BaseGetxController {
 
     super.onInit();
     _initFontDir();
-    _rssItemsSteream = (await isarInstance).rssItemBeans.watchLazy();
+    // _rssItemsSteream = (await isarInstance).rssItemBeans.watchLazy();
     _rssItemsSteream?.listen((_) {
       getPostListToSql();
     });
@@ -62,21 +62,26 @@ class FeedPageController extends BaseGetxController {
 
   void getPostListToSql({List<String> refreshIds = const ['post_list']}) async {
     if (_onlyUnread) {
-      _addPostListData((await feed?.rssItemsByFeedsWithUnRead()),
-          refreshIds: refreshIds);
+      _addPostListData(
+        (await feed?.rssItemsByFeedsWithUnRead()),
+        refreshIds: refreshIds,
+      );
     } else if (_onlyFavorite) {
       _addPostListData(
-          (await feed?.rssItemsByFeedsWithFavorite())
-              ?.where((element) => element.favorite)
-              .toList(),
-          refreshIds: refreshIds);
+        (await feed?.rssItemsByFeedsWithFavorite())
+            ?.where((element) => element.favorite)
+            .toList(),
+        refreshIds: refreshIds,
+      );
     } else {
       _addPostListData(await feed?.rssItemsByFeeds(), refreshIds: refreshIds);
     }
   }
 
-  void _addPostListData(List<RssItemBean>? list,
-      {List<String> refreshIds = const ['post_list']}) {
+  void _addPostListData(
+    List<RssItemBean>? list, {
+    List<String> refreshIds = const ['post_list'],
+  }) {
     _rssItems.clear();
     _rssItems.addAll(list ?? []);
     updateSuccessStatus(list, updateIds: refreshIds);
@@ -101,26 +106,23 @@ class FeedPageController extends BaseGetxController {
   }
 
   void deleteFeed() {
-    Get.dialog(AlertDialog(
-      title: Text('deleteFeed'.tr),
-      content: Text(
-        'doYouWantToDeleteThisFeed'.tr,
+    Get.dialog(
+      AlertDialog(
+        title: Text('deleteFeed'.tr),
+        content: Text('doYouWantToDeleteThisFeed'.tr),
+        actions: [
+          TextButton(onPressed: Get.back, child: Text('cancel'.tr)),
+          TextButton(
+            onPressed: () async {
+              await feed?.deleteFromDb();
+              Get.back();
+              Get.back();
+            },
+            child: Text('ok'.tr),
+          ),
+        ],
       ),
-      actions: [
-        TextButton(
-          onPressed: Get.back,
-          child: Text('cancel'.tr),
-        ),
-        TextButton(
-          onPressed: () async {
-            await feed?.deleteFromDb();
-            Get.back();
-            Get.back();
-          },
-          child: Text('ok'.tr),
-        ),
-      ],
-    ));
+    );
   }
 
   void openPost(int index) {
@@ -128,17 +130,20 @@ class FeedPageController extends BaseGetxController {
     if (rssItem.openType == 1 || rssItem.openType == 2) {
       openUrl(url: rssItem.link, thisApp: rssItem.openType == 1);
     } else {
-      Get.toNamed(AppRouter.readPageRouter,
-          arguments: {ReadController.parametersPost: rssItem});
+      Get.toNamed(
+        AppRouter.readPageRouter,
+        arguments: {ReadController.parametersPost: rssItem},
+      );
     }
     // 标记文章为已读
     rssItem.changeReadStatus(true);
   }
 
   void editFeed() {
-    Get.toNamed(AppRouter.editFeedPageRouter,
-            arguments: {EditFeedController.parametersFeed: _feed})
-        ?.then((value) => _feed = value);
+    Get.toNamed(
+      AppRouter.editFeedPageRouter,
+      arguments: {EditFeedController.parametersFeed: _feed},
+    )?.then((value) => _feed = value);
   }
 
   void _initFontDir() async {

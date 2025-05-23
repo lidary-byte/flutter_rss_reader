@@ -35,10 +35,12 @@ class ReadPage extends StatelessWidget {
       ),
       body: SafeArea(
         child: GetBuilder<ReadController>(
-            id: 'content',
-            builder: (_) => StatusPage<String>(
-                contentWidget: (data) => _buildBody(context),
-                status: _controller.pageStatusBean)),
+          id: 'content',
+          builder: (_) => StatusPage<String>(
+            contentWidget: (data) => _buildBody(context),
+            status: _controller.pageStatusBean,
+          ),
+        ),
       ),
     );
   }
@@ -54,12 +56,12 @@ class ReadPage extends StatelessWidget {
     ${_controller.contentHtml}
     </div>
     ''',
-          rebuildTriggers: RebuildTriggers([
+          rebuildTriggers: [
             _controller.textAlign,
             _controller.fontSize,
             _controller.lineHeight,
             _controller.pagePadding,
-          ]),
+          ],
           renderMode: RenderMode.listView,
           onTapImage: (imageMetadata) async {
             final imageUrl = imageMetadata.sources.firstOrNull?.url;
@@ -81,80 +83,89 @@ class ReadPage extends StatelessWidget {
   }
 
   List<PopupMenuEntry> _popupMenu() => <PopupMenuEntry>[
-        // 获取全文
-        popupMenuWidget(
-            title: 'fullText'.tr,
-            icon: Icons.article_outlined,
-            onTap: _controller.getHtml),
-        // 新标签页中打开
-        popupMenuWidget(
-            title: 'openInNewTab'.tr,
-            icon: Icons.tab_outlined,
-            onTap: () => openUrl(url: _controller.rssItem.link, thisApp: true)),
-        // 系统浏览器打开
-        popupMenuWidget(
-            title: 'openInBrowser'.tr,
-            icon: Icons.open_in_browser_outlined,
-            onTap: () =>
-                openUrl(url: _controller.rssItem.link, thisApp: false)),
-        const PopupMenuDivider(),
+    // 获取全文
+    popupMenuWidget(
+      title: 'fullText'.tr,
+      icon: Icons.article_outlined,
+      onTap: _controller.getHtml,
+    ),
+    // 新标签页中打开
+    popupMenuWidget(
+      title: 'openInNewTab'.tr,
+      icon: Icons.tab_outlined,
+      onTap: () => openUrl(url: _controller.rssItem.link, thisApp: true),
+    ),
+    // 系统浏览器打开
+    popupMenuWidget(
+      title: 'openInBrowser'.tr,
+      icon: Icons.open_in_browser_outlined,
+      onTap: () => openUrl(url: _controller.rssItem.link, thisApp: false),
+    ),
+    const PopupMenuDivider(),
 
-        // 标记为未读
-        popupMenuWidget(
-            title: 'markAsUnread'.tr,
-            icon: _controller.rssItem.read
-                ? Icons.radio_button_unchecked
-                : Icons.radio_button_checked,
-            onTap: _controller.changeReadStatus),
+    // 标记为未读
+    popupMenuWidget(
+      title: 'markAsUnread'.tr,
+      icon: _controller.rssItem.read
+          ? Icons.radio_button_unchecked
+          : Icons.radio_button_checked,
+      onTap: _controller.changeReadStatus,
+    ),
 
-        // 收藏
-        popupMenuWidget(
-            title: 'collectPost'.tr,
-            icon: _controller.rssItem.favorite
-                ? Icons.bookmark
-                : Icons.bookmark_border_outlined,
-            onTap: _controller.changeFavoriteStatus),
-        const PopupMenuDivider(),
-        // 页面样式
-        popupMenuWidget(
-            title: 'pageStyle'.tr,
-            icon: Icons.line_style_outlined,
-            onTap: () => _controller.changeStylePage()),
-        const PopupMenuDivider(),
-        popupMenuWidget(
-            title: 'share'.tr,
-            icon: Icons.share_outlined,
-            onTap: () => Share.share(
-                  _controller.rssItem.link!,
-                  subject: _controller.rssItem.title,
-                )),
-        popupMenuWidget(
-            title: 'copyLink'.tr,
-            icon: Icons.copy_outlined,
-            onTap: () => Clipboard.setData(
-                ClipboardData(text: _controller.rssItem.link!))),
-      ];
+    // 收藏
+    popupMenuWidget(
+      title: 'collectPost'.tr,
+      icon: _controller.rssItem.favorite
+          ? Icons.bookmark
+          : Icons.bookmark_border_outlined,
+      onTap: _controller.changeFavoriteStatus,
+    ),
+    const PopupMenuDivider(),
+    // 页面样式
+    popupMenuWidget(
+      title: 'pageStyle'.tr,
+      icon: Icons.line_style_outlined,
+      onTap: () => _controller.changeStylePage(),
+    ),
+    const PopupMenuDivider(),
+    popupMenuWidget(
+      title: 'share'.tr,
+      icon: Icons.share_outlined,
+      onTap: () => Share.share(
+        _controller.rssItem.link!,
+        subject: _controller.rssItem.title,
+      ),
+    ),
+    popupMenuWidget(
+      title: 'copyLink'.tr,
+      icon: Icons.copy_outlined,
+      onTap: () =>
+          Clipboard.setData(ClipboardData(text: _controller.rssItem.link!)),
+    ),
+  ];
 
   Future _showImageDialog(String? url) async {
     if (url != null && url.isEmpty == false) {
       await Get.dialog(
-          Stack(
-            children: [
-              PhotoView(
-                onTapDown: (context, details, controllerValue) => Get.back(),
-                imageProvider: CachedNetworkImageProvider(url),
+        Stack(
+          children: [
+            PhotoView(
+              onTapDown: (context, details, controllerValue) => Get.back(),
+              imageProvider: CachedNetworkImageProvider(url),
+            ),
+            Positioned(
+              right: 10,
+              top: 50,
+              child: IconButton(
+                onPressed: () => Get.back(),
+                icon: const Icon(Icons.close_outlined),
+                color: Colors.white,
               ),
-              Positioned(
-                  right: 10,
-                  top: 50,
-                  child: IconButton(
-                    onPressed: () => Get.back(),
-                    icon: const Icon(Icons.close_outlined),
-                    color: Colors.white,
-                  )),
-            ],
-          ),
-          useSafeArea: false);
+            ),
+          ],
+        ),
+        useSafeArea: false,
+      );
     }
   }
 
@@ -169,7 +180,7 @@ class ReadPage extends StatelessWidget {
         'margin': '0',
         'word-wrap': 'break-word',
         'padding': '12px ${_controller.pagePadding}px !important',
-        'text-align': _controller.textAlign
+        'text-align': _controller.textAlign,
       };
     }
     switch (element.localName) {
@@ -201,14 +212,14 @@ class ReadPage extends StatelessWidget {
           'border-bottom':
               '1px solid #${Get.theme.colorScheme.primary.value.toRadixString(16).substring(2)}',
           'padding-bottom': '1px',
-          'word-break': 'break-all'
+          'word-break': 'break-all',
         };
 
       case 'blockquote':
         return {
           'margin': '0',
           'padding': '0 0 0 16px',
-          'border-left': '4px solid #9e9e9e'
+          'border-left': '4px solid #9e9e9e',
         };
       case 'pre':
         return {'white-space': 'pre-wrap', 'word-break': 'break-all'};
@@ -220,20 +231,20 @@ class ReadPage extends StatelessWidget {
           'border':
               '1px solid #${Get.theme.textTheme.bodyLarge!.color!.value.toRadixString(16).substring(2)}',
           'border-collapse': 'collapse',
-          'padding': '0 8px'
+          'padding': '0 8px',
         };
       case 'td':
         return {
           'padding': '0 8px',
           'border':
               '1px solid #${Get.theme.textTheme.bodyLarge!.color!.value.toRadixString(16).substring(2)}',
-          'border-collapse': 'collapse'
+          'border-collapse': 'collapse',
         };
       case 'th':
         return {
           'border':
               '1px solid #${Get.theme.textTheme.bodyLarge!.color!.value.toRadixString(16).substring(2)}',
-          'border-collapse': 'collapse'
+          'border-collapse': 'collapse',
         };
       default:
     }

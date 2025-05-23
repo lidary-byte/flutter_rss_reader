@@ -16,8 +16,6 @@ GlobalKey<NavigatorState> globalKey = GlobalKey();
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // BackgroundIsolateBinaryMessenger.ensureInitialized(
-  //     RootIsolateToken.instance!);
   GestureBinding.instance.resamplingEnabled = true;
   if (Platform.isAndroid) {
     SystemUiOverlayStyle systemUiOverlayStyle = const SystemUiOverlayStyle(
@@ -43,33 +41,27 @@ class MyApp extends StatelessWidget {
     return DynamicColorBuilder(
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return GetBuilder<GlobalController>(
-            init: GlobalController(),
-            builder: (_) => GetMaterialApp(
-                  navigatorKey: globalKey,
-                  debugShowCheckedModeBanner: false,
-                  title: 'AReader',
-                  locale: cacheLaunage.isBlank == true
-                      ? Locale(Platform.localeName.split("_").first)
-                      : Locale(cacheLaunage),
-                  // 防止Local 找不到
-                  fallbackLocale: const Locale('en'),
-                  translations: Message(),
-                  // theme: lightTheme(
-                  //   context,
-                  //   lightDynamic,
-                  // ),
-                  // darkTheme: darkTheme(
-                  //   context,
-                  //   darkDynamic,
-                  // ),
-                  theme: ThemeData(
-                      useMaterial3: true, colorScheme: lightColorScheme),
-                  darkTheme: ThemeData(
-                      useMaterial3: true, colorScheme: darkColorScheme),
-                  themeMode: themeMode[cacheThemeIndex],
-                  initialRoute: AppRouter.homePageRouter,
-                  getPages: AppRouter.routerPages,
-                ));
+          init: GlobalController(),
+          builder: (_) => GetMaterialApp(
+            navigatorKey: globalKey,
+            debugShowCheckedModeBanner: false,
+            title: 'AReader',
+            locale: cacheLaunage.isBlank == true
+                ? Locale(Platform.localeName.split("_").first)
+                : Locale(cacheLaunage),
+            // 防止Local 找不到
+            fallbackLocale: const Locale('en'),
+            translations: Message(),
+            theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+            darkTheme: ThemeData(
+              useMaterial3: true,
+              colorScheme: darkColorScheme,
+            ),
+            themeMode: themeMode[cacheThemeIndex],
+            initialRoute: AppRouter.homePageRouter,
+            getPages: AppRouter.routerPages,
+          ),
+        );
       },
     );
   }

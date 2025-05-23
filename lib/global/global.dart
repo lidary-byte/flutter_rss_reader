@@ -33,5 +33,5 @@ Future<void> init() async {
 
   await initIsar();
   // 初始化services
-  await Get.putAsync(() => ParseFeedServices().init());
+  // await Get.putAsync(() => ParseFeedServices().init());
 }

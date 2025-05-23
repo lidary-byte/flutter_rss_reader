@@ -1,7 +1,7 @@
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/database/database_helper.dart';
-import 'package:isar/isar.dart';
+// import 'package:isar/isar.dart';
 import 'package:flutter_rss_reader/database/database_feed.dart';
 
 extension DatabaseRssItem on RssItemBean {
@@ -9,18 +9,21 @@ extension DatabaseRssItem on RssItemBean {
   /// 如果存在则取消
   void insert() async {
     final isar = await isarInstance;
-    final rssItem =
-        await isar.rssItemBeans.filter().linkEqualTo(link).findFirst();
+    // final rssItem = await isar.rssItemBeans
+    //     .filter()
+    //     .linkEqualTo(link)
+    //     .findFirst();
 
-    if (rssItem == null) {
-      await isar.writeTxn(() => isar.rssItemBeans.put(this));
-    }
+    // if (rssItem == null) {
+    //   // await isar.writeTxn(() => isar.rssItemBeans.put(this));
+    // }
   }
 
   /// 查询所有 Post，按照发布时间倒序
   static Future<List<RssItemBean>> getAll() async {
     final isar = await isarInstance;
-    return await isar.rssItemBeans.where().sortByPubDateDesc().findAll();
+    // return await isar.rssItemBeans.where().sortByPubDateDesc().findAll();
+    return [];
   }
 
   /// 根据 List<Feed> 查询所有 Post，按照发布时间倒序
@@ -36,9 +39,9 @@ extension DatabaseRssItem on RssItemBean {
   /// 更新已经存在的item
   Future<void> updateToDb() async {
     final isar = await isarInstance;
-    await isar.writeTxn(() async {
-      await isar.rssItemBeans.put(this);
-    });
+    // await isar.writeTxn(() async {
+    //   await isar.rssItemBeans.put(this);
+    // });
   }
 
   /// 更改阅读状态
@@ -50,13 +53,13 @@ extension DatabaseRssItem on RssItemBean {
     this.read = read;
     await updateToDb();
 
-    final unReadCount = await isar.rssItemBeans
-        .filter()
-        .readEqualTo(false)
-        .feedIdEqualTo(feedId)
-        .count();
-    final feed = await isar.feedBeans.filter().idEqualTo(feedId).findFirst();
-    await feed?.updateUnReadCount(unReadCount);
+    // final unReadCount = await isar.rssItemBeans
+    //     .filter()
+    //     .readEqualTo(false)
+    //     .feedIdEqualTo(feedId)
+    //     .count();
+    // final feed = await isar.feedBeans.filter().idEqualTo(feedId).findFirst();
+    // await feed?.updateUnReadCount(unReadCount);
   }
 
   /// 标记所有未读 item 为已读

@@ -21,7 +21,8 @@ import 'package:flutter_rss_reader/services/parse_feed.dart';
 @pragma('vm:entry-point')
 Future<ParseFeedResult> isoParseFeed(ParseFeed parseFeed) async {
   BackgroundIsolateBinaryMessenger.ensureInitialized(
-      parseFeed.rootIsolateToken!);
+    parseFeed.rootIsolateToken!,
+  );
   // final CancelToken? cancelToken = params['cancelToken'];
   // String? feedName = parseFeed.feedName;
   // 判断该url是否已经存在
@@ -30,8 +31,9 @@ Future<ParseFeedResult> isoParseFeed(ParseFeed parseFeed) async {
     return ParseFeedResult(url: parseFeed.url, feedBean: existFeed);
   }
   try {
-    final response = await Dio(BaseOptions(sendTimeout: Duration.zero))
-        .get(parseFeed.url ?? '');
+    final response = await Dio(
+      BaseOptions(sendTimeout: Duration.zero),
+    ).get(parseFeed.url ?? '');
     final postXmlString = response.data;
 
     try {
@@ -41,17 +43,19 @@ Future<ParseFeedResult> isoParseFeed(ParseFeed parseFeed) async {
       // 根据url获取icon
       final iconUrl = await webIcon(rssFeed.link ?? '');
       final feed = FeedBean(
-          name: rssFeed.title ?? '',
-          description: rssFeed.description ?? '',
-          iconUrl: iconUrl,
-          category: rssFeed.categories.firstOrNull?.value ?? '默认分类',
-          unReadCount: rssFeed.items.length,
-          url: parseFeed.url);
+        name: rssFeed.title ?? '',
+        description: rssFeed.description ?? '',
+        iconUrl: iconUrl,
+        category: rssFeed.categories.firstOrNull?.value ?? '默认分类',
+        unReadCount: rssFeed.items.length,
+        url: parseFeed.url,
+      );
       final id = await feed.insert();
       return ParseFeedResult(
-          url: parseFeed.url,
-          feedBean: feed
-            ..item = buildRssItem(id, rssFeed.title ?? '', rssFeed.items));
+        url: parseFeed.url,
+        feedBean: feed
+          ..item = buildRssItem(id, rssFeed.title ?? '', rssFeed.items),
+      );
     } catch (e) {
       logger.d('rss解析异常 1:$e');
       /* 使用 Atom 格式解析 */
@@ -59,18 +63,20 @@ Future<ParseFeedResult> isoParseFeed(ParseFeed parseFeed) async {
       // 根据url获取icon
       final iconUrl = await webIcon(atomFeed.links.firstOrNull?.href ?? '');
       final feed = FeedBean(
-          name: atomFeed.title ?? '',
-          description: atomFeed.subtitle ?? '',
-          category: atomFeed.categories.firstOrNull?.label ?? '默认分类',
-          iconUrl: iconUrl,
-          unReadCount: atomFeed.items.length,
-          url: parseFeed.url);
+        name: atomFeed.title ?? '',
+        description: atomFeed.subtitle ?? '',
+        category: atomFeed.categories.firstOrNull?.label ?? '默认分类',
+        iconUrl: iconUrl,
+        unReadCount: atomFeed.items.length,
+        url: parseFeed.url,
+      );
 
       final id = await feed.insert();
       return ParseFeedResult(
-          url: parseFeed.url,
-          feedBean: feed
-            ..item = buildAtomItem(id, atomFeed.title ?? '', atomFeed.items));
+        url: parseFeed.url,
+        feedBean: feed
+          ..item = buildAtomItem(id, atomFeed.title ?? '', atomFeed.items),
+      );
     }
   } catch (e) {
     logger.d('rss解析异常 2:$e');
@@ -84,20 +90,21 @@ Future<FeedBean?> refreshFeedItem(
   CancelToken? cancelToken,
 }) async {
   try {
-    final response = await ApiProvider()
-        .dio
-        .get(feedBean.url ?? '', cancelToken: cancelToken);
+    final response = await ApiProvider().dio.get(
+      feedBean.url ?? '',
+      cancelToken: cancelToken,
+    );
     final postXmlString = response.data;
     try {
       /* 使用 RSS 格式解析 */
       final RssFeed rssFeed = RssFeed.parse(postXmlString);
-      feedBean.item = buildRssItem(feedBean.id, feedBean.name, rssFeed.items);
+      // feedBean.item = buildRssItem(feedBean.id, feedBean.name, rssFeed.items);
       return feedBean;
     } catch (e) {
       debugPrint('rss解析异常 1:$e');
       /* 使用 Atom 格式解析 */
       final AtomFeed atomFeed = AtomFeed.parse(postXmlString);
-      feedBean.item = buildAtomItem(feedBean.id, feedBean.name, atomFeed.items);
+      // feedBean.item = buildAtomItem(feedBean.id, feedBean.name, atomFeed.items);
       return feedBean;
     }
   } catch (e) {
@@ -107,27 +114,33 @@ Future<FeedBean?> refreshFeedItem(
 }
 
 List<RssItemBean> buildRssItem(
-    int? feedId, String feedName, List<RssItem>? item) {
+  int? feedId,
+  String feedName,
+  List<RssItem>? item,
+) {
   if (feedId == null) {
     return [];
   }
   return item?.map((e) {
         return RssItemBean(
-            feedId: feedId,
-            feedName: feedName,
-            title: e.title,
-            link: e.link,
-            description: e.description,
-            pubDate: e.pubDate,
-            author: e.author ?? e.dc?.creator,
-            cover: e.content?.images.firstOrNull)
-          ..insert();
+          feedId: feedId,
+          feedName: feedName,
+          title: e.title,
+          link: e.link,
+          description: e.description,
+          pubDate: e.pubDate,
+          author: e.author ?? e.dc?.creator,
+          cover: e.content?.images.firstOrNull,
+        )..insert();
       }).toList() ??
       [];
 }
 
 List<RssItemBean> buildAtomItem(
-    int? feedId, String feedName, List<AtomItem>? item) {
+  int? feedId,
+  String feedName,
+  List<AtomItem>? item,
+) {
   if (feedId == null) {
     return [];
   }

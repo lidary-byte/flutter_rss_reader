@@ -7,7 +7,7 @@ import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:flutter_rss_reader/utils/opml_util.dart';
 import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
-import 'package:shared_storage/shared_storage.dart';
+// import 'package:shared_storage/shared_storage.dart';
 
 class SettingController extends GetxController {
   final List<String> blockList = prefs.getStringList('blockList') ?? [];
@@ -31,21 +31,21 @@ class SettingController extends GetxController {
     // final String successText = 'shareOPMLFile'.tr;
     String opmlStr = await exportOpmlBase();
 
-    final Uri? selectedDocumentUris = await openDocumentTree(
-      persistablePermission: true,
-      grantWritePermission: true,
-    );
-    if (selectedDocumentUris.isBlank == true) {
-      return;
-    }
+    // final Uri? selectedDocumentUris = await openDocumentTree(
+    //   persistablePermission: true,
+    //   grantWritePermission: true,
+    // );
+    // if (selectedDocumentUris.isBlank == true) {
+    //   return;
+    // }
 
-    final DocumentFile? file = await createFileAsBytes(selectedDocumentUris!,
-        mimeType: '*/*',
-        displayName: 'ARead-${DateTime.now()}.opml',
-        bytes: Uint8List.fromList(utf8.encode(opmlStr)));
-    if (file != null) {
-      toast('exportSuccess'.tr);
-    }
+    // final DocumentFile? file = await createFileAsBytes(selectedDocumentUris!,
+    //     mimeType: '*/*',
+    //     displayName: 'ARead-${DateTime.now()}.opml',
+    //     bytes: Uint8List.fromList(utf8.encode(opmlStr)));
+    // if (file != null) {
+    //   toast('exportSuccess'.tr);
+    // }
   }
 
   void removeBlock(String item) async {

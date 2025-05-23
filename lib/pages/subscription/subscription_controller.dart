@@ -24,9 +24,9 @@ class SubscriptionController extends GetxController {
     super.onInit();
 
     /// 对数据源进行监听 有变化时刷新
-    (await isarInstance).feedBeans.watchLazy().listen((_) {
-      getFeedList();
-    });
+    // (await isarInstance).feedBeans.watchLazy().listen((_) {
+    //   getFeedList();
+    // });
   }
 
   @override
@@ -64,15 +64,18 @@ class SubscriptionController extends GetxController {
     }
     _parseFeed = BuiltInFeedBean(url: url, parseStatus: ParseStatus.loading);
     update();
-    _parseService.parseFeeds([ParseFeed(url: url)], resultCallback: (data) {
-      _parseFeed
-        ?..feed = data.feedBean
-        ..parseStatus = data.feedBean == null ? ParseStatus.error : null;
-      update();
-      if (parseFeed?.feed != null) {
-        _urlController.clear();
-      }
-    });
+    _parseService.parseFeeds(
+      [ParseFeed(url: url)],
+      resultCallback: (data) {
+        _parseFeed
+          ?..feed = data.feedBean
+          ..parseStatus = data.feedBean == null ? ParseStatus.error : null;
+        update();
+        if (parseFeed?.feed != null) {
+          _urlController.clear();
+        }
+      },
+    );
   }
 
   void dismissBottomSheet() {
