@@ -19,8 +19,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 0.0.6+6
 
 environment:
-  sdk: ">=3.1.0 <4.0.0"
-
+  sdk: ^3.8.0
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
 # consider running `flutter pub upgrade --major-versions`. Alternatively,
@@ -33,15 +32,15 @@ dependencies:
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.5
+  cupertino_icons: ^1.0.8
   collection: ^1.17.2
   logger: ^2.2.0
 
-  flutter_inappwebview: ^5.7.2+3 # 创建 WebView
+  flutter_inappwebview: ^6.1.5 # 创建 WebView
   path: ^1.8.3
   shared_preferences: ^2.2.0 # 本地存储
-  share_plus: ^7.1.0 # 分享
-  file_picker: ^6.0.0 # 文件选择
+  share_plus: ^11.0.0 # 分享
+  file_picker: ^10.1.9 # 文件选择
   opml: ^0.4.0 # OPML 解析
   url_launcher: ^6.1.12 # 打开链接
   path_provider: ^2.1.0 # 路径
@@ -51,26 +50,25 @@ dependencies:
   dynamic_color: ^1.6.6
   xml: ^6.3.0
   # intl: ^0.18.1
-  get: ^4.6.5 
+  get: ^5.0.0-release-candidate-9.3.2
   animations: ^2.0.8
   fluttertoast: ^8.2.2
   isar: ^3.1.0+1
   isar_flutter_libs: ^3.1.0+1
   favicon: ^1.1.1
   cached_network_image: ^3.2.3
-  isolate_manager: ^4.1.1
-  flutter_widget_from_html: ^0.10.5+3
-  photo_view: ^0.14.0
-  easy_image_viewer: ^1.2.1 
+  isolate_manager: ^6.0.0+2
+  flutter_widget_from_html: ^0.16.0
+  photo_view: ^0.15.0
+  easy_image_viewer: ^1.2.1
   shared_storage: ^0.8.0
   dart_rss: ^3.0.2
   intl: ^0.19.0
- 
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^2.0.0
+  flutter_lints: ^5.0.0
   isar_generator: ^3.1.0+1
   build_runner: any
 
@@ -111,4 +109,3 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
- 
