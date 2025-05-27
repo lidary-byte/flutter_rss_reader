@@ -5,12 +5,14 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:flutter_rss_reader/utils/opml_util.dart';
+import 'package:flutter_rss_reader/utils/sp_util.dart';
 import 'package:flutter_rss_reader/widgets/toast.dart';
 import 'package:get/get.dart';
 // import 'package:shared_storage/shared_storage.dart';
 
 class SettingController extends GetxController {
-  final List<String> blockList = prefs.getStringList('blockList') ?? [];
+  final List<String> blockList =
+      []; //SpUtil.getInstance().getStringList('blockList') ?? [];
 
   // 导入 OPML 文件
   void importOPML() async {
@@ -50,13 +52,13 @@ class SettingController extends GetxController {
 
   void removeBlock(String item) async {
     blockList.remove(item);
-    await prefs.setStringList('blockList', blockList);
+    // await prefs.setStringList('blockList', blockList);
     update(['block_list']);
   }
 
   void addBlock(String text) async {
     blockList.add(text);
-    await prefs.setStringList('blockList', blockList);
+    // await prefs.setStringList('blockList', blockList);
     update(['block_list']);
   }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/route/app_router.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/subscription/subscription_controller.dart';
 import 'package:flutter_rss_reader/widgets/button.dart';
@@ -20,20 +20,21 @@ class AddFeedDialog extends StatelessWidget {
             TextField(
               controller: _controller.urlController,
               decoration: const InputDecoration(
-                  border: OutlineInputBorder(
-                      borderRadius: BorderRadius.all(Radius.circular(10))),
-                  contentPadding:
-                      EdgeInsets.symmetric(horizontal: 12, vertical: 0),
-                  hintText: '请输入订阅源地址'),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                ),
+                contentPadding: EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 0,
+                ),
+                hintText: '请输入订阅源地址',
+              ),
             ),
             const SizedBox(height: 24),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Button(
-                  onTap: _controller.clipBoard,
-                  text: '粘贴',
-                ),
+                Button(onTap: _controller.clipBoard, text: '粘贴'),
                 const SizedBox(width: 24),
                 Button(
                   onTap: () {
@@ -47,25 +48,30 @@ class AddFeedDialog extends StatelessWidget {
             ),
             const SizedBox(height: 24),
             if (_controller.parseFeed != null)
-              GetBuilder<SubscriptionController>(builder: (_) {
-                final item = _controller.parseFeed!;
-                return Card(
+              GetBuilder<SubscriptionController>(
+                builder: (_) {
+                  final item = _controller.parseFeed!;
+                  return Card(
                     child: ListTile(
-                  title: Text((item.feed?.name ?? item.url) ?? ''),
-                  subtitle: Text(item.feed?.description ?? ''),
-                  onTap: item.feed == null
-                      ? null
-                      : () => Get.toNamed(AppRouter.editFeedPageRouter,
+                      title: Text((item.feed?.name ?? item.url) ?? ''),
+                      subtitle: Text(item.feed?.description ?? ''),
+                      onTap: item.feed == null
+                          ? null
+                          : () => Get.toNamed(
+                              AppRouter.editFeedPageRouter,
                               arguments: {
-                                EditFeedController.parametersFeed: item.feed
-                              }),
-                  trailing: FeedParseStatusWidget(
-                    item: item,
-                    onImport: _controller.parseUrlString,
-                    onError: _controller.parseUrlString,
-                  ),
-                ));
-              })
+                                EditFeedController.parametersFeed: item.feed,
+                              },
+                            ),
+                      trailing: FeedParseStatusWidget(
+                        item: item,
+                        onImport: _controller.parseUrlString,
+                        onError: _controller.parseUrlString,
+                      ),
+                    ),
+                  );
+                },
+              ),
           ],
         ),
       ),

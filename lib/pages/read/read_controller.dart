@@ -3,8 +3,9 @@ import 'package:flutter_rss_reader/base/api_provider.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/database/database_rss_item.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/route/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
+import 'package:flutter_rss_reader/utils/sp_util.dart';
 import 'package:get/get.dart';
 import 'package:html/parser.dart' as html_parser;
 import 'package:html_main_element/html_main_element.dart';
@@ -14,11 +15,11 @@ class ReadController extends BaseGetxController {
 
   RssItemBean rssItem = Get.arguments[parametersPost];
 
-  int fontSize = prefs.getInt('fontSize') ?? 18;
-  double lineHeight = prefs.getDouble('lineheight') ?? 1.5;
-  int pagePadding = prefs.getInt('pagePadding') ?? 18;
-  String textAlign = prefs.getString('textAlign') ?? 'justify';
-  String customCss = prefs.getString('customCss') ?? '';
+  int fontSize = SpUtil.getInstance().getInt('fontSize') ?? 18;
+  double lineHeight = SpUtil.getInstance().getDouble('lineheight') ?? 1.5;
+  int pagePadding = SpUtil.getInstance().getInt('pagePadding') ?? 18;
+  String textAlign = SpUtil.getInstance().getString('textAlign') ?? 'justify';
+  String customCss = SpUtil.getInstance().getString('customCss') ?? '';
 
   String _titleStr = '';
   String get titleStr => _titleStr;
@@ -50,12 +51,15 @@ class ReadController extends BaseGetxController {
   void getHtml() async {
     updateLoadingStatus(updateIds: ['content']);
 
-    final response =
-        await ApiProvider().dio.get(rssItem.link!, cancelToken: _cancelToken);
+    final response = await ApiProvider().dio.get(
+      rssItem.link!,
+      cancelToken: _cancelToken,
+    );
     final document = html_parser.parse(response.data);
 
-    final bestElemReadability =
-        readabilityMainElement(document.documentElement!);
+    final bestElemReadability = readabilityMainElement(
+      document.documentElement!,
+    );
     rssItem.cacheContent = bestElemReadability.innerHtml;
 
     _contentHtml = rssItem.cacheContent;
@@ -94,7 +98,7 @@ class ReadController extends BaseGetxController {
     if (size == null || size == fontSize) {
       return;
     }
-    await prefs.setInt('fontSize', size);
+    await SpUtil.getInstance().setInt('fontSize', size);
     fontSize = size;
     _changeStyle = true;
     update(['font_size']);
@@ -104,7 +108,7 @@ class ReadController extends BaseGetxController {
     if (height == null || height == lineHeight) {
       return;
     }
-    await prefs.setDouble('lineheight', height);
+    await SpUtil.getInstance().setDouble('lineheight', height);
     lineHeight = height;
     _changeStyle = true;
     update(['line_height']);
@@ -114,7 +118,7 @@ class ReadController extends BaseGetxController {
     if (padding == null || padding == pagePadding) {
       return;
     }
-    await prefs.setInt('pagePadding', padding);
+    await SpUtil.getInstance().setInt('pagePadding', padding);
     pagePadding = padding;
     _changeStyle = true;
     update(['page_padding']);
@@ -124,7 +128,7 @@ class ReadController extends BaseGetxController {
     if (align == null || align == textAlign) {
       return;
     }
-    await prefs.setString('textAlign', align);
+    await SpUtil.getInstance().setString('textAlign', align);
     textAlign = align;
     _changeStyle = true;
     update(['text_alignment']);
@@ -134,7 +138,7 @@ class ReadController extends BaseGetxController {
     if (css == null || css.isBlank == true || css == customCss) {
       return;
     }
-    await prefs.setString('customCss', css);
+    await SpUtil.getInstance().setString('customCss', css);
     customCss = css;
     _changeStyle = true;
     update(['custom_css']);

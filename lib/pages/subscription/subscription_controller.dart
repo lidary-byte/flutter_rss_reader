@@ -4,7 +4,7 @@ import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_category_bean.dart';
 import 'package:flutter_rss_reader/database/database_feed.dart';
 import 'package:flutter_rss_reader/database/database_helper.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/route/app_router.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:flutter_rss_reader/utils/clip_util.dart';

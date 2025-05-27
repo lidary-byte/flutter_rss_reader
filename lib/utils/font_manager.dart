@@ -24,15 +24,15 @@ Future<List<String>> readAllFont() async {
 
 // 读取主题字体文件，注册到系统中
 Future<void> readThemeFont() async {
-  final String themeFont = prefs.getString('themeFont') ?? '默认字体';
-  if (themeFont != '默认字体') {
-    final fontFileDir = Directory(await getFontDir());
-    final fontFile = File('${fontFileDir.path}/$themeFont');
-    final fontFileBytes = await fontFile.readAsBytes();
-    final fontLoad = FontLoader(themeFont);
-    fontLoad.addFont(Future.value(ByteData.view(fontFileBytes.buffer)));
-    await fontLoad.load();
-  }
+  // // final String themeFont = prefs.getString('themeFont') ?? '默认字体';
+  // if (themeFont != '默认字体') {
+  //   final fontFileDir = Directory(await getFontDir());
+  //   final fontFile = File('${fontFileDir.path}/$themeFont');
+  //   final fontFileBytes = await fontFile.readAsBytes();
+  //   final fontLoad = FontLoader(themeFont);
+  //   fontLoad.addFont(Future.value(ByteData.view(fontFileBytes.buffer)));
+  //   await fontLoad.load();
+  // }
 }
 
 // 删除指定字体文件
@@ -54,8 +54,9 @@ Future<bool> loadLocalFont() async {
       allowMultiple: true,
     );
     if (fontFilePicker != null) {
-      List<File> fontFileList =
-          fontFilePicker.paths.map((path) => File(path!)).toList();
+      List<File> fontFileList = fontFilePicker.paths
+          .map((path) => File(path!))
+          .toList();
       // 将字体文件导入到 app 中
       final fontFileDir = Directory(await getFontDir());
       for (var fontFile in fontFileList) {

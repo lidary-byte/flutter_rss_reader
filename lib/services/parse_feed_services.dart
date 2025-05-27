@@ -17,27 +17,33 @@ class ParseFeedServices extends GetxService {
   IsolateManager<ParseFeedResult, ParseFeed>? isolateManager;
 
   Future<ParseFeedServices> init() async {
-    isolateManager = IsolateManager.create(isoParseFeed,
-        concurrent: 5, workerName: 'parse feed');
+    isolateManager = IsolateManager.create(
+      isoParseFeed,
+      concurrent: 5,
+      workerName: 'parse feed',
+    );
     // isolateManager.stream.listen((result) => );
 
     /// 存储当前数据库版本
-    prefs.setInt('db_version', 1);
+    // prefs.setInt('db_version', 1);
 
     return this;
   }
 
   /// 解析rss 数组
   /// [map]key为url value为categorie
-  void parseFeeds(List<ParseFeed> map,
-      {ParseResultCallback? resultCallback}) async {
+  void parseFeeds(
+    List<ParseFeed> map, {
+    ParseResultCallback? resultCallback,
+  }) async {
     ///获取 Token
     RootIsolateToken rootIsolateToken = RootIsolateToken.instance!;
 
     for (var itemMap in map) {
       final result = await isolateManager!.compute(
-          itemMap..rootIsolateToken = rootIsolateToken,
-          callback: (value) => true);
+        itemMap..rootIsolateToken = rootIsolateToken,
+        callback: (value) => true,
+      );
       resultCallback?.call(result);
     }
   }
@@ -49,10 +55,12 @@ class ParseFeedServices extends GetxService {
     for (var category in opml.body) {
       category.children?.forEach((opmlOutline) async {
         if (await DatabaseFeed.isExist(opmlOutline.xmlUrl!) == null) {
-          (await isoParseFeed(ParseFeed(
-                  url: opmlOutline.xmlUrl,
-                  rootIsolateToken: RootIsolateToken.instance!)))
-              .feedBean;
+          (await isoParseFeed(
+            ParseFeed(
+              url: opmlOutline.xmlUrl,
+              rootIsolateToken: RootIsolateToken.instance!,
+            ),
+          )).feedBean;
         }
       });
     }

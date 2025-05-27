@@ -6,7 +6,7 @@ import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
 import 'package:flutter_rss_reader/database/database_feed.dart';
 import 'package:flutter_rss_reader/database/database_helper.dart';
 import 'package:flutter_rss_reader/database/database_rss_item.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
+import 'package:flutter_rss_reader/route/app_router.dart';
 import 'package:flutter_rss_reader/pages/feed/edit_feed/edit_feed_controller.dart';
 import 'package:flutter_rss_reader/pages/read/read_controller.dart';
 import 'package:flutter_rss_reader/utils/dir.dart';

@@ -160,7 +160,7 @@ List<RssItemBean> buildAtomItem(
 
 /// 通过 title 判断 [Post] 是否屏蔽
 bool isBlock(String postTitle) {
-  List<String> blockList = prefs.getStringList('blockList') ?? [];
+  List<String> blockList = []; //prefs.getStringList('blockList') ?? [];
   bool blockStatue = false;
   for (String block in blockList) {
     if (postTitle.contains(block)) {

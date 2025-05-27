@@ -7,7 +7,7 @@ import 'package:flutter_rss_reader/pages/read/read_page.dart';
 import 'package:flutter_rss_reader/pages/read/read_setting_page/read_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/block_setting_page/block_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/font_setting_page/font_setting_page.dart';
-import 'package:flutter_rss_reader/pages/setting/language_setting_page/language_setting_page.dart';
+import 'package:flutter_rss_reader/pages/setting/language_setting_page.dart';
 import 'package:flutter_rss_reader/pages/setting/setting_binding.dart';
 import 'package:flutter_rss_reader/pages/setting/theme_setting_page.dart';
 import 'package:flutter_rss_reader/pages/web_view/web_view_page.dart';

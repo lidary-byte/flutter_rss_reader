@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/global/global.dart';
-import 'package:flutter_rss_reader/pages/home/home_controller.dart';
 import 'package:flutter_rss_reader/utils/font_manager.dart';
 import 'package:flutter_rss_reader/utils/sp_util.dart';
 import 'package:get/get.dart';
@@ -13,6 +12,9 @@ class GlobalController extends GetxController {
   // 是否是动态取色
   bool _isDynamicTheme = false;
   bool get isDynamicTheme => _isDynamicTheme;
+  // 语言
+  String _launage = '';
+  String get launage => _launage;
 
   final List<String> fontNameList = []; // 字体名称列表
 
@@ -22,6 +24,7 @@ class GlobalController extends GetxController {
     _themeIndex = SpUtil.getInstance().getInt(SpKeys.spKeyTheme) ?? 0;
     _isDynamicTheme =
         SpUtil.getInstance().getBool(SpKeys.spKeyDynamicTheme) ?? false;
+    _launage = SpUtil.getInstance().getString(SpKeys.spKeyLanguage) ?? '';
   }
 
   Future<void> changeTheme(int? index) async {
@@ -37,6 +40,15 @@ class GlobalController extends GetxController {
     update();
   }
 
+  Future<void> changeLanguage(String language) async {
+    _launage = language;
+    await SpUtil.getInstance().setString(SpKeys.spKeyLanguage, language);
+    Get.updateLocale(
+      Locale(language == '' ? Platform.localeName.split("_")[0] : language),
+    );
+    update();
+  }
+
   // 初始化字体名称列表
   void fontList() async {
     fontNameList.clear();
@@ -49,19 +61,6 @@ class GlobalController extends GetxController {
     if (success) {
       fontList();
     }
-  }
-
-  Future<void> changeLanguage(String language) async {
-    if (language == cacheLaunage) {
-      return;
-    }
-    cacheLaunage = language;
-    await SpUtil.getInstance().setString(SpKeys.spKeyLanguage, language);
-    Get.updateLocale(
-      Locale(language == '' ? Platform.localeName.split("_")[0] : language),
-    );
-    update(['language']);
-    Get.find<HomeController>().update();
   }
 
   void changeThemeFont(String font) async {
