@@ -4,11 +4,12 @@ import 'package:dynamic_color/dynamic_color.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rss_reader/global/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/global/global_controller.dart';
 import 'package:flutter_rss_reader/language/message.dart';
-import 'package:flutter_rss_reader/theme/color_schemes.g.dart';
+import 'package:flutter_rss_reader/route/app_router.dart';
+import 'package:flutter_rss_reader/theme/material_theme3.dart';
+import 'package:flutter_rss_reader/utils/sp_util.dart';
 import 'package:get/get.dart';
 
 ///声明NavigatorState的GlobalKey
@@ -29,6 +30,7 @@ void main() async {
     SystemUiMode.edgeToEdge, // 适配 EdgeToEdge
   );
   // 初始化
+  await SpUtil.init();
   await init();
   runApp(const MyApp());
 }
@@ -42,7 +44,7 @@ class MyApp extends StatelessWidget {
       builder: (ColorScheme? lightDynamic, ColorScheme? darkDynamic) {
         return GetBuilder<GlobalController>(
           init: GlobalController(),
-          builder: (_) => GetMaterialApp(
+          builder: (globalController) => GetMaterialApp(
             navigatorKey: globalKey,
             debugShowCheckedModeBanner: false,
             title: 'AReader',
@@ -52,12 +54,20 @@ class MyApp extends StatelessWidget {
             // 防止Local 找不到
             fallbackLocale: const Locale('en'),
             translations: Message(),
-            theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
+            themeMode: ThemeMode.values[globalController.themeIndex],
+            theme: ThemeData(
+              useMaterial3: true,
+              colorScheme: globalController.isDynamicTheme
+                  ? lightDynamic
+                  : MaterialTheme.lightScheme(),
+            ),
             darkTheme: ThemeData(
               useMaterial3: true,
-              colorScheme: darkColorScheme,
+              colorScheme: globalController.isDynamicTheme
+                  ? lightDynamic
+                  : MaterialTheme.darkScheme(),
             ),
-            themeMode: themeMode[cacheThemeIndex],
+            // themeMode: themeMode[cacheThemeIndex],
             initialRoute: AppRouter.homePageRouter,
             getPages: AppRouter.routerPages,
           ),
