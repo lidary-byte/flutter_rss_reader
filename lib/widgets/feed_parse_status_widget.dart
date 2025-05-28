@@ -21,7 +21,10 @@ class FeedParseStatusWidget extends StatelessWidget {
     if (item!.feed == null) {
       if (item!.parseStatus == ParseStatus.error) {
         return Button(
-            text: 'retry'.tr, backgroundColor: Colors.red, onTap: onError);
+          text: 'retry'.tr,
+          backgroundColor: Colors.red,
+          onTap: onError,
+        );
       } else if (item!.parseStatus == ParseStatus.loading) {
         return const SizedBox(
           width: 24,

@@ -44,7 +44,7 @@ dependencies:
   opml: ^0.4.0 # OPML 解析
   url_launcher: ^6.1.12 # 打开链接
   path_provider: ^2.1.0 # 路径
-  html: ^0.15.4 # HTML 解析
+  html: ^0.15.6 # HTML 解析
   html_main_element: ^2.1.0 # 全文获取（Readability）
   dio: ^5.3.2 # 网络请求
   dynamic_color: ^1.7.0
@@ -53,23 +53,34 @@ dependencies:
   get: ^5.0.0-release-candidate-9.3.2
   animations: ^2.0.8
   fluttertoast: ^8.2.2
-  # isar: ^4.0.0-dev.14
-  # isar_flutter_libs: ^4.0.0-dev.14
+  #  isar: ^3.1.0+1
+  #  isar_flutter_libs: ^3.1.0+1
+  isar:
+    version: ^3.1.8
+    hosted: https://pub.isar-community.dev/
+  isar_flutter_libs: # contains Isar Core
+    version: ^3.1.8
+    hosted: https://pub.isar-community.dev/
   favicon: ^1.1.1
-  cached_network_image: ^3.2.3
+  cached_network_image: ^3.4.1
   isolate_manager: ^6.0.0+2
   flutter_widget_from_html: ^0.16.0
   photo_view: ^0.15.0
   easy_image_viewer: ^1.2.1
   # shared_storage: ^0.8.0
-  dart_rss: ^3.0.2
-  intl: ^0.19.0
+  # dart_rss: ^3.0.2
+  rss_feed_parser: ^2.0.0
+  intl: ^0.20.0
+  readability: ^0.2.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^5.0.0
-  # isar_generator: ^3.1.0+1
+#  isar_generator: ^3.1.0+1
+  isar_generator:
+    version: 3.1.8
+    hosted: https://pub.isar-community.dev/
   build_runner: any
 
 # For information on the generic Dart part of this file, see the

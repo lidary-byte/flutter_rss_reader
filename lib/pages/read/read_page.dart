@@ -12,37 +12,99 @@ import 'package:html/dom.dart' as dom;
 import 'package:photo_view/photo_view.dart';
 import 'package:share_plus/share_plus.dart';
 
-class ReadPage extends StatelessWidget {
-  final _controller = Get.put(ReadController());
-  ReadPage({super.key});
+class ReadPage extends GetView<ReadController> {
+  const ReadPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(_controller.rssItem.feedName),
-        actions: [
-          GetBuilder<ReadController>(
-            id: 'popup',
-            builder: (_) {
-              return PopupMenuButton(
-                position: PopupMenuPosition.under,
-                itemBuilder: (BuildContext context) => _popupMenu(),
-              );
-            },
+      body: NestedScrollView(
+        headerSliverBuilder: (_, __) => [
+          SliverAppBar(
+            title: Text(controller.rssItem.feedName),
+            actions: [
+              GetBuilder<ReadController>(
+                id: 'popup',
+                builder: (_) {
+                  return PopupMenuButton(
+                    position: PopupMenuPosition.under,
+                    itemBuilder: (BuildContext context) => _popupMenu(),
+                  );
+                },
+              ),
+            ],
+            floating: true, // 下拉立刻显示
+            snap: true, // 快速弹出
+            pinned: false, // false 表示滚动时隐藏
           ),
         ],
-      ),
-      body: SafeArea(
-        child: GetBuilder<ReadController>(
+        body: GetBuilder<ReadController>(
           id: 'content',
           builder: (_) => StatusPage<String>(
             contentWidget: (data) => _buildBody(context),
-            status: _controller.pageStatusBean,
+            status: controller.pageStatusBean,
           ),
         ),
       ),
+      // bottomNavigationBar: const BottomBarHideOnScroll(),
     );
+    // return Scaffold(
+    //   appBar: AppBar(
+    //     title: Text(controller.rssItem.feedName),
+    //     actions: [
+    //       GetBuilder<ReadController>(
+    //         id: 'popup',
+    //         builder: (_) {
+    //           return PopupMenuButton(
+    //             position: PopupMenuPosition.under,
+    //             itemBuilder: (BuildContext context) => _popupMenu(),
+    //           );
+    //         },
+    //       ),
+    //     ],
+    //   ),
+    //   body: SafeArea(
+    //     child: Column(
+    //       children: [
+    //         Expanded(
+    //           child: GetBuilder<ReadController>(
+    //             id: 'content',
+    //             builder: (_) => StatusPage<String>(
+    //               contentWidget: (data) => _buildBody(context),
+    //               status: controller.pageStatusBean,
+    //             ),
+    //           ),
+    //         ),
+
+    //         SizedBox(
+    //           height: 40,
+    //           child: Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceAround,
+    //             children: [
+    //               IconButton(
+    //                 icon: Icon(Icons.radio_button_unchecked),
+    //                 onPressed: () {},
+    //               ),
+    //               IconButton(
+    //                 icon: Icon(Icons.bookmark_outline),
+    //                 onPressed: () {},
+    //               ),
+    //               IconButton(
+    //                 icon: Icon(Icons.vertical_align_bottom),
+    //                 onPressed: () {},
+    //               ),
+    //               IconButton(
+    //                 icon: Icon(Icons.bookmark_outline),
+    //                 onPressed: () {},
+    //               ),
+    //               IconButton(icon: Icon(Icons.book), onPressed: () {}),
+    //             ],
+    //           ),
+    //         ),
+    //       ],
+    //     ),
+    //   ),
+    // );
   }
 
   Widget _buildBody(BuildContext context) {
@@ -52,15 +114,15 @@ class ReadPage extends StatelessWidget {
         return HtmlWidget(
           '''
  <div class='aread_html_content'>
-    ${_controller.titleStr}
-    ${_controller.contentHtml}
+    ${controller.titleStr}
+    ${controller.contentHtml}
     </div>
     ''',
           rebuildTriggers: [
-            _controller.textAlign,
-            _controller.fontSize,
-            _controller.lineHeight,
-            _controller.pagePadding,
+            controller.textAlign,
+            controller.fontSize,
+            controller.lineHeight,
+            controller.pagePadding,
           ],
           renderMode: RenderMode.listView,
           onTapImage: (imageMetadata) async {
@@ -69,7 +131,7 @@ class ReadPage extends StatelessWidget {
           },
           textStyle: TextStyle(
             fontFamily: cacheThemeFont,
-            fontSize: _controller.fontSize.toDouble(),
+            fontSize: controller.fontSize.toDouble(),
             color: Get.theme.textTheme.bodyLarge!.color!,
           ),
           customStylesBuilder: (element) => buildStyle(context, element),
@@ -87,60 +149,60 @@ class ReadPage extends StatelessWidget {
     popupMenuWidget(
       title: 'fullText'.tr,
       icon: Icons.article_outlined,
-      onTap: _controller.getHtml,
+      onTap: controller.getHtml,
     ),
     // 新标签页中打开
     popupMenuWidget(
       title: 'openInNewTab'.tr,
       icon: Icons.tab_outlined,
-      onTap: () => openUrl(url: _controller.rssItem.link, thisApp: true),
+      onTap: () => openUrl(url: controller.rssItem.link, thisApp: true),
     ),
     // 系统浏览器打开
     popupMenuWidget(
       title: 'openInBrowser'.tr,
       icon: Icons.open_in_browser_outlined,
-      onTap: () => openUrl(url: _controller.rssItem.link, thisApp: false),
+      onTap: () => openUrl(url: controller.rssItem.link, thisApp: false),
     ),
     const PopupMenuDivider(),
 
     // 标记为未读
     popupMenuWidget(
       title: 'markAsUnread'.tr,
-      icon: _controller.rssItem.read
+      icon: controller.rssItem.read
           ? Icons.radio_button_unchecked
           : Icons.radio_button_checked,
-      onTap: _controller.changeReadStatus,
+      onTap: controller.changeReadStatus,
     ),
 
     // 收藏
     popupMenuWidget(
       title: 'collectPost'.tr,
-      icon: _controller.rssItem.favorite
+      icon: controller.rssItem.favorite
           ? Icons.bookmark
           : Icons.bookmark_border_outlined,
-      onTap: _controller.changeFavoriteStatus,
+      onTap: controller.changeFavoriteStatus,
     ),
     const PopupMenuDivider(),
     // 页面样式
     popupMenuWidget(
       title: 'pageStyle'.tr,
       icon: Icons.line_style_outlined,
-      onTap: () => _controller.changeStylePage(),
+      onTap: () => controller.changeStylePage(),
     ),
     const PopupMenuDivider(),
     popupMenuWidget(
       title: 'share'.tr,
       icon: Icons.share_outlined,
       onTap: () => Share.share(
-        _controller.rssItem.link!,
-        subject: _controller.rssItem.title,
+        controller.rssItem.link!,
+        subject: controller.rssItem.title,
       ),
     ),
     popupMenuWidget(
       title: 'copyLink'.tr,
       icon: Icons.copy_outlined,
       onTap: () =>
-          Clipboard.setData(ClipboardData(text: _controller.rssItem.link!)),
+          Clipboard.setData(ClipboardData(text: controller.rssItem.link!)),
     ),
   ];
 
@@ -172,15 +234,15 @@ class ReadPage extends StatelessWidget {
   Map<String, String>? buildStyle(BuildContext context, dom.Element element) {
     if (element.className == 'aread_html_content') {
       return {
-        'line-height': '${_controller.lineHeight}',
+        'line-height': '${controller.lineHeight}',
         'background-color':
             '#${Get.theme.scaffoldBackgroundColor.value.toRadixString(16).substring(2)}',
         'width': 'auto',
         'height': 'auto',
         'margin': '0',
         'word-wrap': 'break-word',
-        'padding': '12px ${_controller.pagePadding}px !important',
-        'text-align': _controller.textAlign,
+        'padding': '12px ${controller.pagePadding}px !important',
+        'text-align': controller.textAlign,
       };
     }
     switch (element.localName) {

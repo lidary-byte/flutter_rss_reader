@@ -8,10 +8,10 @@ import 'package:flutter_rss_reader/pages/subscription/subscription_controller.da
 import 'package:get/get.dart';
 
 /// 订阅列表
-class SubscriptionPage extends StatelessWidget {
-  SubscriptionPage({super.key});
+class SubscriptionPage extends GetView<SubscriptionController> {
+  const SubscriptionPage({super.key});
 
-  final _controller = Get.put(SubscriptionController());
+  // final _controller = Get.put(SubscriptionController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,17 +29,16 @@ class SubscriptionPage extends StatelessWidget {
                       // shape: const RoundedRectangleBorder(
                       //     borderRadius: BorderRadius.vertical(
                       //         top: Radius.circular(10)))
-                    ).then((value) => _controller.dismissBottomSheet()),
+                    ).then((value) => controller.dismissBottomSheet()),
                     icon: const Icon(Icons.add_outlined),
                   ),
                   IconButton(
-                    onPressed: () =>
-                        Get.toNamed(AppRouter.builtInFeedPageRouter),
+                    onPressed: () => Get.toNamed(AppRouter.builtFeedPageRouter),
                     icon: const Icon(Icons.feed),
                   ),
                 ],
               ),
-              _controller.feedListGroup.isEmpty
+              controller.feedListGroup.isEmpty
                   ? _emptyWidget().sliverBox
                   : _contentWidget(),
             ],
@@ -55,17 +54,13 @@ class SubscriptionPage extends StatelessWidget {
       sliver: SliverList.separated(
         separatorBuilder: (context, index) => const SizedBox(height: 12),
         itemBuilder: (context, index) {
-          return Card(
-            child: ExpansionTile(
-              title: Text(_controller.feedListGroup[index].category ?? ''),
-              shape: Border.all(color: Colors.transparent),
-              children: _childernWidgets(
-                _controller.feedListGroup[index].feeds,
-              ),
-            ),
+          return ExpansionTile(
+            title: Text(controller.feedListGroup[index].category ?? ''),
+            shape: Border.all(color: Colors.transparent),
+            children: _childernWidgets(controller.feedListGroup[index].feeds),
           );
         },
-        itemCount: _controller.feedListGroup.length,
+        itemCount: controller.feedListGroup.length,
       ),
     );
   }
@@ -77,25 +72,8 @@ class SubscriptionPage extends StatelessWidget {
     return feeds
         .map(
           (feed) => ListTile(
-            leading: feed.iconUrl == null
-                ? null
-                : CachedNetworkImage(
-                    width: 20,
-                    height: 20,
-                    imageUrl: feed.iconUrl!,
-                    imageBuilder: (context, imageProvider) => Container(
-                      decoration: BoxDecoration(
-                        borderRadius: const BorderRadius.all(
-                          Radius.circular(10),
-                        ),
-                        image: DecorationImage(
-                          image: imageProvider,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
-                    ),
-                  ),
-            contentPadding: const EdgeInsets.only(left: 40, right: 28),
+            leading: Text(feed.name[0]),
+            // contentPadding: const EdgeInsets.only(left: 40, right: 28),
             title: Text(
               feed.name,
               maxLines: 1,

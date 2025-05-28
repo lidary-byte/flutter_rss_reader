@@ -1,15 +1,18 @@
-import 'package:dart_rss/dart_rss.dart';
 import 'package:dio/dio.dart';
 import 'package:favicon/favicon.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_rss_reader/base/api_provider.dart';
+import 'package:flutter_rss_reader/http/dio_manager.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
-import 'package:flutter_rss_reader/database/database_feed.dart';
-import 'package:flutter_rss_reader/database/database_rss_item.dart';
+import 'package:flutter_rss_reader/db/database_feed.dart';
+import 'package:flutter_rss_reader/db/database_rss_item.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
+import 'package:rss_feed_parser/domain/atom_feed.dart';
+import 'package:rss_feed_parser/domain/atom_item.dart';
+import 'package:rss_feed_parser/domain/rss_feed.dart';
+import 'package:rss_feed_parser/domain/rss_item.dart';
 
 /// return的为url:Feed
 /// [params] = {
@@ -90,7 +93,7 @@ Future<FeedBean?> refreshFeedItem(
   CancelToken? cancelToken,
 }) async {
   try {
-    final response = await ApiProvider().dio.get(
+    final response = await DioManager.getInstance().get(
       feedBean.url ?? '',
       cancelToken: cancelToken,
     );

@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_rss_reader/database/database_helper.dart';
+import 'package:flutter_rss_reader/db/database_helper.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
 import 'package:flutter_rss_reader/utils/font_manager.dart';
 import 'package:get/get.dart';

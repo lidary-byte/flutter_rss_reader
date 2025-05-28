@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rss_reader/bean/built_in_feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_bean.dart';
 import 'package:flutter_rss_reader/bean/feed_category_bean.dart';
-import 'package:flutter_rss_reader/database/database_feed.dart';
-import 'package:flutter_rss_reader/database/database_helper.dart';
+import 'package:flutter_rss_reader/db/database_feed.dart';
+import 'package:flutter_rss_reader/db/database_helper.dart';
 import 'package:flutter_rss_reader/route/app_router.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
 import 'package:flutter_rss_reader/services/parse_feed_services.dart';
@@ -23,10 +23,10 @@ class SubscriptionController extends GetxController {
   void onInit() async {
     super.onInit();
 
-    /// 对数据源进行监听 有变化时刷新
-    // (await isarInstance).feedBeans.watchLazy().listen((_) {
-    //   getFeedList();
-    // });
+    // 对数据源进行监听 有变化时刷新
+    (await isarInstance).feedBeans.watchLazy().listen((_) {
+      getFeedList();
+    });
   }
 
   @override

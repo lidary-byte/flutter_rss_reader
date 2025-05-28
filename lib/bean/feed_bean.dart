@@ -1,18 +1,20 @@
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
-// import 'package:isar/isar.dart';
+import 'package:isar/isar.dart';
 
-// part 'feed_bean.g.dart';
+part 'feed_bean.g.dart';
 
-// @Collection()
+@Collection()
 class FeedBean {
-  // Id id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
 
   String name;
   String? description;
+  // 当url相同时 更新数据
+  @Index(unique: true, replace: true)
   String? url;
   String? category;
   String? iconUrl;
-  // @Ignore()
+  @Ignore()
   List<RssItemBean>? item;
 
   // 未读数量

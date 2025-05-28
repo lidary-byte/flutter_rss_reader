@@ -1,14 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SpUtil {
-  // static final SpUtil _instance = SpUtil._internal();
-  // factory SpUtil() => _instance;
-
-  // SpUtil._internal();
-
   static SharedPreferencesWithCache? _prefs;
-
-  // static SpUtil? _instance;
 
   SpUtil._internal();
 
@@ -22,6 +15,12 @@ class SpUtil {
           SpKeys.spKeyTheme,
           SpKeys.spKeyThemeFont,
           SpKeys.spKeyTextScaleFactor,
+          SpKeys.spKeyDBVersion,
+          SpKeys.spKeyFontSize,
+          SpKeys.spKeyLineHeight,
+          SpKeys.spKeyPagePadding,
+          SpKeys.spKeyTextAlign,
+          SpKeys.spKeyCustomCss,
         },
       ),
     );
@@ -42,4 +41,11 @@ abstract class SpKeys {
   static const spKeyDynamicTheme = 'dynamic_theme';
   static const spKeyThemeFont = 'themeFont';
   static const spKeyTextScaleFactor = 'textScaleFactor';
+  static const spKeyDBVersion = "db_version";
+
+  static const spKeyFontSize = 'fontSize';
+  static const spKeyLineHeight = 'lineheight';
+  static const spKeyPagePadding = 'pagePadding';
+  static const spKeyTextAlign = 'textAlign';
+  static const spKeyCustomCss = 'customCss';
 }

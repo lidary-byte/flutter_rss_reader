@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:flutter_rss_reader/database/database_feed.dart';
+import 'package:flutter_rss_reader/db/database_feed.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/services/parse_feed.dart';
+import 'package:flutter_rss_reader/utils/sp_util.dart';
 import 'package:flutter_rss_reader/utils/web_feed_parse_util.dart';
 import 'package:get/get.dart';
 import 'package:isolate_manager/isolate_manager.dart';
@@ -25,7 +26,7 @@ class ParseFeedServices extends GetxService {
     // isolateManager.stream.listen((result) => );
 
     /// 存储当前数据库版本
-    // prefs.setInt('db_version', 1);
+    SpUtil.getInstance().setInt(SpKeys.spKeyDBVersion, 1);
 
     return this;
   }

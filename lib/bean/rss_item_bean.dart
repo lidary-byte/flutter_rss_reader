@@ -1,15 +1,18 @@
-// import 'package:isar/isar.dart';
+import 'package:isar/isar.dart';
 
-// part 'rss_item_bean.g.dart';
+part 'rss_item_bean.g.dart';
 
-// @Collection()
+@Collection()
 class RssItemBean {
-  // Id id = Isar.autoIncrement;
+  Id id = Isar.autoIncrement;
   int feedId; // 订阅源 ID
   String feedName;
   String? title;
+  @Index()
   String? link;
   String? description;
+  String? shortDescription;
+  String? content;
   String? pubDate; // 发布时间
   String? author; // 作者
   String? cover; //文章封面
@@ -25,8 +28,10 @@ class RssItemBean {
     this.title,
     this.link,
     this.description,
+    this.shortDescription,
     this.pubDate,
     this.author,
     this.cover,
+    this.content,
   });
 }

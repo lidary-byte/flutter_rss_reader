@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
-import 'package:flutter_rss_reader/base/api_provider.dart';
+import 'package:flutter_rss_reader/http/dio_manager.dart';
 import 'package:flutter_rss_reader/base/base_status_controller.dart';
 import 'package:flutter_rss_reader/bean/rss_item_bean.dart';
-import 'package:flutter_rss_reader/database/database_rss_item.dart';
+import 'package:flutter_rss_reader/db/database_rss_item.dart';
 import 'package:flutter_rss_reader/route/app_router.dart';
 import 'package:flutter_rss_reader/global/global.dart';
 import 'package:flutter_rss_reader/utils/sp_util.dart';
@@ -51,7 +51,7 @@ class ReadController extends BaseGetxController {
   void getHtml() async {
     updateLoadingStatus(updateIds: ['content']);
 
-    final response = await ApiProvider().dio.get(
+    final response = await DioManager.getInstance().get(
       rssItem.link!,
       cancelToken: _cancelToken,
     );
