@@ -2,7 +2,7 @@
 
 # flutter_rss_reader
 
-基于flutter的rss阅读器 
+基于flutter的rss阅读器(停止更新)
 
  
 
